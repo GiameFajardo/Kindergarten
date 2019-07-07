@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KindergartenAppService.Migrations
 {
     [DbContext(typeof(KindergartenContext))]
-    [Migration("20190707034130_Adding_Stock")]
-    partial class Adding_Stock
+    [Migration("20190707051413_Adding_Activity_to_Service")]
+    partial class Adding_Activity_to_Service
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,7 +164,7 @@ namespace KindergartenAppService.Migrations
 
                     b.Property<string>("SecondName");
 
-                    b.Property<Guid>("TutorId");
+                    b.Property<Guid?>("TutorId");
 
                     b.HasKey("Id");
 
@@ -192,17 +192,14 @@ namespace KindergartenAppService.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("KidId");
-
+                    b.Property<Guid>("KidId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("KidId");
 
-
                     b.ToTable("MedicalRecord");
                 });
-
 
             modelBuilder.Entity("KindergartenAppService.Models.Precense", b =>
                 {
@@ -269,6 +266,10 @@ namespace KindergartenAppService.Migrations
             modelBuilder.Entity("KindergartenAppService.Models.Service", b =>
                 {
                     b.HasBaseType("KindergartenAppService.Models.Item");
+
+                    b.Property<Guid?>("ActivityId");
+
+                    b.HasIndex("ActivityId");
 
                     b.HasDiscriminator().HasValue("Service");
                 });
@@ -341,16 +342,15 @@ namespace KindergartenAppService.Migrations
 
                     b.HasOne("KindergartenAppService.Models.Tutor", "Tutor")
                         .WithMany()
-                        .HasForeignKey("TutorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TutorId");
                 });
 
             modelBuilder.Entity("KindergartenAppService.Models.MedicalRecord", b =>
                 {
-                    b.HasOne("KindergartenAppService.Models.Kid")
+                    b.HasOne("KindergartenAppService.Models.Kid", "Kid")
                         .WithMany("MedicalRecords")
-                        .HasForeignKey("KidId");
-
+                        .HasForeignKey("KidId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KindergartenAppService.Models.Precense", b =>
@@ -372,6 +372,13 @@ namespace KindergartenAppService.Migrations
                         .WithMany("Stock")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("KindergartenAppService.Models.Service", b =>
+                {
+                    b.HasOne("KindergartenAppService.Models.Activity", "Activity")
+                        .WithMany()
+                        .HasForeignKey("ActivityId");
                 });
 #pragma warning restore 612, 618
         }

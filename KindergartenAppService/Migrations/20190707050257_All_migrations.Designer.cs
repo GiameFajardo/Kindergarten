@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KindergartenAppService.Migrations
 {
     [DbContext(typeof(KindergartenContext))]
-    [Migration("20190707030916_Adding_InvoiceDetail")]
-    partial class Adding_InvoiceDetail
+    [Migration("20190707050257_All_migrations")]
+    partial class All_migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -119,13 +119,34 @@ namespace KindergartenAppService.Migrations
 
                     b.Property<Guid?>("InvoiceId");
 
+                    b.Property<Guid>("ItemId");
+
                     b.Property<decimal>("Quantity");
 
                     b.HasKey("Id");
 
                     b.HasIndex("InvoiceId");
 
+                    b.HasIndex("ItemId");
+
                     b.ToTable("InvoiceDetail");
+                });
+
+            modelBuilder.Entity("KindergartenAppService.Models.Item", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.Property<string>("Reference");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Item");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Item");
                 });
 
             modelBuilder.Entity("KindergartenAppService.Models.Kid", b =>
@@ -143,7 +164,7 @@ namespace KindergartenAppService.Migrations
 
                     b.Property<string>("SecondName");
 
-                    b.Property<Guid>("TutorId");
+                    b.Property<Guid?>("TutorId");
 
                     b.HasKey("Id");
 
@@ -171,16 +192,14 @@ namespace KindergartenAppService.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("KidId");
-                    
+                    b.Property<Guid>("KidId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("KidId");
 
-
                     b.ToTable("MedicalRecord");
                 });
-
 
             modelBuilder.Entity("KindergartenAppService.Models.Precense", b =>
                 {
@@ -198,6 +217,31 @@ namespace KindergartenAppService.Migrations
                     b.ToTable("Precense");
                 });
 
+            modelBuilder.Entity("KindergartenAppService.Models.Stock", b =>
+                {
+                    b.Property<Guid>("StoreId");
+
+                    b.Property<Guid>("ProductId");
+
+                    b.HasKey("StoreId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Stock");
+                });
+
+            modelBuilder.Entity("KindergartenAppService.Models.Store", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Store");
+                });
+
             modelBuilder.Entity("KindergartenAppService.Models.Tutor", b =>
                 {
                     b.Property<Guid>("Id")
@@ -210,6 +254,20 @@ namespace KindergartenAppService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tutor");
+                });
+
+            modelBuilder.Entity("KindergartenAppService.Models.Product", b =>
+                {
+                    b.HasBaseType("KindergartenAppService.Models.Item");
+
+                    b.HasDiscriminator().HasValue("Product");
+                });
+
+            modelBuilder.Entity("KindergartenAppService.Models.Service", b =>
+                {
+                    b.HasBaseType("KindergartenAppService.Models.Item");
+
+                    b.HasDiscriminator().HasValue("Service");
                 });
 
             modelBuilder.Entity("KindergartenAppService.Models.Activity", b =>
@@ -265,6 +323,11 @@ namespace KindergartenAppService.Migrations
                     b.HasOne("KindergartenAppService.Models.Invoice")
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("InvoiceId");
+
+                    b.HasOne("KindergartenAppService.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KindergartenAppService.Models.Kid", b =>
@@ -275,16 +338,15 @@ namespace KindergartenAppService.Migrations
 
                     b.HasOne("KindergartenAppService.Models.Tutor", "Tutor")
                         .WithMany()
-                        .HasForeignKey("TutorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TutorId");
                 });
 
             modelBuilder.Entity("KindergartenAppService.Models.MedicalRecord", b =>
                 {
-                    b.HasOne("KindergartenAppService.Models.Kid")
+                    b.HasOne("KindergartenAppService.Models.Kid", "Kid")
                         .WithMany("MedicalRecords")
-                        .HasForeignKey("KidId");
-
+                        .HasForeignKey("KidId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("KindergartenAppService.Models.Precense", b =>
@@ -292,6 +354,19 @@ namespace KindergartenAppService.Migrations
                     b.HasOne("KindergartenAppService.Models.Kid", "Kid")
                         .WithMany("Precenses")
                         .HasForeignKey("KidId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("KindergartenAppService.Models.Stock", b =>
+                {
+                    b.HasOne("KindergartenAppService.Models.Product", "Product")
+                        .WithMany("Stock")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("KindergartenAppService.Models.Store", "Store")
+                        .WithMany("Stock")
+                        .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

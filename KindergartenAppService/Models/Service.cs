@@ -7,5 +7,6 @@ namespace KindergartenAppService.Models
 {
     public class Service:Item
     {
+        public Activity Activity { get; set; }
     }
 }

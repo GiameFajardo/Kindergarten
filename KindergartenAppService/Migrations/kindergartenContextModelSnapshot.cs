@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KindergartenAppService.Migrations
 {
     [DbContext(typeof(KindergartenContext))]
-    partial class kindergartenContextModelSnapshot : ModelSnapshot
+    partial class KindergartenContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -265,6 +265,10 @@ namespace KindergartenAppService.Migrations
                 {
                     b.HasBaseType("KindergartenAppService.Models.Item");
 
+                    b.Property<Guid?>("ActivityId");
+
+                    b.HasIndex("ActivityId");
+
                     b.HasDiscriminator().HasValue("Service");
                 });
 
@@ -366,6 +370,13 @@ namespace KindergartenAppService.Migrations
                         .WithMany("Stock")
                         .HasForeignKey("StoreId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("KindergartenAppService.Models.Service", b =>
+                {
+                    b.HasOne("KindergartenAppService.Models.Activity", "Activity")
+                        .WithMany()
+                        .HasForeignKey("ActivityId");
                 });
 #pragma warning restore 612, 618
         }
