@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KindergartenAppService.Models;
 
 namespace KindergartenAppService.Models
 {
@@ -50,5 +51,6 @@ namespace KindergartenAppService.Models
         public DbSet<Kindergarter> Kindergarters { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<KindergartenAppService.Models.Activity> Activity { get; set; }
     }
 }
