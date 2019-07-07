@@ -41,12 +41,17 @@ namespace KindergartenAppService.Models
                 .HasOne(sk => sk.Store)
                 .WithMany(p => p.Stock)
                 .HasForeignKey(sk => sk.StoreId);
-            //
-            //modelBuilder.Entity<Kid>()
-            //    .HasKey(k => k.TutorId);
-            //modelBuilder.Entity<Kid>()
-            //    .HasOne(t=>t.Tutor)
-            //    .WithOne(k=>k.)
+            //Many to many relationship between Invoice and Receipt
+            modelBuilder.Entity<Payment>()
+                .HasKey(p => new { p.InvoiceId, p.ReceiptId });
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Invoice)
+                .WithMany(r => r.Payments)
+                .HasForeignKey(p => p.InvoiceId);
+            modelBuilder.Entity<Payment>()
+                .HasOne(p => p.Receipt)
+                .WithMany(i => i.Payments)
+                .HasForeignKey(p => p.ReceiptId);
         }
         public DbSet<Kindergarter> Kindergarters { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }

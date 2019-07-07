@@ -11,6 +11,7 @@ namespace KindergartenAppService.Models
         public Guid KidId { get; set; }
         public Kid Kid { get; set; }
         public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
 
     }
 }
