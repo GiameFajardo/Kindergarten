@@ -52,5 +52,6 @@ namespace KindergartenAppService.Models
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<KindergartenAppService.Models.Activity> Activity { get; set; }
+        public DbSet<KindergartenAppService.Models.Kid> Kid { get; set; }
     }
 }
