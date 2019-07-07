@@ -11,5 +11,6 @@ namespace KindergartenAppService.Models
 
         public virtual ICollection<Kid> Kids { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }
