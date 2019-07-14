@@ -18,11 +18,6 @@ namespace KindergartenAppService.Migrations
                 oldClrType: typeof(Guid),
                 oldNullable: true);
 
-            migrationBuilder.InsertData(
-                table: "Kindergarters",
-                columns: new[] { "Id", "Description" },
-                values: new object[] { new Guid("99ae2ecc-e593-44fa-9eb4-703a2ef992db"), "Guarderia" });
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Kid_Kindergarters_KindergarterId",
                 table: "Kid",
@@ -38,11 +33,7 @@ namespace KindergartenAppService.Migrations
                 name: "FK_Kid_Kindergarters_KindergarterId",
                 table: "Kid");
 
-            migrationBuilder.DeleteData(
-                table: "Kindergarters",
-                keyColumn: "Id",
-                keyValue: new Guid("99ae2ecc-e593-44fa-9eb4-703a2ef992db"));
-
+           
             migrationBuilder.AlterColumn<Guid>(
                 name: "KindergarterId",
                 table: "Kid",

@@ -57,15 +57,17 @@ namespace KindergartenAppService.Models
             #endregion
             #region Seeding
             //Kindergarter
-            modelBuilder.Entity<Kindergarter>().HasData(
-                new Kindergarter
-                {
-                    Id = Guid.NewGuid(),
-                    Description = "Guarderia"
-                }
-                );
+            var kindergarter = new Kindergarter
+            {
+                Id = Guid.NewGuid(),
+                Description = "Guarderia"
+            };
             //Kids
+            var kids = GenerateRandonKids(kindergarter, 10);
 
+
+            modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
+            modelBuilder.Entity<Kid>().HasData(kids);
             #endregion
         }
         public DbSet<Kindergarter> Kindergarters { get; set; }
@@ -92,13 +94,14 @@ namespace KindergartenAppService.Models
                            from mn in motherName
                            select new Kid
                            {
+                               Id = Guid.NewGuid(),
                                FirstName = fn,
                                SecondName = sn,
                                FatherName = an,
                                MotherName = mn,
-                               
+                               KindergarterId = kindergarter.Id
                            };
-            return kids;
+            return kidsList.Take(quantity).ToList();
         }
         #endregion
     }
