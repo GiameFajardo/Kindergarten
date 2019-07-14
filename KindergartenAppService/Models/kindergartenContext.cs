@@ -15,6 +15,8 @@ namespace KindergartenAppService.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Relationships
+
             base.OnModelCreating(modelBuilder);
             //MAny to many relationship betwen Feedings and kids
             modelBuilder.Entity<FeedingKid>()
@@ -52,6 +54,15 @@ namespace KindergartenAppService.Models
                 .HasOne(p => p.Receipt)
                 .WithMany(i => i.Payments)
                 .HasForeignKey(p => p.ReceiptId);
+            #endregion
+            #region Seeding
+            modelBuilder.Entity<Kindergarter>().HasData(
+                new Kindergarter
+                {
+                    Description = "Guarderia"
+                }
+                );
+            #endregion
         }
         public DbSet<Kindergarter> Kindergarters { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
