@@ -21,7 +21,8 @@ namespace KindergartenAppService.Controllers
         // GET: Kids
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Kid.ToListAsync());
+            var kindergarterContext = _context.Kid.Include(k => k.Kindergarter);
+            return View(await kindergarterContext.ToListAsync());
         }
 
         // GET: Kids/Details/5
@@ -33,6 +34,7 @@ namespace KindergartenAppService.Controllers
             }
 
             var kid = await _context.Kid
+                .Include(k => k.Kindergarter)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kid == null)
             {
@@ -45,6 +47,7 @@ namespace KindergartenAppService.Controllers
         // GET: Kids/Create
         public IActionResult Create()
         {
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id");
             return View();
         }
 
@@ -53,15 +56,21 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,SecondName,FatherName,MotherName,Id")] Kid kid)
+        public async Task<IActionResult> Create([Bind("FirstName,SecondName,FatherName,MotherName,KindergarterId,Id")] Kid kid)
         {
             if (ModelState.IsValid)
             {
                 kid.Id = Guid.NewGuid();
                 _context.Add(kid);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                //ViewBag.MensajeCreado = "El niño ha sido creado exitosamente";
+                //ViewData["Mensaje"] = "El niño ha sido creado exitosamente";
+                TempData["TempMessage"] = "Mensaje desde temp.";
+                return RedirectToAction(nameof(Details), kid);
+                //return View("Details",kid);
             }
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", kid.KindergarterId);
             return View(kid);
         }
 
@@ -78,6 +87,7 @@ namespace KindergartenAppService.Controllers
             {
                 return NotFound();
             }
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", kid.KindergarterId);
             return View(kid);
         }
 
@@ -86,7 +96,7 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,SecondName,FatherName,MotherName,Id")] Kid kid)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,SecondName,FatherName,MotherName,KindergarterId,Id")] Kid kid)
         {
             if (id != kid.Id)
             {
@@ -113,6 +123,7 @@ namespace KindergartenAppService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", kid.KindergarterId);
             return View(kid);
         }
 
@@ -125,6 +136,7 @@ namespace KindergartenAppService.Controllers
             }
 
             var kid = await _context.Kid
+                .Include(k => k.Kindergarter)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kid == null)
             {

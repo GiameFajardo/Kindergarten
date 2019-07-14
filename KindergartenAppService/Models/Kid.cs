@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace KindergartenAppService.Models
 {
     public class Kid: UniqueEntity
     {
+        [Required]
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string FatherName { get; set; }

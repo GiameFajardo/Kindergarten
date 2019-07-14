@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+@if(TempData["TempMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["TempMessage"]
+    </div>
+}
 <h1>Details</h1>
 
 <div>
@@ -33,6 +38,12 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MotherName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Kindergarter)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Kindergarter.Id)
         </dd>
     </dl>
 </div>

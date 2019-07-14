@@ -101,7 +101,7 @@ namespace KindergartenAppService.Models
                                MotherName = mn,
                                KindergarterId = kindergarter.Id
                            };
-            return kidsList.Take(quantity).ToList();
+            return kidsList.OrderBy(k=>k.Id).Take(quantity).ToList();
         }
         #endregion
     }
