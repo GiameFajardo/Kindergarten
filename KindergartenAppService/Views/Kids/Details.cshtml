@@ -1,7 +1,7 @@
 ﻿@model KindergartenAppService.Models.Kid
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detailles de Niño";
 }
 @if(TempData["TempMessage"] != null)
 {
@@ -43,7 +43,7 @@
             @Html.DisplayNameFor(model => model.Kindergarter)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Kindergarter.Id)
+            @Html.DisplayFor(model => model.Kindergarter.Description)
         </dd>
     </dl>
 </div>

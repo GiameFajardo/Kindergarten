@@ -47,7 +47,7 @@ namespace KindergartenAppService.Controllers
         // GET: Kids/Create
         public IActionResult Create()
         {
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id");
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id","Description");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace KindergartenAppService.Controllers
                 //return RedirectToAction(nameof(Index));
                 //ViewBag.MensajeCreado = "El niño ha sido creado exitosamente";
                 //ViewData["Mensaje"] = "El niño ha sido creado exitosamente";
-                TempData["TempMessage"] = "Mensaje desde temp.";
+                TempData["TempMessage"] = "Niño creado exitosamente.";
                 return RedirectToAction(nameof(Details), kid);
                 //return View("Details",kid);
             }
@@ -87,7 +87,7 @@ namespace KindergartenAppService.Controllers
             {
                 return NotFound();
             }
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", kid.KindergarterId);
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description", kid.KindergarterId);
             return View(kid);
         }
 
@@ -123,7 +123,7 @@ namespace KindergartenAppService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", kid.KindergarterId);
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description", kid.KindergarterId);
             return View(kid);
         }
 
