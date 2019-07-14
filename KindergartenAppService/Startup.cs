@@ -34,7 +34,7 @@ namespace KindergartenAppService
             });
 
             //services.AddDbContext<kindergartenContext>(option => option.UseInMemoryDatabase(databaseName:"Kidergaeter-control"));
-            services.AddDbContext<KindergartenContext>(option => option.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
+            services.AddDbContext<KindergarterContext>(option => option.UseSqlServer(Configuration.GetConnectionString("LocalConnection")));
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -7,9 +7,9 @@ using KindergartenAppService.Models;
 
 namespace KindergartenAppService.Models
 {
-    public class KindergartenContext:DbContext
+    public class KindergarterContext:DbContext
     {
-        public KindergartenContext(DbContextOptions<KindergartenContext> options) :base(options)
+        public KindergarterContext(DbContextOptions<KindergarterContext> options) :base(options)
         {
 
         }

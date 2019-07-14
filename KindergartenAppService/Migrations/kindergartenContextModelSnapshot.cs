@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KindergartenAppService.Migrations
 {
-    [DbContext(typeof(KindergartenContext))]
+    [DbContext(typeof(KindergarterContext))]
     partial class KindergartenContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

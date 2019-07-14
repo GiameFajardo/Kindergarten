@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KindergartenAppService.Migrations
 {
-    [DbContext(typeof(KindergartenContext))]
+    [DbContext(typeof(KindergarterContext))]
     [Migration("20190707151249_Adding_Usere")]
     partial class Adding_Usere
     {

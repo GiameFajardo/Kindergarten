@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KindergartenAppService.Migrations
 {
-    [DbContext(typeof(KindergartenContext))]
+    [DbContext(typeof(KindergarterContext))]
     [Migration("20190707150023_Adding_Reciept_to_Invoice")]
     partial class Adding_Reciept_to_Invoice
     {

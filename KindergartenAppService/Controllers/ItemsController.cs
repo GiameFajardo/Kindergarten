@@ -11,9 +11,9 @@ namespace KindergartenAppService.Controllers
 {
     public class ItemsController : Controller
     {
-        private readonly KindergartenContext _context;
+        private readonly KindergarterContext _context;
 
-        public ItemsController(KindergartenContext context)
+        public ItemsController(KindergarterContext context)
         {
             _context = context;
         }
