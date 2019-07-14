@@ -74,6 +74,7 @@ namespace KindergartenAppService.Models
 
 
         public DbSet<Kindergarter> Kindergarters { get; set; }
+        public DbSet<Tutor> Tutors { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<KindergartenAppService.Models.Activity> Activity { get; set; }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KindergartenAppService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using KindergartenAppService.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KindergartenAppService.Controllers
 {
@@ -21,7 +20,7 @@ namespace KindergartenAppService.Controllers
         // GET: Kids
         public async Task<IActionResult> Index()
         {
-            var kindergarterContext = _context.Kid.Include(k => k.Kindergarter);
+            var kindergarterContext = _context.Kid.Include(k => k.Kindergarter).Include(k => k.Tutor);
             return View(await kindergarterContext.ToListAsync());
         }
 
@@ -35,6 +34,7 @@ namespace KindergartenAppService.Controllers
 
             var kid = await _context.Kid
                 .Include(k => k.Kindergarter)
+                .Include(k => k.Tutor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kid == null)
             {
@@ -47,7 +47,8 @@ namespace KindergartenAppService.Controllers
         // GET: Kids/Create
         public IActionResult Create()
         {
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id","Description");
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description");
+            ViewData["TutorId"] = new SelectList(_context.Tutors, "Id", "FullName");
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,SecondName,FatherName,MotherName,KindergarterId,Id")] Kid kid)
+        public async Task<IActionResult> Create([Bind("FirstName,SecondName,FatherName,MotherName,KindergarterId,TutorId,Id")] Kid kid)
         {
             if (ModelState.IsValid)
             {
@@ -88,6 +89,7 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
             ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description", kid.KindergarterId);
+            ViewData["TutorId"] = new SelectList(_context.Tutors, "Id", "FullName", kid.TutorId);
             return View(kid);
         }
 
@@ -96,7 +98,7 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,SecondName,FatherName,MotherName,KindergarterId,Id")] Kid kid)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,SecondName,FatherName,MotherName,KindergarterId,TutorId,Id")] Kid kid)
         {
             if (id != kid.Id)
             {
@@ -137,6 +139,7 @@ namespace KindergartenAppService.Controllers
 
             var kid = await _context.Kid
                 .Include(k => k.Kindergarter)
+                .Include(k => k.Tutor)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kid == null)
             {
