@@ -4,14 +4,16 @@ using KindergartenAppService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KindergartenAppService.Migrations
 {
     [DbContext(typeof(KindergarterContext))]
-    partial class KindergartenContextModelSnapshot : ModelSnapshot
+    [Migration("20190714220417_Fixing_tutor_Feeding")]
+    partial class Fixing_tutor_Feeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,103 +179,103 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("005b5f2c-5e97-416f-b06f-da5635538e09"),
-                            FatherName = "Escobar",
-                            FirstName = "Aaron",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
+                            Id = new Guid("04d4d650-bfcb-4a5e-8707-600775b4a361"),
+                            FatherName = "Stackeetam",
+                            FirstName = "Dylan",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
+                            MotherName = "White",
+                            SecondName = "Eduardo",
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
+                        },
+                        new
+                        {
+                            Id = new Guid("05c79ad7-1d07-45d9-8321-781ff9974df6"),
+                            FatherName = "Lee",
+                            FirstName = "Dylan",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
                             MotherName = "White",
                             SecondName = "Enrique",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
                         },
                         new
                         {
-                            Id = new Guid("00a7b9e6-2dab-4de2-9f79-4ad8dd2ac249"),
-                            FatherName = "Faringtom",
-                            FirstName = "Dylan",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
+                            Id = new Guid("066f6d6d-a1c5-4e36-b3d2-0db0189a15f4"),
+                            FatherName = "Lee",
+                            FirstName = "Johan",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
                             MotherName = "Washinton",
                             SecondName = "Eduardo",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
                         },
                         new
                         {
-                            Id = new Guid("0106d9be-a6c9-4434-8e44-6ba5858c2684"),
-                            FatherName = "Faringtom",
-                            FirstName = "Dylan",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
-                            MotherName = "Washinton",
-                            SecondName = "Emilio",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
-                        },
-                        new
-                        {
-                            Id = new Guid("02e6eb28-623d-4a5f-ad61-8be2e695797c"),
+                            Id = new Guid("0b2e9aa5-a42d-43ae-9c7c-518ce82383eb"),
                             FatherName = "Lee",
-                            FirstName = "Dylan",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
-                            MotherName = "Washinton",
-                            SecondName = "Emilio",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
-                        },
-                        new
-                        {
-                            Id = new Guid("046f9e8c-310d-4b95-8a2d-78efc967006a"),
-                            FatherName = "Faringtom",
-                            FirstName = "Aaron",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
-                            MotherName = "White",
+                            FirstName = "Johan",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
+                            MotherName = "Snow",
                             SecondName = "Carlos",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
                         },
                         new
                         {
-                            Id = new Guid("0504c518-4465-462e-bbf6-937a14c6c1ef"),
+                            Id = new Guid("0bf0523b-99fc-4c18-b653-f69ff53b9122"),
+                            FatherName = "Lee",
+                            FirstName = "Aaron",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
+                            MotherName = "Worm",
+                            SecondName = "Enrique",
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
+                        },
+                        new
+                        {
+                            Id = new Guid("0e64cf03-313c-42e2-a193-dcf2aa6ca1fc"),
+                            FatherName = "Lee",
+                            FirstName = "Aaron",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
+                            MotherName = "Snow",
+                            SecondName = "Carlos",
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
+                        },
+                        new
+                        {
+                            Id = new Guid("10f96eea-82b3-43bf-a74b-bb6783e7116b"),
                             FatherName = "Escobar",
                             FirstName = "Johan",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
-                            MotherName = "Washinton",
-                            SecondName = "Emilio",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
+                            MotherName = "Snow",
+                            SecondName = "Eduardo",
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
                         },
                         new
                         {
-                            Id = new Guid("052884a6-505b-4de8-957c-db87513ab396"),
-                            FatherName = "Lee",
-                            FirstName = "Dylan",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
-                            MotherName = "Washinton",
-                            SecondName = "Carlos",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
+                            Id = new Guid("11c446f8-3621-4aab-9d97-09a14b07dd8f"),
+                            FatherName = "Escobar",
+                            FirstName = "Johan",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
+                            MotherName = "White",
+                            SecondName = "Eduardo",
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
                         },
                         new
                         {
-                            Id = new Guid("0663a3b6-f134-49df-b823-400a74db62ef"),
-                            FatherName = "Lee",
-                            FirstName = "Dylan",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
+                            Id = new Guid("120a9b81-0f3a-4a68-8b3b-83e3dac9b6cf"),
+                            FatherName = "Escobar",
+                            FirstName = "Aaron",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
                             MotherName = "Worm",
                             SecondName = "Eduardo",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
                         },
                         new
                         {
-                            Id = new Guid("0748ee52-2acc-4688-80e7-6a3d1feb22aa"),
-                            FatherName = "Lee",
-                            FirstName = "Lyan",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
-                            MotherName = "Washinton",
-                            SecondName = "Carlos",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
-                        },
-                        new
-                        {
-                            Id = new Guid("08c4432f-25af-4827-95e6-c2cfeca3d5b3"),
-                            FatherName = "Lee",
-                            FirstName = "Aaron",
-                            KindergarterId = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
-                            MotherName = "Washinton",
-                            SecondName = "Eduardo",
-                            TutorId = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda")
+                            Id = new Guid("12631c61-889b-4ffe-b3b4-ff78ccc31137"),
+                            FatherName = "Faringtom",
+                            FirstName = "Dylan",
+                            KindergarterId = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
+                            MotherName = "Snow",
+                            SecondName = "Emilio",
+                            TutorId = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21")
                         });
                 });
 
@@ -291,7 +293,7 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a15de111-15d0-4218-8b1f-bf4ae20adccd"),
+                            Id = new Guid("ef6c5692-9813-439b-aa2e-d77ebe9e2d67"),
                             Description = "Guarderia"
                         });
                 });
@@ -390,13 +392,13 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f5f65d1c-8065-408a-9b51-c669ee8ddfda"),
+                            Id = new Guid("0adeff61-3aed-416e-a452-4f6e14565d21"),
                             FirstName = "Gregorio de Jesus",
                             LastName = "Rojas Acosta"
                         },
                         new
                         {
-                            Id = new Guid("720c473d-50cb-41ab-acc3-5214b8add509"),
+                            Id = new Guid("6b079598-baa6-4098-9d7f-f5124b61e050"),
                             FirstName = "Yadira",
                             LastName = "Pinales Delgado"
                         });

@@ -2,14 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using KindergartenAppService.Models;
 
 namespace KindergartenAppService.Models
 {
-    public class KindergarterContext:DbContext
+    public class KindergarterContext : DbContext
     {
-        public KindergarterContext(DbContextOptions<KindergarterContext> options) :base(options)
+        public KindergarterContext(DbContextOptions<KindergarterContext> options) : base(options)
         {
 
         }
@@ -34,7 +32,7 @@ namespace KindergartenAppService.Models
             modelBuilder.Entity<Service>();
             //Many to many relationship betwen Product and store
             modelBuilder.Entity<Stock>()
-                .HasKey(sk => new { sk.StoreId, sk.ProductId});
+                .HasKey(sk => new { sk.StoreId, sk.ProductId });
             modelBuilder.Entity<Stock>()
                 .HasOne(sk => sk.Product)
                 .WithMany(st => st.Stock)
@@ -62,14 +60,19 @@ namespace KindergartenAppService.Models
                 Id = Guid.NewGuid(),
                 Description = "Guarderia"
             };
+            //Tutor
+            var tutors = GenerateTutors();
             //Kids
-            var kids = GenerateRandonKids(kindergarter, 10);
+            var kids = GenerateRandonKids(kindergarter, tutors, 10);
 
 
             modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
+            modelBuilder.Entity<Tutor>().HasData(tutors);
             modelBuilder.Entity<Kid>().HasData(kids);
             #endregion
         }
+
+
         public DbSet<Kindergarter> Kindergarters { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
@@ -80,13 +83,24 @@ namespace KindergartenAppService.Models
         public DbSet<KindergartenAppService.Models.Service> Service { get; set; }
 
         #region Seeding Methods
-        private List<Kid> GenerateRandonKids(Kindergarter kindergarter, int quantity)
+        private List<Tutor> GenerateTutors()
+        {
+            return new List<Tutor>
+            {
+                new Tutor{FirstName = "Gregorio de Jesus", LastName = "Rojas Acosta", Id = Guid.NewGuid()},
+                new Tutor{FirstName = "Yadira",LastName = "Pinales Delgado", Id = Guid.NewGuid()}
+            };
+        }
+        private List<Kid> GenerateRandonKids(Kindergarter kindergarter, List<Tutor> tutors, int quantity)
         {
             List<Kid> kids = new List<Kid>();
             string[] firstName = { "Johan", "Lyan", "Dylan", "Aaron" };
             string[] secondName = { "Carlos", "Eduardo", "Enrique", "Emilio" };
             string[] fatherName = { "Faringtom", "Escobar", "Lee", "Stackeetam" };
             string[] motherName = { "Washinton", "White", "Worm", "Snow" };
+            Random rnd = new Random();
+
+            int count = tutors.Count-1;
 
             var kidsList = from fn in firstName
                            from sn in secondName
@@ -99,9 +113,10 @@ namespace KindergartenAppService.Models
                                SecondName = sn,
                                FatherName = an,
                                MotherName = mn,
-                               KindergarterId = kindergarter.Id
+                               KindergarterId = kindergarter.Id,
+                               TutorId = tutors[rnd.Next(count)].Id
                            };
-            return kidsList.OrderBy(k=>k.Id).Take(quantity).ToList();
+            return kidsList.OrderBy(k => k.Id).Take(quantity).ToList();
         }
         #endregion
     }
