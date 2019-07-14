@@ -7,7 +7,9 @@ namespace KindergartenAppService.Models
     public class Kid: UniqueEntity
     {
         [Required]
+        [MinLength(2)]
         public string FirstName { get; set; }
+        [MinLength(2)]
         public string SecondName { get; set; }
         public string FatherName { get; set; }
         public string MotherName { get; set; }
