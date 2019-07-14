@@ -56,12 +56,16 @@ namespace KindergartenAppService.Models
                 .HasForeignKey(p => p.ReceiptId);
             #endregion
             #region Seeding
+            //Kindergarter
             modelBuilder.Entity<Kindergarter>().HasData(
                 new Kindergarter
                 {
+                    Id = Guid.NewGuid(),
                     Description = "Guarderia"
                 }
                 );
+            //Kids
+
             #endregion
         }
         public DbSet<Kindergarter> Kindergarters { get; set; }
@@ -72,5 +76,30 @@ namespace KindergartenAppService.Models
         public DbSet<KindergartenAppService.Models.Item> Item { get; set; }
         public DbSet<KindergartenAppService.Models.Product> Product { get; set; }
         public DbSet<KindergartenAppService.Models.Service> Service { get; set; }
+
+        #region Seeding Methods
+        private List<Kid> GenerateRandonKids(Kindergarter kindergarter, int quantity)
+        {
+            List<Kid> kids = new List<Kid>();
+            string[] firstName = { "Johan", "Lyan", "Dylan", "Aaron" };
+            string[] secondName = { "Carlos", "Eduardo", "Enrique", "Emilio" };
+            string[] fatherName = { "Faringtom", "Escobar", "Lee", "Stackeetam" };
+            string[] motherName = { "Washinton", "White", "Worm", "Snow" };
+
+            var kidsList = from fn in firstName
+                           from sn in secondName
+                           from an in fatherName
+                           from mn in motherName
+                           select new Kid
+                           {
+                               FirstName = fn,
+                               SecondName = sn,
+                               FatherName = an,
+                               MotherName = mn,
+                               
+                           };
+            return kids;
+        }
+        #endregion
     }
 }

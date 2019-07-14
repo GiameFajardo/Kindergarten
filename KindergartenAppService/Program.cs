@@ -22,7 +22,7 @@ namespace KindergartenAppService
                 }
                 catch (Exception)
                 {
-
+                     
                 }
             }
             host.Run();
