@@ -59,8 +59,9 @@ namespace KindergartenAppService.Controllers
             {
                 tutor.Id = Guid.NewGuid();
                 _context.Add(tutor);
+                TempData["Message"] = "Tutor creado exitosamente";
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details",tutor);
             }
             return View(tutor);
         }
@@ -139,7 +140,18 @@ namespace KindergartenAppService.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var tutor = await _context.Tutors.FindAsync(id);
+            var tutor = await _context.Tutors.Include(t => t.Kids).SingleOrDefaultAsync(t=>t.Id == id);
+            if (tutor.Kids.Count > 0)
+            {
+                String kidsString = string.Empty;
+                foreach (Kid kid in tutor.Kids)
+                {
+                    kidsString += kid.FullName + " ";
+                }
+                TempData["ErrorMessage"] = "No se puede eliminar Tutor. Actualmente posee algun Niño asignado.";
+                TempData["Kids"] = kidsString;
+                return View("Delete",tutor);
+            }
             _context.Tutors.Remove(tutor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

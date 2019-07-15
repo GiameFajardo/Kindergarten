@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Detailles de Niño";
 }
-@if(TempData["TempMessage"] != null)
+@if (TempData["TempMessage"] != null)
 {
     <div class="alert alert-success" role="alert">
         @TempData["TempMessage"]
@@ -54,11 +54,11 @@
     </dl>
 </div>
 <div>
-    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> 
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
     @if (TempData["TempMessage"] != null)
     {
-        <a class="btn btn-success" asp-action="Create" asp-route-id="@Model.Id">Crear Otro</a> 
+        <a class="btn btn-success" asp-action="Create" asp-route-id="@Model.Id">Crear Otro</a>
 
-}
-    <a asp-action="Index"| >Back to List</a>
+    }
+    <a asp-action="Index" |>Back to List</a>
 </div>
