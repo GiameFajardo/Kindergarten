@@ -1,20 +1,37 @@
 ﻿@model KindergartenAppService.Models.Service
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles servicio";
 }
 
-<h1>Details</h1>
-
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-info">
+        <p>@TempData["SuccessMessage"]</p>
+    </div>
+}
+<h1>Detalles</h1>
 <div>
-    <h4>Service</h4>
+    <h4>Servicio</h4>
     <hr />
     <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Activity)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Activity.Id)
+            @Html.DisplayFor(model => model.Activity.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ServicePeriod)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ServicePeriod)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Reference)
@@ -22,9 +39,20 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Reference)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <a class="btn btn-primary" asp-action="Create" asp-route-id="@Model.Id">Crear otro</a>
+
+    }
+    <a asp-action="Index">Retornar al listado</a>
 </div>

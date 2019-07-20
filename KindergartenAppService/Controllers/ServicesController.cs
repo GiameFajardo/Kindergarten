@@ -21,8 +21,8 @@ namespace KindergartenAppService.Controllers
         // GET: Services
         public async Task<IActionResult> Index()
         {
-            var kindergartenContext = _context.Service.Include(s => s.Activity);
-            return View(await kindergartenContext.ToListAsync());
+            var kindergarterContext = _context.Service.Include(s => s.Activity);
+            return View(await kindergarterContext.ToListAsync());
         }
 
         // GET: Services/Details/5
@@ -47,7 +47,7 @@ namespace KindergartenAppService.Controllers
         // GET: Services/Create
         public IActionResult Create()
         {
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id");
+            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
             return View();
         }
 
@@ -56,16 +56,17 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ActivityId,Reference,Id")] Service service)
+        public async Task<IActionResult> Create([Bind("Description,ActivityId,ServicePeriod,Reference,Price,Id")] Service service)
         {
             if (ModelState.IsValid)
             {
                 service.Id = Guid.NewGuid();
                 _context.Add(service);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = "Servicio creado satisfactoriamente";
+                return RedirectToAction(nameof(Details),service);
             }
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", service.ActivityId);
+            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", service.ActivityId);
             return View(service);
         }
 
@@ -82,7 +83,7 @@ namespace KindergartenAppService.Controllers
             {
                 return NotFound();
             }
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", service.ActivityId);
+            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", service.ActivityId);
             return View(service);
         }
 
@@ -91,7 +92,7 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ActivityId,Reference,Id")] Service service)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Description,ActivityId,ServicePeriod,Reference,Price,Id")] Service service)
         {
             if (id != service.Id)
             {
@@ -118,7 +119,7 @@ namespace KindergartenAppService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Id", service.ActivityId);
+            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", service.ActivityId);
             return View(service);
         }
 

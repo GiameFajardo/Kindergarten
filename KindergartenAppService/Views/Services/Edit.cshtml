@@ -1,37 +1,59 @@
 ﻿@model KindergartenAppService.Models.Service
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar servicio";
 }
 
-<h1>Edit</h1>
+<h1>Editar</h1>
 
-<h4>Service</h4>
+<h4>
+    Servicio
+</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="ActivityId" class="control-label"></label>
                 <select asp-for="ActivityId" class="form-control" asp-items="ViewBag.ActivityId"></select>
                 <span asp-validation-for="ActivityId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServicePeriod" class="control-label"></label>
+                @Html.DropDownList(
+                    "ServicePeriod", Html.GetEnumSelectList<ServicePeriod>(),
+                    "Selecciona un periodo",
+                    new { @class = "form-control" }
+)
+
+                <span asp-validation-for="ServicePeriod" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Reference" class="control-label"></label>
                 <input asp-for="Reference" class="form-control" />
                 <span asp-validation-for="Reference" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retornar al listado</a>
 </div>
 
 @section Scripts {

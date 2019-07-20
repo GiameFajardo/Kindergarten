@@ -60,6 +60,10 @@ namespace KindergartenAppService.Models
                 Id = Guid.NewGuid(),
                 Description = "Guarderia"
             };
+            //Activities
+            var activities = GenerateActivities(kindergarter);
+            //Services
+            var services = GenerateServices(activities);
             //Tutor
             var tutors = GenerateTutors();
             //Kids
@@ -67,11 +71,12 @@ namespace KindergartenAppService.Models
 
 
             modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
+            modelBuilder.Entity<Activity>().HasData(activities);
+            modelBuilder.Entity<Service>().HasData(services);
             modelBuilder.Entity<Tutor>().HasData(tutors);
             modelBuilder.Entity<Kid>().HasData(kids);
             #endregion
         }
-
 
         public DbSet<Kindergarter> Kindergarters { get; set; }
         public DbSet<Tutor> Tutors { get; set; }
@@ -101,7 +106,7 @@ namespace KindergartenAppService.Models
             string[] motherName = { "Washinton", "White", "Worm", "Snow" };
             Random rnd = new Random();
 
-            int count = tutors.Count-1;
+            int count = tutors.Count - 1;
 
             var kidsList = from fn in firstName
                            from sn in secondName
@@ -119,6 +124,45 @@ namespace KindergartenAppService.Models
                            };
             return kidsList.OrderBy(k => k.Id).Take(quantity).ToList();
         }
+
+        private List<Service> GenerateServices(List<Activity> activities)
+        {
+            List<Service> services = new List<Service>();
+            Random random = new Random();
+            foreach (Activity activity in activities)
+            {
+
+                services.Add(new Models.Service
+                {
+                    Id = Guid.NewGuid(),
+                    ActivityId = activity.Id,
+                    Description = "Service " + activity.Description,
+                    Reference = "SRV-" + random.Next(1000).ToString(),
+                    Price = random.Next(10000),
+                    ServicePeriod = ServicePeriod.Monthly
+                });
+            }
+
+            return services;
+        }
+
+        private List<Activity> GenerateActivities(Kindergarter kindergarter)
+        {
+            List<Activity> activities = new List<Activity>();
+            activities.AddRange(
+                new List<Activity>
+                {
+                    new Activity{Id = Guid.NewGuid(), Description = "Clases de ingles", KindergarterId = kindergarter.Id},
+                    new Activity{Id = Guid.NewGuid(), Description = "Cuidade matutino", KindergarterId = kindergarter.Id},
+                    new Activity{Id = Guid.NewGuid(), Description = "Cuidado Vespertino", KindergarterId = kindergarter.Id},
+                    new Activity{Id = Guid.NewGuid(), Description = "Cuidado dia completo", KindergarterId = kindergarter.Id},
+                    new Activity{Id = Guid.NewGuid(), Description = "Clases de Ballet", KindergarterId = kindergarter.Id},
+                    new Activity{Id = Guid.NewGuid(), Description = "Clases de logica", KindergarterId = kindergarter.Id}
+                }
+            );
+            return activities;
+        }
+
         #endregion
     }
 }
