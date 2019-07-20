@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KindergartenAppService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using KindergartenAppService.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KindergartenAppService.Controllers
 {
@@ -47,7 +46,7 @@ namespace KindergartenAppService.Controllers
         // GET: Activities/Create
         public IActionResult Create()
         {
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id");
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description");
             return View();
         }
 
@@ -63,7 +62,9 @@ namespace KindergartenAppService.Controllers
                 activity.Id = Guid.NewGuid();
                 _context.Add(activity);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = "Actividad creada satisfactoriamente.";
+
+                return RedirectToAction(nameof(Details), activity);
             }
             ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", activity.KindergarterId);
             return View(activity);
@@ -82,7 +83,7 @@ namespace KindergartenAppService.Controllers
             {
                 return NotFound();
             }
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", activity.KindergarterId);
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description", activity.KindergarterId);
             return View(activity);
         }
 
@@ -118,7 +119,7 @@ namespace KindergartenAppService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", activity.KindergarterId);
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description", activity.KindergarterId);
             return View(activity);
         }
 
