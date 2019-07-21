@@ -60,8 +60,9 @@ namespace KindergartenAppService.Models
                 Id = Guid.NewGuid(),
                 Description = "Guarderia"
             };
+            var activitiesTemplates = GenerateActivityTemplates(kindergarter);
             //Activities
-            var activities = GenerateActivities(kindergarter);
+            var activities = GenerateActivities(activitiesTemplates);
             //Services
             var services = GenerateServices(activities);
             //Tutor
@@ -71,6 +72,7 @@ namespace KindergartenAppService.Models
 
 
             modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
+            modelBuilder.Entity<ActivityTemplate>().HasData(activitiesTemplates);
             modelBuilder.Entity<Activity>().HasData(activities);
             modelBuilder.Entity<Service>().HasData(services);
             modelBuilder.Entity<Tutor>().HasData(tutors);
@@ -146,21 +148,35 @@ namespace KindergartenAppService.Models
             return services;
         }
 
-        private List<Activity> GenerateActivities(Kindergarter kindergarter)
+        private List<Activity> GenerateActivities(List<ActivityTemplate> activityTemplates)
         {
             List<Activity> activities = new List<Activity>();
-            activities.AddRange(
-                new List<Activity>
+            foreach (ActivityTemplate template in activityTemplates)
+            {
+                activities.Add(new Models.Activity
                 {
-                    new Activity{Id = Guid.NewGuid(), Description = "Clases de ingles", KindergarterId = kindergarter.Id},
-                    new Activity{Id = Guid.NewGuid(), Description = "Cuidade matutino", KindergarterId = kindergarter.Id},
-                    new Activity{Id = Guid.NewGuid(), Description = "Cuidado Vespertino", KindergarterId = kindergarter.Id},
-                    new Activity{Id = Guid.NewGuid(), Description = "Cuidado dia completo", KindergarterId = kindergarter.Id},
-                    new Activity{Id = Guid.NewGuid(), Description = "Clases de Ballet", KindergarterId = kindergarter.Id},
-                    new Activity{Id = Guid.NewGuid(), Description = "Clases de logica", KindergarterId = kindergarter.Id}
+                    Id = Guid.NewGuid(),
+                    Description = template.Description,
+                    ActivityTemplateId = template.Id
+                });
+            }
+            return activities;
+        }
+        private List<ActivityTemplate> GenerateActivityTemplates(Kindergarter kindergarter)
+        {
+            List<ActivityTemplate> activitytemplates = new List<ActivityTemplate>();
+            activitytemplates.AddRange(
+                new List<ActivityTemplate>
+                {
+                    new ActivityTemplate{Id = Guid.NewGuid(), Description = "Clases de ingles", KindergarterId = kindergarter.Id},
+                    new ActivityTemplate{Id = Guid.NewGuid(), Description = "Cuidade matutino", KindergarterId = kindergarter.Id},
+                    new ActivityTemplate{Id = Guid.NewGuid(), Description = "Cuidado Vespertino", KindergarterId = kindergarter.Id},
+                    new ActivityTemplate{Id = Guid.NewGuid(), Description = "Cuidado dia completo", KindergarterId = kindergarter.Id},
+                    new ActivityTemplate{Id = Guid.NewGuid(), Description = "Clases de Ballet", KindergarterId = kindergarter.Id},
+                    new ActivityTemplate{Id = Guid.NewGuid(), Description = "Clases de logica", KindergarterId = kindergarter.Id}
                 }
             );
-            return activities;
+            return activitytemplates;
         }
 
         #endregion

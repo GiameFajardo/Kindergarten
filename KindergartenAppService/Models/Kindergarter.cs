@@ -10,7 +10,7 @@ namespace KindergartenAppService.Models
         public string Description { get; set; }
 
         public virtual ICollection<Kid> Kids { get; set; }
-        public virtual ICollection<Activity> Activities { get; set; }
+        public virtual ICollection<ActivityTemplate> ActivityTemplates { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }
