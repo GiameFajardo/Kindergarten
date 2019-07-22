@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KindergartenAppService.Models;
 
 namespace KindergartenAppService.Models
 {
@@ -178,6 +179,7 @@ namespace KindergartenAppService.Models
             );
             return activitytemplates;
         }
+        public DbSet<KindergartenAppService.Models.ActivityTemplate> ActivityTemplate { get; set; }
 
         #endregion
     }
