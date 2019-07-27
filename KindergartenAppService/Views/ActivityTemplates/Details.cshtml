@@ -1,13 +1,18 @@
 ﻿@model KindergartenAppService.Models.ActivityTemplate
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de plantilla de actividades";
 }
-
-<h1>Details</h1>
+@if (TempData["SuccessfulMessage"] != null)
+	{
+    <div class="alert alert-success" >
+        @TempData["SuccessfulMessage"]
+    </div>
+	}
+<h1>Detalles</h1>
 
 <div>
-    <h4>ActivityTemplate</h4>
+    <h4>Plantilla de actividades</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -20,11 +25,16 @@
             @Html.DisplayNameFor(model => model.Kindergarter)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Kindergarter.Id)
+            @Html.DisplayFor(model => model.Kindergarter.Description)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Editar</a>
+    @if (TempData["SuccessfulMessage"] != null)
+    {
+
+        <a class="btn btn-primary" asp-action="Create" asp-route-id="@Model.Id">Crear otra</a>
+    }
+    <a asp-action="Index">Retornar al listado</a>
 </div>

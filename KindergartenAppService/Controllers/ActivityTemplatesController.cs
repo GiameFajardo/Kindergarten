@@ -47,7 +47,7 @@ namespace KindergartenAppService.Controllers
         // GET: ActivityTemplates/Create
         public IActionResult Create()
         {
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id");
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description");
             return View();
         }
 
@@ -63,7 +63,9 @@ namespace KindergartenAppService.Controllers
                 activityTemplate.Id = Guid.NewGuid();
                 _context.Add(activityTemplate);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessfulMessage"] = "La plantilla se ha creado satisfactoriamente";
+
+                return RedirectToAction(nameof(Details),activityTemplate);
             }
             ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", activityTemplate.KindergarterId);
             return View(activityTemplate);
@@ -82,7 +84,7 @@ namespace KindergartenAppService.Controllers
             {
                 return NotFound();
             }
-            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Id", activityTemplate.KindergarterId);
+            ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description", activityTemplate.KindergarterId);
             return View(activityTemplate);
         }
 
