@@ -63,7 +63,9 @@ namespace KindergartenAppService.Controllers
                 activity.Id = Guid.NewGuid();
                 _context.Add(activity);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessfullMessage"] = "Actividad creada satisfactoriamente.";
+
+                return RedirectToAction(nameof(Details),activity);
             }
             ViewData["ActivityTemplateId"] = new SelectList(_context.ActivityTemplate, "Id", "Description", activity.ActivityTemplateId);
             return View(activity);
