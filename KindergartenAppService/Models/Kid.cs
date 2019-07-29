@@ -46,6 +46,8 @@ namespace KindergartenAppService.Models
         public Guid KindergarterId { get; set; }
         [Display(Prompt = "Guarderia", Name = "Guarderia")]
         public Kindergarter Kindergarter { get; set; }
+        //public virtual Guid EnrollmentId { get; set; }
+        public virtual Enrollment Enrollment { get; set; }
         public virtual ICollection<MedicalRecord> MedicalRecords { get; set; }
         public virtual ICollection<FeedingKid> FeedingKids { get; set; }
         public virtual ICollection<Precense> Precenses { get; set; }

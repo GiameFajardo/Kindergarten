@@ -53,13 +53,18 @@ namespace KindergartenAppService.Models
                 .HasOne(p => p.Receipt)
                 .WithMany(i => i.Payments)
                 .HasForeignKey(p => p.ReceiptId);
+            //One to one relationship between Kid and Enrollment
+            //modelBuilder.Entity<Kid>()
+            //    .HasOne(p => p.Enrollment)
+            //    .WithOne(i => i.Kid)
+            //    .HasForeignKey<Enrollment>(e=>e.Kid);
             #endregion
             #region Seeding
             //Kindergarter
             var kindergarter = new Kindergarter
             {
                 Id = Guid.NewGuid(),
-                Description = "Guarderia"
+                Description = "KPH"
             };
             var activitiesTemplates = GenerateActivityTemplates(kindergarter);
             //Activities
@@ -70,6 +75,8 @@ namespace KindergartenAppService.Models
             var tutors = GenerateTutors();
             //Kids
             var kids = GenerateRandonKids(kindergarter, tutors, 10);
+            //Enrollment
+            var enrollments = GenerateEnrollments(kids.Take(5).ToList());
 
 
             modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
@@ -78,8 +85,10 @@ namespace KindergartenAppService.Models
             modelBuilder.Entity<Service>().HasData(services);
             modelBuilder.Entity<Tutor>().HasData(tutors);
             modelBuilder.Entity<Kid>().HasData(kids);
+            modelBuilder.Entity<Enrollment>().HasData(enrollments);
             #endregion
         }
+
 
         public DbSet<Kindergarter> Kindergarters { get; set; }
         public DbSet<Tutor> Tutors { get; set; }
@@ -92,6 +101,21 @@ namespace KindergartenAppService.Models
         public DbSet<KindergartenAppService.Models.Service> Service { get; set; }
 
         #region Seeding Methods
+        private List<Enrollment> GenerateEnrollments(List<Kid> kids)
+        {
+            List<Enrollment> enrollments = new List<Enrollment>();
+            
+            foreach (var kid in kids)
+            {
+                enrollments.Add(new Enrollment
+                {
+                    Id = Guid.NewGuid(),
+                    EnrollDay = new DateTime(2019,7,28),
+                    KidId = kid.Id
+                });
+            }
+            return enrollments;
+        }
         private List<Tutor> GenerateTutors()
         {
             return new List<Tutor>

@@ -31,10 +31,11 @@ namespace KindergartenAppService.Controllers
             {
                 return NotFound();
             }
-
+            
             var kid = await _context.Kid
                 .Include(k => k.Kindergarter)
                 .Include(k => k.Tutor)
+                .Include(k => k.Enrollment)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kid == null)
             {

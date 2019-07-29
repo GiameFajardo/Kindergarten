@@ -8,6 +8,7 @@ namespace KindergartenAppService.Models
         public DateTime EnrollDay { get; set; }
         public Guid KidId { get; set; }
         public Kid Kid { get; set; }
+        public virtual string Comment { get; set; }
         public virtual ICollection<EnrollActivity> EnrollActivities { get; set; }
     }
 }
