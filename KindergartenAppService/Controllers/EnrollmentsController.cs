@@ -45,10 +45,26 @@ namespace KindergartenAppService.Controllers
         }
 
         // GET: Enrollments/Create
-        public IActionResult Create()
+        public  IActionResult Create()
         {
-            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName");
-            return View();
+            if (TempData["Kid"] != null)
+            {
+                var kid = _context.Kid.FindAsync(TempData["Kid"]).Result;
+                ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FullName");
+                ViewData["Now"] = DateTime.Now;
+                if (kid != null)
+                {
+                    var enrollment = new Enrollment { EnrollDay = DateTime.Now, KidId = kid.Id};
+                    return View(enrollment);
+                }
+                return View();
+
+            }
+            else
+            {
+                ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName");
+                return View();
+            }
         }
 
         // POST: Enrollments/Create

@@ -170,7 +170,7 @@ namespace KindergartenAppService.Controllers
         }
         public async Task<IActionResult> Enroll(Guid? id)
         {
-            ViewBag.KidId = id;
+            TempData["Kid"] = id;
             return RedirectToAction("Create", "Enrollments");
         }
     }
