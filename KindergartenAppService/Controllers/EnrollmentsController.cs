@@ -9,24 +9,23 @@ using KindergartenAppService.Models;
 
 namespace KindergartenAppService.Controllers
 {
-    public class EnrollActivitiesController : Controller
+    public class EnrollmentsController : Controller
     {
         private readonly KindergarterContext _context;
 
-        public EnrollActivitiesController(KindergarterContext context)
+        public EnrollmentsController(KindergarterContext context)
         {
             _context = context;
         }
 
-        // GET: EnrollActivities
+        // GET: Enrollments
         public async Task<IActionResult> Index()
         {
-            var kindergarterContext = _context.EnrollActivity.Include(e => e.Activity);
-
+            var kindergarterContext = _context.Enrollments.Include(e => e.Kid);
             return View(await kindergarterContext.ToListAsync());
         }
 
-        // GET: EnrollActivities/Details/5
+        // GET: Enrollments/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -34,43 +33,43 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var enrollActivity = await _context.EnrollActivity
-                .Include(e => e.Activity)
+            var enrollment = await _context.Enrollments
+                .Include(e => e.Kid)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (enrollActivity == null)
+            if (enrollment == null)
             {
                 return NotFound();
             }
 
-            return View(enrollActivity);
+            return View(enrollment);
         }
 
-        // GET: EnrollActivities/Create
+        // GET: Enrollments/Create
         public IActionResult Create()
         {
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
+            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName");
             return View();
         }
 
-        // POST: EnrollActivities/Create
+        // POST: Enrollments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ActivityId,Id")] EnrollActivity enrollActivity)
+        public async Task<IActionResult> Create([Bind("EnrollDay,KidId,Comment,Id")] Enrollment enrollment)
         {
             if (ModelState.IsValid)
             {
-                enrollActivity.Id = Guid.NewGuid();
-                _context.Add(enrollActivity);
+                enrollment.Id = Guid.NewGuid();
+                _context.Add(enrollment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", enrollActivity.ActivityId);
-            return View(enrollActivity);
+            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName", enrollment.KidId);
+            return View(enrollment);
         }
 
-        // GET: EnrollActivities/Edit/5
+        // GET: Enrollments/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -78,23 +77,23 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var enrollActivity = await _context.EnrollActivity.FindAsync(id);
-            if (enrollActivity == null)
+            var enrollment = await _context.Enrollments.FindAsync(id);
+            if (enrollment == null)
             {
                 return NotFound();
             }
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", enrollActivity.ActivityId);
-            return View(enrollActivity);
+            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName", enrollment.KidId);
+            return View(enrollment);
         }
 
-        // POST: EnrollActivities/Edit/5
+        // POST: Enrollments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ActivityId,Id")] EnrollActivity enrollActivity)
+        public async Task<IActionResult> Edit(Guid id, [Bind("EnrollDay,KidId,Comment,Id")] Enrollment enrollment)
         {
-            if (id != enrollActivity.Id)
+            if (id != enrollment.Id)
             {
                 return NotFound();
             }
@@ -103,12 +102,12 @@ namespace KindergartenAppService.Controllers
             {
                 try
                 {
-                    _context.Update(enrollActivity);
+                    _context.Update(enrollment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EnrollActivityExists(enrollActivity.Id))
+                    if (!EnrollmentExists(enrollment.Id))
                     {
                         return NotFound();
                     }
@@ -119,11 +118,11 @@ namespace KindergartenAppService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", enrollActivity.ActivityId);
-            return View(enrollActivity);
+            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName", enrollment.KidId);
+            return View(enrollment);
         }
 
-        // GET: EnrollActivities/Delete/5
+        // GET: Enrollments/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -131,31 +130,31 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var enrollActivity = await _context.EnrollActivity
-                .Include(e => e.Activity)
+            var enrollment = await _context.Enrollments
+                .Include(e => e.Kid)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (enrollActivity == null)
+            if (enrollment == null)
             {
                 return NotFound();
             }
 
-            return View(enrollActivity);
+            return View(enrollment);
         }
 
-        // POST: EnrollActivities/Delete/5
+        // POST: Enrollments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var enrollActivity = await _context.EnrollActivity.FindAsync(id);
-            _context.EnrollActivity.Remove(enrollActivity);
+            var enrollment = await _context.Enrollments.FindAsync(id);
+            _context.Enrollments.Remove(enrollment);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EnrollActivityExists(Guid id)
+        private bool EnrollmentExists(Guid id)
         {
-            return _context.EnrollActivity.Any(e => e.Id == id);
+            return _context.Enrollments.Any(e => e.Id == id);
         }
     }
 }
