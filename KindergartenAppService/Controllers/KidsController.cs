@@ -168,5 +168,10 @@ namespace KindergartenAppService.Controllers
         {
             return _context.Kid.Any(e => e.Id == id);
         }
+        public async Task<IActionResult> Enroll(Guid? id)
+        {
+            ViewBag.KidId = id;
+            return RedirectToAction("Create", "Enrollments");
+        }
     }
 }
