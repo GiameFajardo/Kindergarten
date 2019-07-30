@@ -6,5 +6,7 @@ namespace KindergartenAppService.Models
     {
         public Guid ActivityId{ get; set; }
         public Activity Activity { get; set; }
+        public virtual Guid EnrollmentId { get; set; }
+        public virtual Enrollment Enrollment { get; set; }
     }
 }

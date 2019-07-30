@@ -36,6 +36,9 @@ namespace KindergartenAppService.Controllers
                 .Include(k => k.Kindergarter)
                 .Include(k => k.Tutor)
                 .Include(k => k.Enrollment)
+                .Include(k => k.Enrollment.EnrollActivities)
+                .Include("Enrollment.EnrollActivities")
+                .Include("Enrollment.EnrollActivities.Activity")
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kid == null)
             {

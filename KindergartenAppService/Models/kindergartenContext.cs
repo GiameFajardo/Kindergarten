@@ -77,7 +77,8 @@ namespace KindergartenAppService.Models
             var kids = GenerateRandonKids(kindergarter, tutors, 10);
             //Enrollment
             var enrollments = GenerateEnrollments(kids.Take(5).ToList());
-
+            //Activity enroll
+            var enrollActivities = GenerateEnrollActivities(enrollments,activities);
 
             modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
             modelBuilder.Entity<ActivityTemplate>().HasData(activitiesTemplates);
@@ -86,9 +87,30 @@ namespace KindergartenAppService.Models
             modelBuilder.Entity<Tutor>().HasData(tutors);
             modelBuilder.Entity<Kid>().HasData(kids);
             modelBuilder.Entity<Enrollment>().HasData(enrollments);
+            modelBuilder.Entity<EnrollActivity>().HasData(enrollActivities);
             #endregion
         }
 
+        private List<EnrollActivity> GenerateEnrollActivities(List<Enrollment> enrollments, List<Activity> activities)
+        {
+            List<EnrollActivity> enrollActivities = new List<EnrollActivity>();
+            int activitiesCount = activities.Count();
+            Random random = new Random();
+
+            foreach (var enrollment in enrollments)
+            {
+                enrollActivities.Add(new Models.EnrollActivity
+                {
+                    Id = Guid.NewGuid(),
+                    ActivityId = activities[random.Next(activitiesCount)].Id,
+                    EnrollmentId = enrollment.Id
+                    
+                });
+
+            }
+
+            return enrollActivities;
+        }
 
         public DbSet<Kindergarter> Kindergarters { get; set; }
         public DbSet<Tutor> Tutors { get; set; }
@@ -204,6 +226,7 @@ namespace KindergartenAppService.Models
             return activitytemplates;
         }
         public DbSet<KindergartenAppService.Models.ActivityTemplate> ActivityTemplate { get; set; }
+        public DbSet<KindergartenAppService.Models.EnrollActivity> EnrollActivity { get; set; }
 
         #endregion
     }
