@@ -60,33 +60,36 @@
             </div>
             @* Enrollment *@
         <div class="col-6">
-
-            <h5>Fecha de inscripción a la institución</h5>
             @if (Model.Enrollment != null)
-	        {
-		 
-            <p>@Model.Enrollment.EnrollDay.ToShortDateString()</p>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            Actividades inscritas
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Enrollment.EnrollActivities != null)
-                    {
-                        @foreach (var item in Model.Enrollment.EnrollActivities)
-                        {
-                            <partial name="PartialEnrollment/EnrollActivityLine" model="item"/>
-                            
+            {
 
+
+                <h5>Fecha de inscripción a la institución</h5>
+                <p>@Model.Enrollment.EnrollDay.ToShortDateString()</p>
+                <p>
+                    <a class="btn btn-primary" asp-action="EnrollActivity" asp-route-id="@Model.Enrollment.Id">Inscribir en actividad</a>
+                </p>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Actividades inscritas
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Enrollment.EnrollActivities != null)
+                        {
+                            @foreach (var item in Model.Enrollment.EnrollActivities)
+                            {
+                                <partial name="PartialEnrollment/EnrollActivityLine" model="item" />
+
+
+                            }
                         }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             }
             else
             {

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KindergartenAppService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using KindergartenAppService.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KindergartenAppService.Controllers
 {
@@ -48,6 +47,21 @@ namespace KindergartenAppService.Controllers
         // GET: EnrollActivities/Create
         public IActionResult Create()
         {
+            if (TempData["Enroll"] != null)
+            {
+                var enroll = _context.Enrollments.FindAsync(TempData["Enroll"]).Result;
+
+                ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
+                ViewData["EnrollmentId"] = new SelectList(_context.Enrollments, "Id", "Id");
+                if (enroll != null)
+                {
+                    var enrollActivity = new EnrollActivity { EnrollmentId = enroll.Id };
+                    ViewBag.CameFromKid = TempData["CameFromKid"];
+                    return View(enrollActivity);
+                }
+
+                return View();
+            }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
             ViewData["EnrollmentId"] = new SelectList(_context.Enrollments, "Id", "Id");
             return View();
@@ -60,12 +74,24 @@ namespace KindergartenAppService.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ActivityId,EnrollmentId,Id")] EnrollActivity enrollActivity)
         {
+            
             if (ModelState.IsValid)
             {
                 enrollActivity.Id = Guid.NewGuid();
                 _context.Add(enrollActivity);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var enrollment = await _context.Enrollments.SingleOrDefaultAsync(e => e.Id == enrollActivity.EnrollmentId);
+                var kidId = await  _context.Kid.SingleOrDefaultAsync(k => k.Enrollment.Id == enrollment.Id);
+                if (TempData["ComeFromKid"] != null)
+                {
+                    
+                    return RedirectToAction("Details", "Kids",kidId);
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+
+                }
             }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", enrollActivity.ActivityId);
             ViewData["EnrollmentId"] = new SelectList(_context.Enrollments, "Id", "Id", enrollActivity.EnrollmentId);
