@@ -8,6 +8,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190805211531_Adding_Pediatrician_to_Kid.cs" />
     <Compile Remove="Migrations\20190805211531_Adding_Pediatrician_to_Kid.Designer.cs" />
+    <Compile Remove="Migrations\20190805212320_Adding_Tutors_to_Kid.cs" />
+    <Compile Remove="Migrations\20190805212320_Adding_Tutors_to_Kid.Designer.cs" />
+    <Compile Remove="Migrations\20190805215358_Adding_Tutors_to_Kid.cs" />
+    <Compile Remove="Migrations\20190805215358_Adding_Tutors_to_Kid.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

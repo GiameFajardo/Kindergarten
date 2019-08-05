@@ -58,10 +58,10 @@ namespace KindergartenAppService.Models
             //    .WithOne(i => i.Kid)
             //    .HasForeignKey<Enrollment>(e=>e.Kid);
             //Multiple independent Tutors in Kid
-            //modelBuilder.Entity<Kid>()
-            //    .HasOne(k => k.Tutor)
-            //    .WithMany()
-            //    .HasForeignKey(k => k.TutorId);
+            modelBuilder.Entity<Kid>()
+                .HasOne(k => k.TutorPrincipal)
+                .WithMany()
+                .HasForeignKey(k => k.TutorPrincipalId);
             //modelBuilder.Entity<Kid>()
             //    .HasOne(k => k.TutorAutorize)
             //    .WithMany()
@@ -188,7 +188,7 @@ namespace KindergartenAppService.Models
                                FatherName = an,
                                MotherName = mn,
                                KindergarterId = kindergarter.Id,
-                               TutorId = tutors[rnd.Next(count)].Id
+                               TutorPrincipalId = tutors[rnd.Next(count)].Id
                            };
             return kidsList.OrderBy(k => k.Id).Take(quantity).ToList();
         }
@@ -215,7 +215,7 @@ namespace KindergartenAppService.Models
                                FatherName = an,
                                MotherName = mn,
                                KindergarterId = kindergarter.Id,
-                               TutorId = tutors[rnd.Next(count)].Id,
+                               TutorPrincipalId = tutors[rnd.Next(count)].Id,
                                //PediatricianId = pediatrician.Id
                            };
             return kidsList.OrderBy(k => k.Id).Take(quantity).ToList();

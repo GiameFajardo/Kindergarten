@@ -20,7 +20,7 @@ namespace KindergartenAppService.Controllers
         // GET: Kids
         public async Task<IActionResult> Index()
         {
-            var kindergarterContext = _context.Kid.Include(k => k.Kindergarter).Include(k => k.Tutor);
+            var kindergarterContext = _context.Kid.Include(k => k.Kindergarter).Include(k => k.TutorPrincipal);
             return View(await kindergarterContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace KindergartenAppService.Controllers
             
             var kid = await _context.Kid
                 .Include(k => k.Kindergarter)
-                .Include(k => k.Tutor)
+                .Include(k => k.TutorPrincipal)
                 .Include(k => k.Enrollment)
                 .Include(k => k.Enrollment.EnrollActivities)
                 .Include("Enrollment.EnrollActivities")
@@ -93,7 +93,7 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
             ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description", kid.KindergarterId);
-            ViewData["TutorId"] = new SelectList(_context.Tutors, "Id", "FullName", kid.TutorId);
+            ViewData["TutorId"] = new SelectList(_context.Tutors, "Id", "FullName", kid.TutorPrincipalId);
             return View(kid);
         }
 
@@ -143,7 +143,7 @@ namespace KindergartenAppService.Controllers
 
             var kid = await _context.Kid
                 .Include(k => k.Kindergarter)
-                .Include(k => k.Tutor)
+                .Include(k => k.TutorPrincipal)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kid == null)
             {
