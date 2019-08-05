@@ -25,23 +25,23 @@ namespace KindergartenAppService.Models
         [Display(Name = "Fecha de nacimiento")]
         public DateTime BirthDate { get; set; }
 
-        //[Display(Name = "Sexo")]
-        //public Sex Sex { get; set; }
+        [Display(Name = "Sexo")]
+        public Sex Sex { get; set; }
 
-        //[Display(Prompt = "c/ Los rieles, Res. Jardines edf. 3 apto. 1B", Name = "Dirección")]
-        //public string Address { get; set; }
+        [Display(Prompt = "c/ Los rieles, Res. Jardines edf. 3 apto. 1B", Name = "Dirección")]
+        public string Address { get; set; }
 
-        //[Display(Prompt = "Usar su table", Name = "Actividad favorita")]
-        //public string FavoriteAddress { get; set; }
+        [Display(Prompt = "Usar su table", Name = "Actividad favorita")]
+        public string FavoriteActivities { get; set; }
 
-        //[Display(Prompt = "2", Name = "Cantidad de hermanos")]
-        //public int SiblingCount { get; set; }
+        [Display(Prompt = "2", Name = "Cantidad de hermanos")]
+        public int SiblingCount { get; set; }
 
-        //[Display(Prompt = "4+", Name = "Size TShirt")]
-        //public TShirtSize TShirtSize { get; set; }
+        [Display(Prompt = "4+", Name = "Size TShirt")]
+        public TShirtSize TShirtSize { get; set; }
 
-        //[Display(Prompt = "Alergia a algunos medicamentos; cererizina.", Name = "Alergias o enfermedades")]
-        //public string Diseases { get; set; }
+        [Display(Prompt = "Alergia a algunos medicamentos; cererizina.", Name = "Alergias o enfermedades")]
+        public string Diseases { get; set; }
 
         private string _fullname;
         [NotMapped]
@@ -59,8 +59,8 @@ namespace KindergartenAppService.Models
             }
             set { _fullname = value; }
         }
-        //public virtual Guid PediatricianId { get; set; }
-        //public virtual Pediatrician Pediatrician { get; set; }
+        public virtual Guid? PediatricianId { get; set; }
+        public virtual Pediatrician Pediatrician { get; set; }
         public Guid TutorId { get; set; }
         public Tutor Tutor { get; set; }
         //public virtual Guid TutorSecundaryId { get; set; }

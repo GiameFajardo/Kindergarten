@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190805211531_Adding_Pediatrician_to_Kid.cs" />
+    <Compile Remove="Migrations\20190805211531_Adding_Pediatrician_to_Kid.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\assets\images\hawaii1.jpeg" />
     <None Include="wwwroot\assets\images\hawaii2.jpg" />
     <None Include="wwwroot\assets\images\hawaii3.jpg" />
