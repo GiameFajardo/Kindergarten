@@ -62,14 +62,14 @@ namespace KindergartenAppService.Models
                 .HasOne(k => k.TutorPrincipal)
                 .WithMany()
                 .HasForeignKey(k => k.TutorPrincipalId);
-            //modelBuilder.Entity<Kid>()
-            //    .HasOne(k => k.TutorAutorize)
-            //    .WithMany()
-            //    .HasForeignKey(k => k.TutorAutorizeId);
-            //modelBuilder.Entity<Kid>()
-            //    .HasOne(k => k.TutorSecundary)
-            //    .WithMany()
-            //    .HasForeignKey(k => k.TutorSecundaryId);
+            modelBuilder.Entity<Kid>()
+                .HasOne(k => k.TutorAutorized)
+                .WithMany()
+                .HasForeignKey(k => k.TutorAutorizedId);
+            modelBuilder.Entity<Kid>()
+                .HasOne(k => k.TutorSecundary)
+                .WithMany()
+                .HasForeignKey(k => k.TutorSecundaryId);
             #endregion
             #region Seeding
             //Kindergarter

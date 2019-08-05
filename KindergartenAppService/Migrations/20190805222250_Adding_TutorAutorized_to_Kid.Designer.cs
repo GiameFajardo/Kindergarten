@@ -4,14 +4,16 @@ using KindergartenAppService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KindergartenAppService.Migrations
 {
     [DbContext(typeof(KindergarterContext))]
-    partial class KindergartenContextModelSnapshot : ModelSnapshot
+    [Migration("20190805222250_Adding_TutorAutorized_to_Kid")]
+    partial class Adding_TutorAutorized_to_Kid
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,38 +40,38 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("659924bd-1522-430a-b521-423964bea024"),
-                            ActivityTemplateId = new Guid("52680218-6927-4b78-b70f-da089f7c66ab"),
+                            Id = new Guid("71487dd9-0eed-44d9-aae5-9ddf085aefd0"),
+                            ActivityTemplateId = new Guid("f9235fbe-cf0c-4c74-a817-b40a49b0a979"),
                             Description = "Clases de ingles"
                         },
                         new
                         {
-                            Id = new Guid("7c31f467-c0b1-4718-a92b-4fb078e34eb2"),
-                            ActivityTemplateId = new Guid("89afae68-4d45-4f6f-afae-b4a715c14e71"),
+                            Id = new Guid("1290235e-1037-45d9-b9b3-4b5fc3918ada"),
+                            ActivityTemplateId = new Guid("c5e7e563-8ebd-455d-9e00-79770c46698e"),
                             Description = "Cuidade matutino"
                         },
                         new
                         {
-                            Id = new Guid("b1b3bed4-a201-4aa5-9837-da2ff76e035d"),
-                            ActivityTemplateId = new Guid("d592df4d-57d6-4e12-afe3-45aad36f0f69"),
+                            Id = new Guid("f0451cea-b825-4614-83b6-ea86c9d6b291"),
+                            ActivityTemplateId = new Guid("43c573ea-b2eb-40c1-8221-7359d3a65b88"),
                             Description = "Cuidado Vespertino"
                         },
                         new
                         {
-                            Id = new Guid("16706578-21d5-48c4-bbec-7cc8d7ecd6d9"),
-                            ActivityTemplateId = new Guid("53e9029c-b970-4357-83e8-6634ccb32527"),
+                            Id = new Guid("ed6d5ae4-ba00-40d4-8ea8-d382e5ea9de1"),
+                            ActivityTemplateId = new Guid("0501e0de-6c22-4279-9f14-8bf500dceb17"),
                             Description = "Cuidado dia completo"
                         },
                         new
                         {
-                            Id = new Guid("5e6a0154-ac07-4519-8513-fe9fe93ae6b9"),
-                            ActivityTemplateId = new Guid("61600c37-13e8-43dd-b8e7-e9f62a916335"),
+                            Id = new Guid("09660603-09fb-4f75-82bc-d827b0e14dc5"),
+                            ActivityTemplateId = new Guid("05af409f-c46b-4737-b55c-75d57a456c6e"),
                             Description = "Clases de Ballet"
                         },
                         new
                         {
-                            Id = new Guid("7493eac5-b59c-4343-8c60-9d4363c0f37f"),
-                            ActivityTemplateId = new Guid("c4eb6cec-546f-4ff4-b8fa-87916ce2e1e2"),
+                            Id = new Guid("9227d683-1730-47af-8b3d-c409b32a4100"),
+                            ActivityTemplateId = new Guid("0f82e686-dc38-479d-9552-f0025e84dab7"),
                             Description = "Clases de logica"
                         });
                 });
@@ -93,39 +95,39 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("52680218-6927-4b78-b70f-da089f7c66ab"),
+                            Id = new Guid("f9235fbe-cf0c-4c74-a817-b40a49b0a979"),
                             Description = "Clases de ingles",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc")
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257")
                         },
                         new
                         {
-                            Id = new Guid("89afae68-4d45-4f6f-afae-b4a715c14e71"),
+                            Id = new Guid("c5e7e563-8ebd-455d-9e00-79770c46698e"),
                             Description = "Cuidade matutino",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc")
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257")
                         },
                         new
                         {
-                            Id = new Guid("d592df4d-57d6-4e12-afe3-45aad36f0f69"),
+                            Id = new Guid("43c573ea-b2eb-40c1-8221-7359d3a65b88"),
                             Description = "Cuidado Vespertino",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc")
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257")
                         },
                         new
                         {
-                            Id = new Guid("53e9029c-b970-4357-83e8-6634ccb32527"),
+                            Id = new Guid("0501e0de-6c22-4279-9f14-8bf500dceb17"),
                             Description = "Cuidado dia completo",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc")
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257")
                         },
                         new
                         {
-                            Id = new Guid("61600c37-13e8-43dd-b8e7-e9f62a916335"),
+                            Id = new Guid("05af409f-c46b-4737-b55c-75d57a456c6e"),
                             Description = "Clases de Ballet",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc")
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257")
                         },
                         new
                         {
-                            Id = new Guid("c4eb6cec-546f-4ff4-b8fa-87916ce2e1e2"),
+                            Id = new Guid("0f82e686-dc38-479d-9552-f0025e84dab7"),
                             Description = "Clases de logica",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc")
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257")
                         });
                 });
 
@@ -149,33 +151,33 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e352ff3b-ea93-4ccd-b38f-1670524bdf29"),
-                            ActivityId = new Guid("7c31f467-c0b1-4718-a92b-4fb078e34eb2"),
-                            EnrollmentId = new Guid("645d5ff6-88b3-4efd-bad6-58824277a99a")
+                            Id = new Guid("7615f179-70c8-4326-bd60-479f3fca0e57"),
+                            ActivityId = new Guid("09660603-09fb-4f75-82bc-d827b0e14dc5"),
+                            EnrollmentId = new Guid("62c67059-8279-4b24-92c8-513fd5bf15f3")
                         },
                         new
                         {
-                            Id = new Guid("6b2878a8-b08d-4109-8a2b-5d76b210cec9"),
-                            ActivityId = new Guid("5e6a0154-ac07-4519-8513-fe9fe93ae6b9"),
-                            EnrollmentId = new Guid("363174a4-711d-448c-b8a1-f13d7d8e2ae2")
+                            Id = new Guid("33110e30-fd27-433a-8230-fd4b1c01e313"),
+                            ActivityId = new Guid("71487dd9-0eed-44d9-aae5-9ddf085aefd0"),
+                            EnrollmentId = new Guid("43c34b15-7129-4d67-9040-aa07dff64207")
                         },
                         new
                         {
-                            Id = new Guid("5aed8a4d-f718-4b7b-be57-1653636a3f5b"),
-                            ActivityId = new Guid("b1b3bed4-a201-4aa5-9837-da2ff76e035d"),
-                            EnrollmentId = new Guid("59f38413-4b46-4045-8627-f826e4c47e48")
+                            Id = new Guid("cd602a42-d481-47c3-acd7-7a488d464d5c"),
+                            ActivityId = new Guid("71487dd9-0eed-44d9-aae5-9ddf085aefd0"),
+                            EnrollmentId = new Guid("62837b88-e9d4-419f-8235-f047fd436595")
                         },
                         new
                         {
-                            Id = new Guid("e22035c0-ea70-49de-8edb-4ebc36111138"),
-                            ActivityId = new Guid("5e6a0154-ac07-4519-8513-fe9fe93ae6b9"),
-                            EnrollmentId = new Guid("3e2f1a33-d057-4390-9882-e09b0a4ce9f9")
+                            Id = new Guid("14fcf44a-ef7c-4159-b490-bf50d68be21a"),
+                            ActivityId = new Guid("1290235e-1037-45d9-b9b3-4b5fc3918ada"),
+                            EnrollmentId = new Guid("bd63b8b5-dafa-45d8-b1a8-7c048fcf9f0b")
                         },
                         new
                         {
-                            Id = new Guid("982929a0-d17f-4904-bda5-9ded2bf2c65d"),
-                            ActivityId = new Guid("5e6a0154-ac07-4519-8513-fe9fe93ae6b9"),
-                            EnrollmentId = new Guid("9c527e12-6086-4a20-9d3e-1fa82f0e8ea2")
+                            Id = new Guid("193f55e4-3785-4d7e-83af-c3717e450e27"),
+                            ActivityId = new Guid("71487dd9-0eed-44d9-aae5-9ddf085aefd0"),
+                            EnrollmentId = new Guid("cb9ea899-f28a-4684-af5c-017814cc99a2")
                         });
                 });
 
@@ -200,33 +202,33 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("645d5ff6-88b3-4efd-bad6-58824277a99a"),
+                            Id = new Guid("62c67059-8279-4b24-92c8-513fd5bf15f3"),
                             EnrollDay = new DateTime(2019, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KidId = new Guid("008e1b32-757a-4c4d-90d3-cace69412327")
+                            KidId = new Guid("0107af35-bb37-488e-bd67-0fda79132b6d")
                         },
                         new
                         {
-                            Id = new Guid("363174a4-711d-448c-b8a1-f13d7d8e2ae2"),
+                            Id = new Guid("43c34b15-7129-4d67-9040-aa07dff64207"),
                             EnrollDay = new DateTime(2019, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KidId = new Guid("0098f83a-5257-4247-a841-97dc3167b088")
+                            KidId = new Guid("01b9678f-2082-4edf-8af7-191f1a512e89")
                         },
                         new
                         {
-                            Id = new Guid("59f38413-4b46-4045-8627-f826e4c47e48"),
+                            Id = new Guid("62837b88-e9d4-419f-8235-f047fd436595"),
                             EnrollDay = new DateTime(2019, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KidId = new Guid("01542ad7-82e1-4a29-83eb-e9555a2f9a37")
+                            KidId = new Guid("039f019c-28f9-4b73-ae43-c2ab9f31eb40")
                         },
                         new
                         {
-                            Id = new Guid("3e2f1a33-d057-4390-9882-e09b0a4ce9f9"),
+                            Id = new Guid("bd63b8b5-dafa-45d8-b1a8-7c048fcf9f0b"),
                             EnrollDay = new DateTime(2019, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KidId = new Guid("03cbf736-0adc-446a-8c5f-86c20c338c84")
+                            KidId = new Guid("04629a6a-69b9-443d-b91b-f94b22322c00")
                         },
                         new
                         {
-                            Id = new Guid("9c527e12-6086-4a20-9d3e-1fa82f0e8ea2"),
+                            Id = new Guid("cb9ea899-f28a-4684-af5c-017814cc99a2"),
                             EnrollDay = new DateTime(2019, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            KidId = new Guid("03de317f-f94d-4a37-9eff-bf1dcac32088")
+                            KidId = new Guid("04a4d77d-3304-46f9-9028-a7c134c3b192")
                         });
                 });
 
@@ -371,143 +373,143 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("008e1b32-757a-4c4d-90d3-cace69412327"),
-                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FatherName = "Lee",
-                            FirstName = "Johan",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
-                            MotherName = "Worm",
-                            SecondName = "Carlos",
-                            Sex = 0,
-                            SiblingCount = 0,
-                            TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
-                        },
-                        new
-                        {
-                            Id = new Guid("0098f83a-5257-4247-a841-97dc3167b088"),
-                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FatherName = "Faringtom",
-                            FirstName = "Johan",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
-                            MotherName = "Washinton",
-                            SecondName = "Enrique",
-                            Sex = 0,
-                            SiblingCount = 0,
-                            TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
-                        },
-                        new
-                        {
-                            Id = new Guid("01542ad7-82e1-4a29-83eb-e9555a2f9a37"),
-                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FatherName = "Escobar",
-                            FirstName = "Aaron",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
-                            MotherName = "White",
-                            SecondName = "Enrique",
-                            Sex = 0,
-                            SiblingCount = 0,
-                            TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
-                        },
-                        new
-                        {
-                            Id = new Guid("03cbf736-0adc-446a-8c5f-86c20c338c84"),
+                            Id = new Guid("0107af35-bb37-488e-bd67-0fda79132b6d"),
                             BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "Faringtom",
                             FirstName = "Aaron",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
-                            MotherName = "Snow",
-                            SecondName = "Eduardo",
-                            Sex = 0,
-                            SiblingCount = 0,
-                            TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
-                        },
-                        new
-                        {
-                            Id = new Guid("03de317f-f94d-4a37-9eff-bf1dcac32088"),
-                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FatherName = "Stackeetam",
-                            FirstName = "Lyan",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
-                            MotherName = "Washinton",
-                            SecondName = "Eduardo",
-                            Sex = 0,
-                            SiblingCount = 0,
-                            TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
-                        },
-                        new
-                        {
-                            Id = new Guid("069bb0ee-bdec-4415-97fb-114ed091e5cd"),
-                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FatherName = "Faringtom",
-                            FirstName = "Lyan",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
                             MotherName = "Washinton",
                             SecondName = "Carlos",
                             Sex = 0,
                             SiblingCount = 0,
                             TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
                         },
                         new
                         {
-                            Id = new Guid("07902544-6e07-43af-8345-f11948b179e2"),
-                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FatherName = "Lee",
-                            FirstName = "Aaron",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
-                            MotherName = "Worm",
-                            SecondName = "Carlos",
-                            Sex = 0,
-                            SiblingCount = 0,
-                            TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
-                        },
-                        new
-                        {
-                            Id = new Guid("07aa97d6-d54b-42de-8cd2-d40bea395461"),
-                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FatherName = "Lee",
-                            FirstName = "Johan",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
-                            MotherName = "Snow",
-                            SecondName = "Carlos",
-                            Sex = 0,
-                            SiblingCount = 0,
-                            TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
-                        },
-                        new
-                        {
-                            Id = new Guid("08340cda-5c08-4dee-945d-d469627884dc"),
+                            Id = new Guid("01b9678f-2082-4edf-8af7-191f1a512e89"),
                             BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "Faringtom",
                             FirstName = "Dylan",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
+                            MotherName = "Snow",
+                            SecondName = "Enrique",
+                            Sex = 0,
+                            SiblingCount = 0,
+                            TShirtSize = 0,
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
+                        },
+                        new
+                        {
+                            Id = new Guid("039f019c-28f9-4b73-ae43-c2ab9f31eb40"),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FatherName = "Lee",
+                            FirstName = "Lyan",
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
+                            MotherName = "White",
+                            SecondName = "Carlos",
+                            Sex = 0,
+                            SiblingCount = 0,
+                            TShirtSize = 0,
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
+                        },
+                        new
+                        {
+                            Id = new Guid("04629a6a-69b9-443d-b91b-f94b22322c00"),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FatherName = "Lee",
+                            FirstName = "Aaron",
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
                             MotherName = "Washinton",
                             SecondName = "Enrique",
                             Sex = 0,
                             SiblingCount = 0,
                             TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
                         },
                         new
                         {
-                            Id = new Guid("0924d5f0-63e8-41c9-8804-f90c34833ce6"),
+                            Id = new Guid("04a4d77d-3304-46f9-9028-a7c134c3b192"),
                             BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FatherName = "Escobar",
-                            FirstName = "Aaron",
-                            KindergarterId = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
+                            FirstName = "Lyan",
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
+                            MotherName = "Washinton",
+                            SecondName = "Enrique",
+                            Sex = 0,
+                            SiblingCount = 0,
+                            TShirtSize = 0,
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
+                        },
+                        new
+                        {
+                            Id = new Guid("0560d00b-fed5-4189-b35d-ea4d0d2486a7"),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FatherName = "Lee",
+                            FirstName = "Dylan",
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
                             MotherName = "Worm",
+                            SecondName = "Eduardo",
+                            Sex = 0,
+                            SiblingCount = 0,
+                            TShirtSize = 0,
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
+                        },
+                        new
+                        {
+                            Id = new Guid("05b1a20d-c9ac-4a95-a145-1924ce10efcd"),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FatherName = "Lee",
+                            FirstName = "Aaron",
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
+                            MotherName = "Washinton",
                             SecondName = "Emilio",
                             Sex = 0,
                             SiblingCount = 0,
                             TShirtSize = 0,
-                            TutorPrincipalId = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107")
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
+                        },
+                        new
+                        {
+                            Id = new Guid("06b0bfa1-2f69-4d49-86c8-2d51fb2836e7"),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FatherName = "Stackeetam",
+                            FirstName = "Aaron",
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
+                            MotherName = "Worm",
+                            SecondName = "Enrique",
+                            Sex = 0,
+                            SiblingCount = 0,
+                            TShirtSize = 0,
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
+                        },
+                        new
+                        {
+                            Id = new Guid("0d34c466-795d-4ad1-958a-3a193f97fda2"),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FatherName = "Escobar",
+                            FirstName = "Lyan",
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
+                            MotherName = "White",
+                            SecondName = "Emilio",
+                            Sex = 0,
+                            SiblingCount = 0,
+                            TShirtSize = 0,
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
+                        },
+                        new
+                        {
+                            Id = new Guid("0d78c112-5e27-402b-9517-90782fc5bdee"),
+                            BirthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FatherName = "Faringtom",
+                            FirstName = "Aaron",
+                            KindergarterId = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
+                            MotherName = "White",
+                            SecondName = "Emilio",
+                            Sex = 0,
+                            SiblingCount = 0,
+                            TShirtSize = 0,
+                            TutorPrincipalId = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54")
                         });
                 });
 
@@ -525,7 +527,7 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("633c9f03-1d50-483b-bdc4-2f1743b26dbc"),
+                            Id = new Guid("eb4df537-a2fe-4742-9199-1440d8f89257"),
                             Description = "KPH"
                         });
                 });
@@ -652,14 +654,8 @@ namespace KindergartenAppService.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("Facebook");
-
                     b.Property<string>("FirstName")
                         .IsRequired();
-
-                    b.Property<string>("Identification");
-
-                    b.Property<string>("Instagram");
 
                     b.Property<string>("LastName")
                         .IsRequired();
@@ -670,8 +666,6 @@ namespace KindergartenAppService.Migrations
 
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<int>("Relationship");
-
                     b.HasKey("Id");
 
                     b.ToTable("Tutors");
@@ -679,17 +673,15 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f4a95ab5-9a96-40d4-95be-6c8e036f5107"),
+                            Id = new Guid("ba831be7-0bd9-4e32-b355-f3de57a96f54"),
                             FirstName = "Gregorio de Jesus",
-                            LastName = "Rojas Acosta",
-                            Relationship = 0
+                            LastName = "Rojas Acosta"
                         },
                         new
                         {
-                            Id = new Guid("07662e45-c74c-471b-9a51-5eb0eab737c6"),
+                            Id = new Guid("96aa0978-cc00-435d-acbe-27b7fc1337da"),
                             FirstName = "Yadira",
-                            LastName = "Pinales Delgado",
-                            Relationship = 0
+                            LastName = "Pinales Delgado"
                         });
                 });
 
@@ -738,55 +730,55 @@ namespace KindergartenAppService.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0098aef8-199e-41c0-91b7-0e7b2da7592c"),
-                            Price = 7108m,
-                            Reference = "SRV-328",
-                            ActivityId = new Guid("659924bd-1522-430a-b521-423964bea024"),
+                            Id = new Guid("f93ccaec-86e8-423c-a2f8-c51b72c699e7"),
+                            Price = 6217m,
+                            Reference = "SRV-625",
+                            ActivityId = new Guid("71487dd9-0eed-44d9-aae5-9ddf085aefd0"),
                             Description = "Service Clases de ingles",
                             ServicePeriod = 77
                         },
                         new
                         {
-                            Id = new Guid("dc65a1f8-d529-4975-9aec-10cdb993878f"),
-                            Price = 727m,
-                            Reference = "SRV-146",
-                            ActivityId = new Guid("7c31f467-c0b1-4718-a92b-4fb078e34eb2"),
+                            Id = new Guid("2b5bdf62-11b5-4228-9331-473fa9438daa"),
+                            Price = 3951m,
+                            Reference = "SRV-769",
+                            ActivityId = new Guid("1290235e-1037-45d9-b9b3-4b5fc3918ada"),
                             Description = "Service Cuidade matutino",
                             ServicePeriod = 77
                         },
                         new
                         {
-                            Id = new Guid("efd16c04-5744-4717-b9fc-0e9e2e0a870e"),
-                            Price = 5294m,
-                            Reference = "SRV-507",
-                            ActivityId = new Guid("b1b3bed4-a201-4aa5-9837-da2ff76e035d"),
+                            Id = new Guid("1952abdc-a3ac-47d9-b881-106acff46e7f"),
+                            Price = 5201m,
+                            Reference = "SRV-168",
+                            ActivityId = new Guid("f0451cea-b825-4614-83b6-ea86c9d6b291"),
                             Description = "Service Cuidado Vespertino",
                             ServicePeriod = 77
                         },
                         new
                         {
-                            Id = new Guid("904507a1-c82d-4173-ae47-5c3895fc8c1f"),
-                            Price = 2957m,
-                            Reference = "SRV-558",
-                            ActivityId = new Guid("16706578-21d5-48c4-bbec-7cc8d7ecd6d9"),
+                            Id = new Guid("48eb5331-6082-4319-a22b-9f9138a2d816"),
+                            Price = 4009m,
+                            Reference = "SRV-123",
+                            ActivityId = new Guid("ed6d5ae4-ba00-40d4-8ea8-d382e5ea9de1"),
                             Description = "Service Cuidado dia completo",
                             ServicePeriod = 77
                         },
                         new
                         {
-                            Id = new Guid("448d9918-4d8e-45b4-8a29-5506a1ba7bf6"),
-                            Price = 560m,
-                            Reference = "SRV-966",
-                            ActivityId = new Guid("5e6a0154-ac07-4519-8513-fe9fe93ae6b9"),
+                            Id = new Guid("4647ecc2-0fa7-4e99-8fba-08fb493b69b8"),
+                            Price = 8049m,
+                            Reference = "SRV-997",
+                            ActivityId = new Guid("09660603-09fb-4f75-82bc-d827b0e14dc5"),
                             Description = "Service Clases de Ballet",
                             ServicePeriod = 77
                         },
                         new
                         {
-                            Id = new Guid("08267875-59c4-402c-abc8-9e0eaf01eabe"),
-                            Price = 4773m,
-                            Reference = "SRV-103",
-                            ActivityId = new Guid("7493eac5-b59c-4343-8c60-9d4363c0f37f"),
+                            Id = new Guid("cf9c50fa-5419-435d-b959-80679c893ca4"),
+                            Price = 849m,
+                            Reference = "SRV-862",
+                            ActivityId = new Guid("9227d683-1730-47af-8b3d-c409b32a4100"),
                             Description = "Service Clases de logica",
                             ServicePeriod = 77
                         });

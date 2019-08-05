@@ -63,10 +63,10 @@ namespace KindergartenAppService.Models
         public virtual Pediatrician Pediatrician { get; set; }
         public Guid? TutorPrincipalId { get; set; }
         public Tutor TutorPrincipal { get; set; }
-        //public virtual Guid? TutorSecundaryId { get; set; }
-        //public virtual Tutor TutorSecundary { get; set; }
-        //public virtual Guid? TutorAutorizeId { get; set; }
-        //public virtual Tutor TutorAutorize { get; set; }
+        public virtual Guid? TutorSecundaryId { get; set; }
+        public virtual Tutor TutorSecundary { get; set; }
+        public virtual Guid? TutorAutorizedId { get; set; }
+        public virtual Tutor TutorAutorized { get; set; }
         [Display(Prompt = "Guarderia Id", Name = "GuarderiaId")]
         public Guid KindergarterId { get; set; }
         [Display(Prompt = "Guarderia", Name = "Guarderia")]
