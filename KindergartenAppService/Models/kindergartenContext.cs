@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using KindergartenAppService.Models;
 
 namespace KindergartenAppService.Models
 {
@@ -58,6 +57,19 @@ namespace KindergartenAppService.Models
             //    .HasOne(p => p.Enrollment)
             //    .WithOne(i => i.Kid)
             //    .HasForeignKey<Enrollment>(e=>e.Kid);
+            //Multiple independent Tutors in Kid
+            //modelBuilder.Entity<Kid>()
+            //    .HasOne(k => k.Tutor)
+            //    .WithMany()
+            //    .HasForeignKey(k => k.TutorId);
+            //modelBuilder.Entity<Kid>()
+            //    .HasOne(k => k.TutorAutorize)
+            //    .WithMany()
+            //    .HasForeignKey(k => k.TutorAutorizeId);
+            //modelBuilder.Entity<Kid>()
+            //    .HasOne(k => k.TutorSecundary)
+            //    .WithMany()
+            //    .HasForeignKey(k => k.TutorSecundaryId);
             #endregion
             #region Seeding
             //Kindergarter
@@ -73,23 +85,27 @@ namespace KindergartenAppService.Models
             var services = GenerateServices(activities);
             //Tutor
             var tutors = GenerateTutors();
+            //Pediatrician
+            //var pediatrician = GeneratePediatrician();
             //Kids
             var kids = GenerateRandonKids(kindergarter, tutors, 10);
             //Enrollment
             var enrollments = GenerateEnrollments(kids.Take(5).ToList());
             //Activity enroll
-            var enrollActivities = GenerateEnrollActivities(enrollments,activities);
+            var enrollActivities = GenerateEnrollActivities(enrollments, activities);
 
             modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
             modelBuilder.Entity<ActivityTemplate>().HasData(activitiesTemplates);
             modelBuilder.Entity<Activity>().HasData(activities);
             modelBuilder.Entity<Service>().HasData(services);
             modelBuilder.Entity<Tutor>().HasData(tutors);
+            //modelBuilder.Entity<Pediatrician>().HasData(pediatrician);
             modelBuilder.Entity<Kid>().HasData(kids);
             modelBuilder.Entity<Enrollment>().HasData(enrollments);
             modelBuilder.Entity<EnrollActivity>().HasData(enrollActivities);
             #endregion
         }
+
 
         private List<EnrollActivity> GenerateEnrollActivities(List<Enrollment> enrollments, List<Activity> activities)
         {
@@ -104,7 +120,7 @@ namespace KindergartenAppService.Models
                     Id = Guid.NewGuid(),
                     ActivityId = activities[random.Next(activitiesCount)].Id,
                     EnrollmentId = enrollment.Id
-                    
+
                 });
 
             }
@@ -117,22 +133,25 @@ namespace KindergartenAppService.Models
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<KindergartenAppService.Models.Activity> Activity { get; set; }
+        ////public DbSet<KindergartenAppService.Models.Pediatrician> Pediatrician { get; set; }
         public DbSet<KindergartenAppService.Models.Kid> Kid { get; set; }
         public DbSet<KindergartenAppService.Models.Item> Item { get; set; }
         public DbSet<KindergartenAppService.Models.Product> Product { get; set; }
         public DbSet<KindergartenAppService.Models.Service> Service { get; set; }
+        public DbSet<KindergartenAppService.Models.ActivityTemplate> ActivityTemplate { get; set; }
+        public DbSet<KindergartenAppService.Models.EnrollActivity> EnrollActivity { get; set; }
 
         #region Seeding Methods
         private List<Enrollment> GenerateEnrollments(List<Kid> kids)
         {
             List<Enrollment> enrollments = new List<Enrollment>();
-            
+
             foreach (var kid in kids)
             {
                 enrollments.Add(new Enrollment
                 {
                     Id = Guid.NewGuid(),
-                    EnrollDay = new DateTime(2019,7,28),
+                    EnrollDay = new DateTime(2019, 7, 28),
                     KidId = kid.Id
                 });
             }
@@ -170,6 +189,34 @@ namespace KindergartenAppService.Models
                                MotherName = mn,
                                KindergarterId = kindergarter.Id,
                                TutorId = tutors[rnd.Next(count)].Id
+                           };
+            return kidsList.OrderBy(k => k.Id).Take(quantity).ToList();
+        }
+        private List<Kid> GenerateRandonKids(Kindergarter kindergarter, List<Tutor> tutors, Pediatrician pediatrician, int quantity)
+        {
+            List<Kid> kids = new List<Kid>();
+            string[] firstName = { "Johan", "Lyan", "Dylan", "Aaron" };
+            string[] secondName = { "Carlos", "Eduardo", "Enrique", "Emilio" };
+            string[] fatherName = { "Faringtom", "Escobar", "Lee", "Stackeetam" };
+            string[] motherName = { "Washinton", "White", "Worm", "Snow" };
+            Random rnd = new Random();
+
+            int count = tutors.Count - 1;
+
+            var kidsList = from fn in firstName
+                           from sn in secondName
+                           from an in fatherName
+                           from mn in motherName
+                           select new Kid
+                           {
+                               Id = Guid.NewGuid(),
+                               FirstName = fn,
+                               SecondName = sn,
+                               FatherName = an,
+                               MotherName = mn,
+                               KindergarterId = kindergarter.Id,
+                               TutorId = tutors[rnd.Next(count)].Id,
+                               //PediatricianId = pediatrician.Id
                            };
             return kidsList.OrderBy(k => k.Id).Take(quantity).ToList();
         }
@@ -225,9 +272,36 @@ namespace KindergartenAppService.Models
             );
             return activitytemplates;
         }
-        public DbSet<KindergartenAppService.Models.ActivityTemplate> ActivityTemplate { get; set; }
-        public DbSet<KindergartenAppService.Models.EnrollActivity> EnrollActivity { get; set; }
+        private Pediatrician GeneratePediatrician()
+        {
+            Pediatrician pediatrician = new Pediatrician
+            {
+                Id = Guid.NewGuid(),
+                Name = "Felipe Felix",
+                Address = "Address",
+                PhoneNumber = "809-852-8521"
+            };
+            return pediatrician;
+        }
+        private Pediatrician GeneratePediatrician(List<Kid> kids)
+        {
+            Pediatrician pediatrician = new Pediatrician
+            {
+                Id = Guid.NewGuid(),
+                Name = "Felipe Felix",
+                Address = "Address",
+                PhoneNumber = "809-852-8521"
+            };
+            if (kids.Count > 0)
+            {
+                foreach (Kid kid in kids)
+                {
+                    pediatrician.Kids.Add(kid);
+                }
 
+            }
+            return pediatrician;
+        }
         #endregion
     }
 }

@@ -7,6 +7,12 @@ namespace KindergartenAppService.Models
 {
     public class Tutor: UniqueEntity
     {
+        
+        
+        //[MinLength(10, ErrorMessage = "")]
+        //[Display(Prompt = "031-4585412-5", Name = "Cédula")]
+        //public string Identification { get; set; }
+
         [Required]
         [MinLength(10,ErrorMessage ="Este campo no permite menos de 10 caracteres.")]
         [Display(Prompt ="Gregorio de Jesus", Name ="Nombres")]
@@ -34,6 +40,15 @@ namespace KindergartenAppService.Models
         [MinLength(10,ErrorMessage ="Este campo no admite menos de 10 caracteres.")]
         [Display(Prompt = "Avenida siempre viva", Name = "Dirección")]
         public string Address { get; set; }
+
+        //[Display(Prompt = "", Name = "Parentezco")]
+        //public Relationship Relationship { get; set; }
+
+        //[Display(Prompt = "", Name = "Instagram")]
+        //public string Instagram { get; set; }
+
+        //[Display(Prompt = "", Name = "Facebook")]
+        //public string Facebook { get; set; }
 
 
         private string _fullName;
