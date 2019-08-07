@@ -86,7 +86,7 @@ namespace KindergartenAppService.Models
             //Tutor
             var tutors = GenerateTutors();
             //Pediatrician
-            //var pediatrician = GeneratePediatrician();
+            var pediatrician = GeneratePediatrician();
             //Kids
             var kids = GenerateRandonKids(kindergarter, tutors, 10);
             //Enrollment
@@ -99,7 +99,7 @@ namespace KindergartenAppService.Models
             modelBuilder.Entity<Activity>().HasData(activities);
             modelBuilder.Entity<Service>().HasData(services);
             modelBuilder.Entity<Tutor>().HasData(tutors);
-            //modelBuilder.Entity<Pediatrician>().HasData(pediatrician);
+            modelBuilder.Entity<Pediatrician>().HasData(pediatrician);
             modelBuilder.Entity<Kid>().HasData(kids);
             modelBuilder.Entity<Enrollment>().HasData(enrollments);
             modelBuilder.Entity<EnrollActivity>().HasData(enrollActivities);
@@ -133,7 +133,7 @@ namespace KindergartenAppService.Models
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<KindergartenAppService.Models.Activity> Activity { get; set; }
-        ////public DbSet<KindergartenAppService.Models.Pediatrician> Pediatrician { get; set; }
+        public DbSet<KindergartenAppService.Models.Pediatrician> Pediatrician { get; set; }
         public DbSet<KindergartenAppService.Models.Kid> Kid { get; set; }
         public DbSet<KindergartenAppService.Models.Item> Item { get; set; }
         public DbSet<KindergartenAppService.Models.Product> Product { get; set; }

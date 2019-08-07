@@ -53,6 +53,8 @@ namespace KindergartenAppService.Controllers
         {
             ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description");
             ViewData["TutorId"] = new SelectList(_context.Tutors, "Id", "FullName");
+            ViewData["PediatricianId"] = new SelectList(_context.Pediatrician, "Id", "Name");
+            var a = _context.Pediatrician;
             return View();
         }
 
