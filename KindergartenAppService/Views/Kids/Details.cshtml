@@ -17,55 +17,110 @@
     <div class="container">
         <div class="row">
 
-            <div class="col-6">
+            <div class="col-7">
+
                 <dl class="row">
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-4">
                         @Html.DisplayNameFor(model => model.FirstName)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.FirstName)
                     </dd>
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-4">
                         @Html.DisplayNameFor(model => model.SecondName)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.SecondName)
                     </dd>
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-4">
                         @Html.DisplayNameFor(model => model.FatherName)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.FatherName)
                     </dd>
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-4">
                         @Html.DisplayNameFor(model => model.MotherName)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.MotherName)
                     </dd>
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-4">
                         @Html.DisplayNameFor(model => model.BirthDate)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.BirthDate)
                     </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.Kindergarter)
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Sex)
                     </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.Kindergarter.Description)
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Sex)
                     </dd>
-                    <dt class="col-sm-2">
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.FavoriteActivities)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.FavoriteActivities)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.SiblingCount)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.SiblingCount)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.TShirtSize)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.TShirtSize)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Diseases)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Diseases)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Pediatrician)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Pediatrician.Name)
+                    </dd>
+                    <dt class="col-sm-4">
                         @Html.DisplayNameFor(model => model.TutorPrincipal)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-8">
                         @Html.DisplayFor(model => model.TutorPrincipal.FullName)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.TutorSecundary)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.TutorSecundary.FullName)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.TutorAutorized)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.TutorAutorized.FirstName)
+                    </dd>
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Kindergarter)
+                    </dt>
+                    <dd class="col-sm-8">
+                        @Html.DisplayFor(model => model.Kindergarter.Description)
                     </dd>
                 </dl>
 
             </div>
             @* Enrollment *@
-        <div class="col-6">
+        <div class="col-5">
             @if (Model.Enrollment != null)
             {
 

@@ -35,6 +35,9 @@ namespace KindergartenAppService.Controllers
             var kid = await _context.Kid
                 .Include(k => k.Kindergarter)
                 .Include(k => k.TutorPrincipal)
+                .Include(k => k.TutorSecundary)
+                .Include(k => k.TutorAutorized)
+                .Include(k => k.Pediatrician)
                 .Include(k => k.Enrollment)
                 .Include(k => k.Enrollment.EnrollActivities)
                 .Include("Enrollment.EnrollActivities")
@@ -63,7 +66,8 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,SecondName,FatherName,MotherName,KindergarterId,TutorId,Id")] Kid kid)
+        public async Task<IActionResult> Create([Bind("FirstName,SecondName,FatherName,MotherName,Diseases,TShirtSize,SiblingCount,FavoriteActivities," +
+            "Address,Sex,KindergarterId,TutorPrincipalId,TutorSecundaryId,TutorAutorizedId,PediatricianId,Id")] Kid kid)
         {
             if (ModelState.IsValid)
             {
