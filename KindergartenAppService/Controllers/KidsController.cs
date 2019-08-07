@@ -20,7 +20,7 @@ namespace KindergartenAppService.Controllers
         // GET: Kids
         public async Task<IActionResult> Index()
         {
-            var kindergarterContext = _context.Kid.Include(k => k.Kindergarter).Include(k => k.TutorPrincipal);
+            var kindergarterContext = _context.Kid.Include(k => k.Kindergarter).Include(k => k.TutorPrincipal).Include(k=>k.Enrollment);
             return View(await kindergarterContext.ToListAsync());
         }
 

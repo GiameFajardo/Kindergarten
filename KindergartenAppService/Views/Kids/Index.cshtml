@@ -21,6 +21,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.TutorPrincipal)
             </th>
+            <th>
+                Inscrito
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,6 +39,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TutorPrincipal.FullName)
             </td>
+
+            @if (item.Enrollment != null)
+            {
+                <td>Si</td>
+            }
+            else
+            {
+                <td>No</td>
+            }
             <td>
                 <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                 <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
