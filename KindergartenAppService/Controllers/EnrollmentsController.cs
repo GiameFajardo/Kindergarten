@@ -62,7 +62,7 @@ namespace KindergartenAppService.Controllers
             }
             else
             {
-                ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName");
+                ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FullName");
                 return View();
             }
         }
@@ -81,7 +81,7 @@ namespace KindergartenAppService.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName", enrollment.KidId);
+            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FullName", enrollment.KidId);
             return View(enrollment);
         }
 
@@ -98,7 +98,7 @@ namespace KindergartenAppService.Controllers
             {
                 return NotFound();
             }
-            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName", enrollment.KidId);
+            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FullName", enrollment.KidId);
             return View(enrollment);
         }
 
@@ -134,7 +134,7 @@ namespace KindergartenAppService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FatherName", enrollment.KidId);
+            ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FullName", enrollment.KidId);
             return View(enrollment);
         }
 

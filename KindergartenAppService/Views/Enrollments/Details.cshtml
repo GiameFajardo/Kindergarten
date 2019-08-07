@@ -1,13 +1,13 @@
 ﻿@model KindergartenAppService.Models.Enrollment
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de inscripción";
 }
 
-<h1>Details</h1>
+<h1>Detalles</h1>
 
 <div>
-    <h4>Enrollment</h4>
+    <h4>Inscripción</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -20,7 +20,7 @@
             @Html.DisplayNameFor(model => model.Kid)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Kid.FatherName)
+            @Html.DisplayFor(model => model.Kid.FullName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Comment)
@@ -31,6 +31,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Retornar al listado</a>
 </div>
