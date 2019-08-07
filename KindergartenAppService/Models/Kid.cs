@@ -59,13 +59,21 @@ namespace KindergartenAppService.Models
             }
             set { _fullname = value; }
         }
+        [Display(Prompt = "", Name = "Pediatra")]
         public virtual Guid? PediatricianId { get; set; }
+        [Display(Prompt = "", Name = "Pediatra")]
         public virtual Pediatrician Pediatrician { get; set; }
+        [Display(Prompt = "", Name = "Tutor principal")]
         public Guid? TutorPrincipalId { get; set; }
+        [Display(Prompt = "", Name = "Tutor principal")]
         public Tutor TutorPrincipal { get; set; }
+        [Display(Prompt = "", Name = "Tutor secundario")]
         public virtual Guid? TutorSecundaryId { get; set; }
+        [Display(Prompt = "", Name = "Tutor secundario")]
         public virtual Tutor TutorSecundary { get; set; }
+        [Display(Prompt = "", Name = "Tutor autorizado")]
         public virtual Guid? TutorAutorizedId { get; set; }
+        [Display(Prompt = "", Name = "Tutor autorizado")]
         public virtual Tutor TutorAutorized { get; set; }
         [Display(Prompt = "Guarderia Id", Name = "GuarderiaId")]
         public Guid KindergarterId { get; set; }

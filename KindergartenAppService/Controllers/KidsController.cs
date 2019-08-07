@@ -100,6 +100,7 @@ namespace KindergartenAppService.Controllers
             }
             ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description", kid.KindergarterId);
             ViewData["TutorId"] = new SelectList(_context.Tutors, "Id", "FullName", kid.TutorPrincipalId);
+            ViewData["PediatricianId"] = new SelectList(_context.Pediatrician, "Id", "Name");
             return View(kid);
         }
 
@@ -108,7 +109,8 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,SecondName,FatherName,MotherName,KindergarterId,TutorId,Id")] Kid kid)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,SecondName,FatherName,MotherName,Diseases,TShirtSize,SiblingCount,FavoriteActivities," +
+            "Address,Sex,KindergarterId,TutorPrincipalId,TutorSecundaryId,TutorAutorizedId,PediatricianId,Id")] Kid kid)
         {
             if (id != kid.Id)
             {
