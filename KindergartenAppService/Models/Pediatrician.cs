@@ -21,7 +21,7 @@ namespace KindergartenAppService.Models
         public string Address { get; set; }
 
         [Phone]
-        [Display(Prompt = "829-234-5674", Name = "Telefono")]
+        [Display(Prompt = "829-234-5674", Name = "Teléfono")]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
