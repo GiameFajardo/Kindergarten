@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="container">
                 <div class="row">
-                    <div class="col col-6">
+                    <div class="col col-12 col-lg-6">
 
                         <div class="form-group">
                             <label asp-for="FirstName" class="control-label"></label>
@@ -47,7 +47,7 @@
                             @*<select asp-for="Sex" class="form-control"></select>*@
                             @Html.DropDownList(
                                 "Sex", Html.GetEnumSelectList<Sex>(),
-                                "Selecciona un Sexo",
+                                "Selecciona un Género",
                                 new { @class = "form-control" })
                             <span asp-validation-for="Sex" class="text-danger"></span>
                         </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                 
-                    <div class="col col-6">
+                    <div class="col col-12 col-lg-6">
                         <div class="form-group">
                             <label asp-for="TutorPrincipal" class="control-label"></label>
                             <select asp-for="TutorPrincipalId" class="form-control" asp-items="ViewBag.TutorId"></select>
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                         <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <input type="submit" value="Crear" class="btn btn-primary" />
                         </div>
                     </div>
                 </div>

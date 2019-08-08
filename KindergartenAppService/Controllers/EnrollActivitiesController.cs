@@ -20,7 +20,7 @@ namespace KindergartenAppService.Controllers
         // GET: EnrollActivities
         public async Task<IActionResult> Index()
         {
-            var kindergarterContext = _context.EnrollActivity.Include(e => e.Activity).Include(e => e.Enrollment);
+            var kindergarterContext = _context.EnrollActivity.Include(e => e.Activity).Include(e => e.Enrollment.Kid);
             return View(await kindergarterContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace KindergartenAppService.Controllers
 
             var enrollActivity = await _context.EnrollActivity
                 .Include(e => e.Activity)
-                .Include(e => e.Enrollment)
+                .Include(e => e.Enrollment.Kid)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (enrollActivity == null)
             {
@@ -52,7 +52,7 @@ namespace KindergartenAppService.Controllers
                 var enroll = _context.Enrollments.FindAsync(TempData["Enroll"]).Result;
 
                 ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
-                ViewData["EnrollmentId"] = new SelectList(_context.Enrollments, "Id", "Id");
+                ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(e=>e.Kid), "Id", "Kid.FullName");
                 if (enroll != null)
                 {
                     var enrollActivity = new EnrollActivity { EnrollmentId = enroll.Id };
@@ -63,7 +63,8 @@ namespace KindergartenAppService.Controllers
                 return View();
             }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
-            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments, "Id", "Id");
+            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(e => e.Kid), "Id", "Kid.FullName");
+
             return View();
         }
 
@@ -112,7 +113,8 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", enrollActivity.ActivityId);
-            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments, "Id", "Id", enrollActivity.EnrollmentId);
+            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(e => e.Kid), "Id", "Kid.FullName");
+
             return View(enrollActivity);
         }
 
@@ -149,7 +151,7 @@ namespace KindergartenAppService.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", enrollActivity.ActivityId);
-            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments, "Id", "Id", enrollActivity.EnrollmentId);
+            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(e => e.Kid), "Id", "Kid.FullName");
             return View(enrollActivity);
         }
 
@@ -163,7 +165,7 @@ namespace KindergartenAppService.Controllers
 
             var enrollActivity = await _context.EnrollActivity
                 .Include(e => e.Activity)
-                .Include(e => e.Enrollment)
+                .Include(e => e.Enrollment.Kid)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (enrollActivity == null)
             {

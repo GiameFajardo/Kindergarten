@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.Activity.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Enrollment.Id)
+                @Html.DisplayFor(modelItem => item.Enrollment.Kid.FullName)
             </td>
             <td>
                 <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a> 

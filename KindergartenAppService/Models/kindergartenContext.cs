@@ -94,15 +94,15 @@ namespace KindergartenAppService.Models
             //Activity enroll
             var enrollActivities = GenerateEnrollActivities(enrollments, activities);
 
-            modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
-            modelBuilder.Entity<ActivityTemplate>().HasData(activitiesTemplates);
-            modelBuilder.Entity<Activity>().HasData(activities);
-            modelBuilder.Entity<Service>().HasData(services);
-            modelBuilder.Entity<Tutor>().HasData(tutors);
-            modelBuilder.Entity<Pediatrician>().HasData(pediatrician);
-            modelBuilder.Entity<Kid>().HasData(kids);
-            modelBuilder.Entity<Enrollment>().HasData(enrollments);
-            modelBuilder.Entity<EnrollActivity>().HasData(enrollActivities);
+            //modelBuilder.Entity<Kindergarter>().HasData(kindergarter);
+            //modelBuilder.Entity<ActivityTemplate>().HasData(activitiesTemplates);
+            //modelBuilder.Entity<Activity>().HasData(activities);
+            //modelBuilder.Entity<Service>().HasData(services);
+            //modelBuilder.Entity<Tutor>().HasData(tutors);
+            //modelBuilder.Entity<Pediatrician>().HasData(pediatrician);
+            //modelBuilder.Entity<Kid>().HasData(kids);
+            //modelBuilder.Entity<Enrollment>().HasData(enrollments);
+            //modelBuilder.Entity<EnrollActivity>().HasData(enrollActivities);
             #endregion
         }
 

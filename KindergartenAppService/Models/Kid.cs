@@ -25,7 +25,7 @@ namespace KindergartenAppService.Models
         [Display(Name = "Fecha de nacimiento")]
         public DateTime BirthDate { get; set; }
 
-        [Display(Name = "Sexo")]
+        [Display(Name = "Género")]
         public Sex Sex { get; set; }
 
         [Display(Prompt = "c/ Los rieles, Res. Jardines edf. 3 apto. 1B", Name = "Dirección")]

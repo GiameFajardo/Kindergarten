@@ -7,6 +7,8 @@ namespace KindergartenAppService.Models
 {
     public enum TShirtSize
     {
-        Four = '4'
+        Two = '2',
+        Four = '4',
+        Six = '6'
     }
 }
