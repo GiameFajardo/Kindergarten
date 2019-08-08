@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KindergartenAppService.Models
 {
-    public class User:UniqueEntity
+    public class AppUser:UniqueEntity
     {
         public string UserName { get; set; }
         public string Password { get; set; }

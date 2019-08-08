@@ -23,6 +23,7 @@ namespace KindergartenAppService.Models
         public string MotherName { get; set; }
 
         [Display(Name = "Fecha de nacimiento")]
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Género")]

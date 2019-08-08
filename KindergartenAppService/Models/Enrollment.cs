@@ -7,6 +7,7 @@ namespace KindergartenAppService.Models
     public class Enrollment :UniqueEntity
     {
         [Display(Prompt = "", Name = "Fecha de inscripción")]
+        [DataType(DataType.Date)]
         public DateTime EnrollDay { get; set; }
         [Display(Prompt = "", Name = "Niño")]
         public Guid KidId { get; set; }
