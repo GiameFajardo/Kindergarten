@@ -52,6 +52,8 @@ namespace KindergartenAppService.Controllers
                 var kid = _context.Kid.FindAsync(TempData["Kid"]).Result;
                 ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FullName");
                 ViewData["Now"] = DateTime.Now;
+                ViewBag.CameFromKid = TempData["CameFromKid"];
+
                 if (kid != null)
                 {
                     var enrollment = new Enrollment { EnrollDay = DateTime.Now, KidId = kid.Id};
@@ -79,7 +81,18 @@ namespace KindergartenAppService.Controllers
                 enrollment.Id = Guid.NewGuid();
                 _context.Add(enrollment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var kidId = await _context.Kid.SingleOrDefaultAsync(k => k.Enrollment.Id == enrollment.Id);
+
+                if (TempData["ComeFromKid"] != null)
+                {
+
+                    return RedirectToAction("Details", "Kids", kidId);
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+
+                }
             }
             ViewData["KidId"] = new SelectList(_context.Kid, "Id", "FullName", enrollment.KidId);
             return View(enrollment);

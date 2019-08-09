@@ -2,8 +2,7 @@
 
 @{
     ViewData["Title"] = "Inscribir niño";
-    //var date =(DateTime)ViewData["Now"];
-    //Model.EnrollDay = date;
+    TempData["ComeFromKid"] = ViewData["CameFromKid"];
 }
 
 <h1>Crear</h1>
@@ -16,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EnrollDay" class="control-label"></label>
-                @if (ViewData["Now"] != null)
+                @if (ViewData["CameFromKid"] != null)
 	            {
                     <input asp-for="EnrollDay" class="form-control"/>
                 }
@@ -29,9 +28,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="KidId" class="control-label"></label>
-                @if (ViewData["Now"] != null)
+                @if (ViewData["CameFromKid"] != null)
                 {
-                    <select asp-for="KidId" class="form-control" asp-items="ViewBag.KidId" ></select>
+                        
+                    
+                    <select asp-for="KidId" class="form-control" asp-items="ViewBag.KidId"></select>
                 }
                 else
                 {
