@@ -188,5 +188,11 @@ namespace KindergartenAppService.Controllers
             TempData["CameFromKid"] = "true";
             return RedirectToAction("Create", "EnrollActivities");
         }
+        public async Task<IActionResult> AssignPediatrician(Guid? id)
+        {
+            TempData["Kid"] = id;
+            TempData["CameFromKid"] = "true";
+            return RedirectToAction("Create", "Pediatrician");
+        }
     }
 }
