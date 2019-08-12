@@ -15,11 +15,75 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="ActivityId" class="control-label"></label>
-                <select asp-for="ActivityId" class ="form-control" asp-items="ViewBag.ActivityId"></select>
+                <select asp-for="ActivityId" class="form-control" asp-items="ViewBag.ActivityId"></select>
+                <script>
+                     function AddService(id)
+                     {
+                         //url.action('EnrollActivities', 'AddService');
+                         window.location.href = '@Url.Action("AddService", "EnrollActivities")/?a="1"&b="@Model.ActivityId"';
+
+                         //var dataToPost = {a:"",b:""};
+
+                         //$.post("EnrollActivities/AddService", dataToPost);
+                            //.done(function(response, status, jqxhr){ 
+                            //    // this is the "success" callback
+                            //})
+                            //.fail(function(jqxhr, status, error){ 
+                            //    // this is the ""error"" callback
+                            //})
+                         //$.ajax({
+                         //    method: 'GET',
+                         //    url: 'AddService',
+                         //    data: { id: id }
+                         //}).done(function() {
+                         //    alert('Added'); 
+                         //});
+                     }
+                </script>
+                @Html.DropDownListFor(m => m.ActivityId, ViewBag.ActivityId as SelectList, new { @class = "EnrollActivities", @onchange = "AddService()", id = "ActivityId2" })
+                <script src="~/lib/jquery/dist/jquery.js">
+                    
+                </script>
+                <script>
+                    $(document).ready(function(){
+                        $("#ActivityId2").change(function () {
+                            alert("Done!");
+                            
+                               $.@*ajax({
+                                  url: 'EnrollActivities/AddService',
+                                  data: @Model
+                               }).done(function() {
+                                  alert('Added'); 
+                               });*@
+
+
+                            //url.action('EnrollActivities', 'AddService');
+                        })
+                    })
+                   @* $(document).ready(function () {
+                        $("ActivityId").change(function () {
+                            var a = $("ActivityId Option:Selected").text();
+                            alert(a);
+                        })
+                    })*@
+                </script>
             </div>
             <div class="form-group">
                 <label asp-for="EnrollmentId" class="control-label"></label>
-                <select asp-for="EnrollmentId" class ="form-control" asp-items="ViewBag.EnrollmentId"></select>
+                <select asp-for="EnrollmentId" class="form-control" asp-items="ViewBag.EnrollmentId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ServiceId" class="control-label"></label>
+                <select asp-for="ServiceId" class="form-control" asp-items="ViewBag.ServiceId"></select>
+                @Html.DropDownListFor(m => m.ServiceId, ViewBag.ServiceId as SelectList,new { @class = "Activities", @onchange = "AddService()", id = "ServiceId" })
+                <script>
+                    $(document).ready(function () {
+                        $("ServiceId").change(function () {
+                            var a = $("ServiceId Option:Selected").text();
+                            alert(a);
+                        })
+                    })
+                </script>
             </div>
             <div class="form-group">
                 <input type="submit" value="Registrar" class="btn btn-primary" />

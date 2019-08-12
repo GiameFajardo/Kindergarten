@@ -51,8 +51,18 @@ namespace KindergartenAppService.Controllers
             {
                 var enroll = _context.Enrollments.FindAsync(TempData["Enroll"]).Result;
 
-                ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
+                var activities = _context.Activity;
+                ViewData["ActivityId"] = new SelectList(activities, "Id", "Description");
+
+
                 ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(e=>e.Kid), "Id", "Kid.FullName");
+
+                if (activities.ToList().Count > 0)
+                {
+                    ViewData["ServiceId"] = new SelectList(_context.Service
+                        .Where(s=>s.ActivityId == activities.First().Id), "Id", "PriceDescription");
+                }
+
                 if (enroll != null)
                 {
                     var enrollActivity = new EnrollActivity { EnrollmentId = enroll.Id };
@@ -189,6 +199,20 @@ namespace KindergartenAppService.Controllers
         private bool EnrollActivityExists(Guid id)
         {
             return _context.EnrollActivity.Any(e => e.Id == id);
+        }
+        //public async Task<IActionResult> AddService(string a)
+        //{
+        //    var param = a;
+        //    return RedirectToAction(nameof(Index));
+        //}
+        //[HttpPost, ActionName("AddService")]
+        public async Task<IActionResult> AddService(string a, string b)
+        {
+
+            var param = a;
+            var param2 = b;
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
