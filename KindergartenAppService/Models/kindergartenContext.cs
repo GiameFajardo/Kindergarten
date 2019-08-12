@@ -70,6 +70,13 @@ namespace KindergartenAppService.Models
                 .HasOne(k => k.TutorSecundary)
                 .WithMany()
                 .HasForeignKey(k => k.TutorSecundaryId);
+            //Reference Service to EnrollActivity handeling
+            //cycles or multiple cascade paths
+            modelBuilder.Entity<EnrollActivity>()
+                .HasOne(e => e.Service)
+                .WithMany(s => s.EnrollActivities)
+                .HasForeignKey(e => e.ServiceId)
+                .OnDelete(DeleteBehavior.Restrict);
             #endregion
             #region Seeding
             //Kindergarter

@@ -12,6 +12,8 @@
     <Compile Remove="Migrations\20190805212320_Adding_Tutors_to_Kid.Designer.cs" />
     <Compile Remove="Migrations\20190805215358_Adding_Tutors_to_Kid.cs" />
     <Compile Remove="Migrations\20190805215358_Adding_Tutors_to_Kid.Designer.cs" />
+    <Compile Remove="Migrations\20190811230915_adding_Service_to_EnrollActivity.cs" />
+    <Compile Remove="Migrations\20190811230915_adding_Service_to_EnrollActivity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

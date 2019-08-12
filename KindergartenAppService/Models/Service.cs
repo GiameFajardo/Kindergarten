@@ -17,5 +17,7 @@ namespace KindergartenAppService.Models
         public Activity Activity { get; set; }
         [Display(Name ="Periodo",Prompt ="Seleccione un periodo")]
         public ServicePeriod ServicePeriod { get; set; }
+        [Display(Prompt = "", Name = "Actividades registradas")]
+        public virtual ICollection<EnrollActivity> EnrollActivities { get; set; }
     }
 }
