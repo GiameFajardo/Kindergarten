@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KindergartenAppService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using KindergartenAppService.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KindergartenAppService.Controllers
 {
@@ -21,8 +21,9 @@ namespace KindergartenAppService.Controllers
         // GET: Invoices
         public async Task<IActionResult> Index()
         {
-            var kindergartenContext = _context.Invoices.Include(i => i.Kid);
-            return View(await kindergartenContext.ToListAsync());
+            //var kindergartenContext = _context.Invoices.Include(i => i.Kid);
+            var kindergartenContext = GenerateInvoices();
+            return View(kindergartenContext.ToList());
         }
 
         // GET: Invoices/Details/5
@@ -151,34 +152,46 @@ namespace KindergartenAppService.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> GenerateInvoices()
+        public List<Invoice> GenerateInvoices()
         {
             List<Invoice> invoices = new List<Invoice>();
             List<InvoiceDetail> details = new List<InvoiceDetail>();
-            var enrollActivities =  _context.EnrollActivity;
+            var enrollActivities = _context.EnrollActivity
+                .Include(e=>e.Enrollment)
+                .Include(e=>e.Activity)
+                .Include(e=>e.Service)
+                .Where(e=>e.EnrollmentId != null &&
+                          e.ServiceId != null);
             var enrollActByKid = enrollActivities.GroupBy(e => e.EnrollmentId);
-            foreach (var kidGroup in enrollActByKid)
+            if (enrollActivities != null)
             {
-                var invoice = new Invoice
-                {
-                    Date = DateTime.Now,
-                    KidId = kidGroup.First().Enrollment.KidId,
-                    Id = Guid.NewGuid()
-                };
-                foreach (var activity in kidGroup)
-                {
 
-                    details.Add(new InvoiceDetail
+                foreach (var kidGroup in enrollActByKid)
+                {
+                    var invoice = new Invoice
                     {
-                        Amount = activity.Service.Price,
-                        ItemId = activity.ServiceId.Value,
-                        Quantity = 1,
-                        Id = Guid.NewGuid(),
-                        
-                    });
+                        Date = DateTime.Now,
+                        KidId = kidGroup.First().Enrollment.KidId,
+                        Id = Guid.NewGuid()
+                    };
+                    foreach (var activity in kidGroup)
+                    {
+
+                        details.Add(new InvoiceDetail
+                        {
+                            Amount = activity.Service.Price,
+                            ItemId = activity.ServiceId.Value,
+                            Quantity = 1,
+                            Id = Guid.NewGuid(),
+                            InvoiceId = invoice.Id
+                        });
+                    }
+                    invoices.Add(invoice);
                 }
+                
             }
-            return null;
+
+            return invoices;
         }
         private bool InvoiceExists(Guid id)
         {

@@ -77,6 +77,12 @@ namespace KindergartenAppService.Models
                 .WithMany(s => s.EnrollActivities)
                 .HasForeignKey(e => e.ServiceId)
                 .OnDelete(DeleteBehavior.Restrict);
+            //Configuration for Invoice and details
+            modelBuilder.Entity<InvoiceDetail>()
+                .HasOne(d => d.Invoice)
+                .WithMany(i => i.InvoiceDetails)
+                .HasForeignKey(d => d.InvoiceId)
+                .OnDelete(DeleteBehavior.Restrict);
             #endregion
             #region Seeding
             //Kindergarter
