@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,6 +36,7 @@ namespace KindergartenAppService.Controllers
             var enrollActivity = await _context.EnrollActivity
                 .Include(e => e.Activity)
                 .Include(e => e.Enrollment.Kid)
+                .Include(e=>e.Service)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (enrollActivity == null)
             {
@@ -50,7 +52,7 @@ namespace KindergartenAppService.Controllers
             if (TempData["Enroll"] != null)
             {
                 var enroll = _context.Enrollments.FindAsync(TempData["Enroll"]).Result;
-
+                Guid activityId = new Guid();
                 var activities = _context.Activity;
                 ViewData["ActivityId"] = new SelectList(activities, "Id", "Description");
 
@@ -59,22 +61,47 @@ namespace KindergartenAppService.Controllers
 
                 if (activities.ToList().Count > 0)
                 {
-                    ViewData["ServiceId"] = new SelectList(_context.Service
-                        .Where(s=>s.ActivityId == activities.First().Id), "Id", "PriceDescription");
+                    if(TempData["Activity"]!= null)
+                    {
+                        var id = TempData["Activity"].ToString();
+                        activityId = new Guid(id);
+                        ViewData["ServiceId"] = new SelectList(_context.Service
+                           .Where(s => s.ActivityId == activityId), "Id", "PriceDescription");
+                    }
+                    else
+                    {
+                        ViewData["ServiceId"] = new SelectList(_context.Service
+                            .Where(s=>s.ActivityId == activities.First().Id), "Id", "PriceDescription");
+                    }
                 }
 
                 if (enroll != null)
                 {
-                    var enrollActivity = new EnrollActivity { EnrollmentId = enroll.Id };
+                    EnrollActivity enrollActivity = new EnrollActivity();
+                    if (activityId != null)
+                    {
+
+                        enrollActivity = new EnrollActivity { EnrollmentId = enroll.Id , ActivityId = activityId};
+                    }
+                    else
+                    {
+                        enrollActivity = new EnrollActivity { EnrollmentId = enroll.Id };
+
+                    }
                     ViewBag.CameFromKid = TempData["CameFromKid"];
                     return View(enrollActivity);
                 }
 
                 return View();
             }
+
+            if(TempData["Enroll"] != null)
+            {
+
+            }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
             ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(e => e.Kid), "Id", "Kid.FullName");
-
+            ViewBag.CameFromKid = TempData["CameFromKid"];
             return View();
         }
 
@@ -209,10 +236,20 @@ namespace KindergartenAppService.Controllers
         public async Task<IActionResult> AddService(string a, string b)
         {
 
-            var param = a;
-            var param2 = b;
-
-            return RedirectToAction(nameof(Index));
+            var data2 = JsonConvert.DeserializeObject<String>(a);
+            Guid id = new Guid(data2);
+            Guid activityId = new Guid(b);
+            var enrollment = await _context.Enrollments.FindAsync(id);
+            var services = _context.Service.Where(s => s.ActivityId == activityId);
+            var enrollActivity = new EnrollActivity
+            {
+                EnrollmentId = enrollment.Id,
+                ActivityId = activityId
+            };
+            TempData["CameFromKid"] = "true";
+            TempData["Enroll"] = enrollment.Id;
+            TempData["Activity"] = activityId;
+            return RedirectToAction("Create", "EnrollActivities",enrollActivity);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace KindergartenAppService.Models
         [NotMapped]
         public string PriceDescription
         {
-            get { return Description + " - " + Price; }
+            get { return Description + " - "+ ServicePeriod + " - "+ Price; }
             private set { _priceDescription = value; }
         }
 

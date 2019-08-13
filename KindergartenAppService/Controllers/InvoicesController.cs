@@ -151,7 +151,35 @@ namespace KindergartenAppService.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> GenerateInvoices()
+        {
+            List<Invoice> invoices = new List<Invoice>();
+            List<InvoiceDetail> details = new List<InvoiceDetail>();
+            var enrollActivities =  _context.EnrollActivity;
+            var enrollActByKid = enrollActivities.GroupBy(e => e.EnrollmentId);
+            foreach (var kidGroup in enrollActByKid)
+            {
+                var invoice = new Invoice
+                {
+                    Date = DateTime.Now,
+                    KidId = kidGroup.First().Enrollment.KidId,
+                    Id = Guid.NewGuid()
+                };
+                foreach (var activity in kidGroup)
+                {
 
+                    details.Add(new InvoiceDetail
+                    {
+                        Amount = activity.Service.Price,
+                        ItemId = activity.ServiceId.Value,
+                        Quantity = 1,
+                        Id = Guid.NewGuid(),
+                        
+                    });
+                }
+            }
+            return null;
+        }
         private bool InvoiceExists(Guid id)
         {
             return _context.Invoices.Any(e => e.Id == id);
