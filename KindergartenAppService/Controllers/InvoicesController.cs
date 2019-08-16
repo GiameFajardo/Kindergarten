@@ -157,7 +157,7 @@ namespace KindergartenAppService.Controllers
             List<Invoice> invoices = new List<Invoice>();
             List<InvoiceDetail> details = new List<InvoiceDetail>();
             var enrollActivities = _context.EnrollActivity
-                .Include(e=>e.Enrollment)
+                .Include(e=>e.Enrollment.Kid.TutorPrincipal)
                 .Include(e=>e.Activity)
                 .Include(e=>e.Service)
                 .Where(e=>e.EnrollmentId != null &&
@@ -165,18 +165,19 @@ namespace KindergartenAppService.Controllers
             var enrollActByKid = enrollActivities.GroupBy(e => e.EnrollmentId);
             if (enrollActivities != null)
             {
-
                 foreach (var kidGroup in enrollActByKid)
                 {
+                    decimal acumulativeAmount = 0;
                     var invoice = new Invoice
                     {
                         Date = DateTime.Now,
                         KidId = kidGroup.First().Enrollment.KidId,
+                        Kid= kidGroup.First().Enrollment.Kid,
                         Id = Guid.NewGuid()
                     };
                     foreach (var activity in kidGroup)
                     {
-
+                        acumulativeAmount += activity.Service.Price;
                         details.Add(new InvoiceDetail
                         {
                             Amount = activity.Service.Price,
@@ -186,6 +187,7 @@ namespace KindergartenAppService.Controllers
                             InvoiceId = invoice.Id
                         });
                     }
+                    invoice.Price = acumulativeAmount;
                     invoices.Add(invoice);
                 }
                 
