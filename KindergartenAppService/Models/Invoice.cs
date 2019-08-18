@@ -16,6 +16,6 @@ namespace KindergartenAppService.Models
         public virtual ICollection<Payment> Payments { get; set; }
         [Display(Name = "Precio", Prompt = "3,000.00")]
         public decimal Price { get; set; }
-
+        public InvoiceStatus Status { get; set; }
     }
 }

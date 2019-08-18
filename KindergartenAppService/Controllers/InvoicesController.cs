@@ -23,7 +23,78 @@ namespace KindergartenAppService.Controllers
         {
             //var kindergartenContext = _context.Invoices.Include(i => i.Kid);
             var kindergartenContext = GenerateInvoices();
-            return View(kindergartenContext.ToList());
+
+            foreach (var invoice in kindergartenContext)
+            {
+                //foreach (var detail in invoice.InvoiceDetails)
+                //{
+                //    _context.InvoiceDetails.Add(detail);
+                //}
+                //_context.Invoices.Add(invoice);
+
+            }
+            await _context.SaveChangesAsync();
+
+            var invoices = _context.Invoices.Include(i => i.Kid)
+                .Where(i=>i.Date.Month == DateTime.Now.Month);
+            //var invoicesModified = ModifieInvoices(kindergartenContext);
+            return View(kindergartenContext);
+        }
+
+        private async Task<List<Invoice>> ModifieInvoices(List<Invoice> invoices)
+        {
+            List<Invoice> modifiedInvoices = new List<Invoice>();
+            foreach (var invoice in invoices)
+            {
+                var invoiceFound =  await _context.Invoices
+                                        .Include(i=>i.InvoiceDetails)
+                                        .SingleOrDefaultAsync(i => i.KidId == invoice.KidId && 
+                                                                   i.Date.Month == DateTime.Now.Month);
+                //if the invoice is already generated
+                //modify it
+                if (invoiceFound != null)
+                {
+                    foreach (var detail in invoice.InvoiceDetails)
+                    {
+                        var detailFound = invoiceFound.InvoiceDetails
+                            .SingleOrDefault(d => d.ItemId == detail.ItemId);
+                        //modify
+                        if (detailFound != null )
+                        {
+                            if (detailFound.Amount != detail.Amount)
+                            {
+                                detailFound.Amount = detail.Amount;
+                            }
+                        }
+                        else//add
+                        {
+                            detail.InvoiceId = invoiceFound.Id;
+                        }
+                    }
+                    //remove
+                    List<InvoiceDetail> detailsToRemove = new List<InvoiceDetail>();
+                    foreach (var detail in invoiceFound.InvoiceDetails)
+                    {
+                        var detailFound = invoice.InvoiceDetails.SingleOrDefault(d => d.ItemId == detail.ItemId);
+                        if (detailFound == null)
+                        {
+                            detailsToRemove.Add(detail);
+                        }
+                    }
+                    foreach (var detail in detailsToRemove)
+                    {
+                        invoiceFound.InvoiceDetails.Remove(detail);
+                    }
+                }
+                //if the invoice isnt generated return it as created
+                //it means is new
+                else
+                {
+                    modifiedInvoices.Add(invoice);
+                }
+            }
+            _context.SaveChanges();
+            return modifiedInvoices;
         }
 
         // GET: Invoices/Details/5
@@ -178,14 +249,16 @@ namespace KindergartenAppService.Controllers
                     foreach (var activity in kidGroup)
                     {
                         acumulativeAmount += activity.Service.Price;
-                        details.Add(new InvoiceDetail
+                        var detail = new InvoiceDetail
                         {
                             Amount = activity.Service.Price,
                             ItemId = activity.ServiceId.Value,
                             Quantity = 1,
                             Id = Guid.NewGuid(),
                             InvoiceId = invoice.Id
-                        });
+                        };
+                        details.Add(detail);
+                        //invoice.InvoiceDetails.Add(detail);
                     }
                     invoice.Price = acumulativeAmount;
                     invoices.Add(invoice);
@@ -194,6 +267,128 @@ namespace KindergartenAppService.Controllers
             }
 
             return invoices;
+        }
+        public async Task<IActionResult> Edit2(Guid? id)
+        {
+            Console.WriteLine("####Id from Edit: " + id.ToString());
+
+            Invoice invoice = null;
+            List<InvoiceDetail> details = new List<InvoiceDetail>();
+            var enrollActivities = await _context.EnrollActivity
+                .Include(e => e.Enrollment.Kid.TutorPrincipal)
+                .Include(e => e.Activity)
+                .Include(e => e.Service)
+                .Where(e => e.EnrollmentId != null &&
+                          e.ServiceId != null && e.Enrollment.KidId == id).ToListAsync();
+
+            if (enrollActivities != null)
+            {
+                var kid = await _context.Kid.FindAsync(id);
+                decimal acumulativeAmount = 0;
+                foreach (var activity in enrollActivities)
+                {
+                    acumulativeAmount += activity.Service.Price;
+                    var detail = new InvoiceDetail
+                    {
+                        Amount = activity.Service.Price,
+                        ItemId = activity.ServiceId.Value,
+                        Quantity = 1,
+                        Id = Guid.NewGuid(),
+                        //InvoiceId = invoice.Id
+                    };
+                    details.Add(detail);
+                }
+                invoice = new Invoice
+                {
+                    Date = DateTime.Now,
+                    KidId = id.Value,
+                    Id = Guid.NewGuid(),
+                    InvoiceDetails = details
+                };
+                invoice.Price = acumulativeAmount;
+
+                _context.Invoices.Add(invoice);
+
+                //foreach (var detail in details)
+                //{
+                //    //invoice.InvoiceDetails.Add(detail);
+
+                //    _context.InvoiceDetail.Add(detail);
+                    
+                //}
+                //_context.Attach(invoice.InvoiceDetails);
+
+                //_context.SaveChanges();
+                //var invoiceFound = _context.Invoices.Find(invoice.Id);
+                //invoiceFound.InvoiceDetails.Add(new InvoiceDetail
+                //{
+                //    Amount = 100,
+                //    Quantity = 1,
+                //    ItemId = new Guid("7530F576-CFFA-4CBB-81F8-BDE60C7DFEC0")
+                //});
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+            public async Task<IActionResult> GenerateInvoice(Guid? kidId)
+        {
+            Invoice invoice = null;
+            List<InvoiceDetail> details = new List<InvoiceDetail>();
+            var enrollActivities = await _context.EnrollActivity
+                .Include(e => e.Enrollment.Kid.TutorPrincipal)
+                .Include(e => e.Activity)
+                .Include(e => e.Service)
+                .Where(e => e.EnrollmentId != null &&
+                          e.ServiceId != null && e.Enrollment.KidId == kidId).ToListAsync();
+
+            if (enrollActivities != null)
+            {
+                var kid = await _context.Kid.FindAsync(kidId);
+                decimal acumulativeAmount = 0;
+                invoice = new Invoice
+                {
+                    Date = DateTime.Now,
+                    KidId = kidId.Value,
+                    Id = Guid.NewGuid()
+                };
+                foreach (var activity in enrollActivities)
+                {
+                    acumulativeAmount += activity.Service.Price;
+                    var detail = new InvoiceDetail
+                    {
+                        Amount = activity.Service.Price,
+                        ItemId = activity.ServiceId.Value,
+                        Quantity = 1,
+                        Id = Guid.NewGuid(),
+                        InvoiceId = invoice.Id
+                    };
+                    details.Add(detail);
+                    //invoice.InvoiceDetails.Add(detail);
+                }
+                invoice.Price = acumulativeAmount;
+
+                _context.Invoices.Add(invoice);
+                _context.SaveChanges();
+
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Preview(Invoice invoice){
+            var _invoice = await _context.Invoices
+                .Include(i=>i.Kid)
+                .FirstOrDefaultAsync(i=>i.Id == invoice.Id);
+
+            return View(_invoice);
+        }
+
+        public async Task<IActionResult> Generate(Invoice invoice)
+        {
+            invoice.Status = InvoiceStatus.Generated;
+            await _context.Invoices.AddAsync(invoice);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
         private bool InvoiceExists(Guid id)
         {

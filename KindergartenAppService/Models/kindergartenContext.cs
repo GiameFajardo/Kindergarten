@@ -145,6 +145,7 @@ namespace KindergartenAppService.Models
         public DbSet<Tutor> Tutors { get; set; }
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceDetail> InvoiceDetail { get; set; }
         public DbSet<KindergartenAppService.Models.Activity> Activity { get; set; }
         public DbSet<KindergartenAppService.Models.Pediatrician> Pediatrician { get; set; }
         public DbSet<KindergartenAppService.Models.Kid> Kid { get; set; }
