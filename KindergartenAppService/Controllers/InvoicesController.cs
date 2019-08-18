@@ -36,7 +36,7 @@ namespace KindergartenAppService.Controllers
             await _context.SaveChangesAsync();
 
             var invoices = _context.Invoices.Include(i => i.Kid)
-                .Where(i=>i.Date.Month == DateTime.Now.Month).ToList();
+                .Where(i=>i.GeneratedDate.Month == DateTime.Now.Month).ToList();
             var invoicesUpdated = await UpdateInvoices(invoicesGenerated);
             //var invoicesModified = await ModifieInvoices(invoicesGenerated);
             return View(invoicesUpdated);
@@ -49,12 +49,12 @@ namespace KindergartenAppService.Controllers
                 var invoiceFound = await _context.Invoices
                                         .Include(i => i.InvoiceDetails)
                                         .SingleOrDefaultAsync(i => i.KidId == invoice.KidId &&
-                                                                   i.Date.Month == DateTime.Now.Month);
+                                                                   i.GeneratedDate.Month == DateTime.Now.Month);
                 if (invoiceFound != null)
                 {
                     invoice.Status = invoiceFound.Status;
                     invoice.Price = invoiceFound.Price;
-                    invoice.Date = invoiceFound.Date;
+                    invoice.GeneratedDate = invoiceFound.GeneratedDate;
                 }
             }
 
@@ -69,7 +69,7 @@ namespace KindergartenAppService.Controllers
                 var invoiceFound =  await _context.Invoices
                                         .Include(i=>i.InvoiceDetails)
                                         .SingleOrDefaultAsync(i => i.KidId == invoiceG.KidId && 
-                                                                   i.Date.Month == DateTime.Now.Month);
+                                                                   i.GeneratedDate.Month == DateTime.Now.Month);
                 //if the invoice is already generated
                 //modify it
                 if (invoiceFound != null)
@@ -260,7 +260,8 @@ namespace KindergartenAppService.Controllers
                     decimal acumulativeAmount = 0;
                     var invoice = new Invoice
                     {
-                        Date = DateTime.Now,
+                        Status = InvoiceStatus.Preview,
+                        GeneratedDate = DateTime.Now,
                         KidId = kidGroup.First().Enrollment.KidId,
                         Kid= kidGroup.First().Enrollment.Kid,
                         Id = Guid.NewGuid()
@@ -287,7 +288,7 @@ namespace KindergartenAppService.Controllers
 
             return invoices;
         }
-        public async Task<IActionResult> Edit2(Guid? id)
+        public async Task<IActionResult> Generate(Guid? id)
         {
             Console.WriteLine("####Id from Edit: " + id.ToString());
 
@@ -319,7 +320,8 @@ namespace KindergartenAppService.Controllers
                 }
                 invoice = new Invoice
                 {
-                    Date = DateTime.Now,
+                    Status = InvoiceStatus.Generated,
+                    GeneratedDate = DateTime.Now,
                     KidId = id.Value,
                     Id = Guid.NewGuid(),
                     InvoiceDetails = details
@@ -351,7 +353,7 @@ namespace KindergartenAppService.Controllers
                 decimal acumulativeAmount = 0;
                 invoice = new Invoice
                 {
-                    Date = DateTime.Now,
+                    GeneratedDate = DateTime.Now,
                     KidId = kidId.Value,
                     Id = Guid.NewGuid()
                 };
@@ -386,13 +388,13 @@ namespace KindergartenAppService.Controllers
             return View(invoiceTest);
         }
 
-        public async Task<IActionResult> Generate(Invoice invoice)
-        {
-            invoice.Status = InvoiceStatus.Generated;
-            await _context.Invoices.AddAsync(invoice);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //public async Task<IActionResult> Generate(Invoice invoice)
+        //{
+        //    invoice.Status = InvoiceStatus.Generated;
+        //    await _context.Invoices.AddAsync(invoice);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
         private bool InvoiceExists(Guid id)
         {
             return _context.Invoices.Any(e => e.Id == id);
