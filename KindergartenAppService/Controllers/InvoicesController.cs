@@ -22,9 +22,9 @@ namespace KindergartenAppService.Controllers
         public async Task<IActionResult> Index()
         {
             //var kindergartenContext = _context.Invoices.Include(i => i.Kid);
-            var kindergartenContext = GenerateInvoices();
+            var invoicesGenerated = GenerateInvoices();
 
-            foreach (var invoice in kindergartenContext)
+            foreach (var invoice in invoicesGenerated)
             {
                 //foreach (var detail in invoice.InvoiceDetails)
                 //{
@@ -36,25 +36,45 @@ namespace KindergartenAppService.Controllers
             await _context.SaveChangesAsync();
 
             var invoices = _context.Invoices.Include(i => i.Kid)
-                .Where(i=>i.Date.Month == DateTime.Now.Month);
-            //var invoicesModified = ModifieInvoices(kindergartenContext);
-            return View(kindergartenContext);
+                .Where(i=>i.Date.Month == DateTime.Now.Month).ToList();
+            var invoicesUpdated = await UpdateInvoices(invoicesGenerated);
+            //var invoicesModified = await ModifieInvoices(invoicesGenerated);
+            return View(invoicesUpdated);
         }
 
-        private async Task<List<Invoice>> ModifieInvoices(List<Invoice> invoices)
+        private async Task<List<Invoice>> UpdateInvoices(List<Invoice> invoicesGenerated)
+        {
+            foreach (var invoice in invoicesGenerated)
+            {
+                var invoiceFound = await _context.Invoices
+                                        .Include(i => i.InvoiceDetails)
+                                        .SingleOrDefaultAsync(i => i.KidId == invoice.KidId &&
+                                                                   i.Date.Month == DateTime.Now.Month);
+                if (invoiceFound != null)
+                {
+                    invoice.Status = invoiceFound.Status;
+                    invoice.Price = invoiceFound.Price;
+                    invoice.Date = invoiceFound.Date;
+                }
+            }
+
+            return invoicesGenerated;
+        }
+
+        private async Task<List<Invoice>> ModifieInvoices(List<Invoice> invoicesGenerated)
         {
             List<Invoice> modifiedInvoices = new List<Invoice>();
-            foreach (var invoice in invoices)
+            foreach (var invoiceG in invoicesGenerated)
             {
                 var invoiceFound =  await _context.Invoices
                                         .Include(i=>i.InvoiceDetails)
-                                        .SingleOrDefaultAsync(i => i.KidId == invoice.KidId && 
+                                        .SingleOrDefaultAsync(i => i.KidId == invoiceG.KidId && 
                                                                    i.Date.Month == DateTime.Now.Month);
                 //if the invoice is already generated
                 //modify it
                 if (invoiceFound != null)
                 {
-                    foreach (var detail in invoice.InvoiceDetails)
+                    foreach (var detail in invoiceG.InvoiceDetails)
                     {
                         var detailFound = invoiceFound.InvoiceDetails
                             .SingleOrDefault(d => d.ItemId == detail.ItemId);
@@ -75,7 +95,7 @@ namespace KindergartenAppService.Controllers
                     List<InvoiceDetail> detailsToRemove = new List<InvoiceDetail>();
                     foreach (var detail in invoiceFound.InvoiceDetails)
                     {
-                        var detailFound = invoice.InvoiceDetails.SingleOrDefault(d => d.ItemId == detail.ItemId);
+                        var detailFound = invoiceG.InvoiceDetails.SingleOrDefault(d => d.ItemId == detail.ItemId);
                         if (detailFound == null)
                         {
                             detailsToRemove.Add(detail);
@@ -90,10 +110,9 @@ namespace KindergartenAppService.Controllers
                 //it means is new
                 else
                 {
-                    modifiedInvoices.Add(invoice);
+                    modifiedInvoices.Add(invoiceG);
                 }
             }
-            _context.SaveChanges();
             return modifiedInvoices;
         }
 
@@ -309,29 +328,13 @@ namespace KindergartenAppService.Controllers
 
                 _context.Invoices.Add(invoice);
 
-                //foreach (var detail in details)
-                //{
-                //    //invoice.InvoiceDetails.Add(detail);
-
-                //    _context.InvoiceDetail.Add(detail);
-                    
-                //}
-                //_context.Attach(invoice.InvoiceDetails);
-
-                //_context.SaveChanges();
-                //var invoiceFound = _context.Invoices.Find(invoice.Id);
-                //invoiceFound.InvoiceDetails.Add(new InvoiceDetail
-                //{
-                //    Amount = 100,
-                //    Quantity = 1,
-                //    ItemId = new Guid("7530F576-CFFA-4CBB-81F8-BDE60C7DFEC0")
-                //});
+                
                 _context.SaveChanges();
             }
 
             return RedirectToAction(nameof(Index));
         }
-            public async Task<IActionResult> GenerateInvoice(Guid? kidId)
+        public async Task<IActionResult> GenerateInvoice(Guid? kidId)
         {
             Invoice invoice = null;
             List<InvoiceDetail> details = new List<InvoiceDetail>();
@@ -379,8 +382,8 @@ namespace KindergartenAppService.Controllers
             var _invoice = await _context.Invoices
                 .Include(i=>i.Kid)
                 .FirstOrDefaultAsync(i=>i.Id == invoice.Id);
-
-            return View(_invoice);
+            var invoiceTest = _context.Invoices.Find(new Guid("987EBBE9-DFFF-4CBD-A659-2CB21CAC68C3"));
+            return View(invoiceTest);
         }
 
         public async Task<IActionResult> Generate(Invoice invoice)
