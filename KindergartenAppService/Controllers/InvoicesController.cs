@@ -36,7 +36,7 @@ namespace KindergartenAppService.Controllers
             await _context.SaveChangesAsync();
 
             var invoices = _context.Invoices.Include(i => i.Kid)
-                .Where(i=>i.GeneratedDate.Month == DateTime.Now.Month).ToList();
+                .Where(i => i.GeneratedDate.Month == DateTime.Now.Month).ToList();
             var invoicesUpdated = await UpdateInvoices(invoicesGenerated);
             //var invoicesModified = await ModifieInvoices(invoicesGenerated);
             return View(invoicesUpdated);
@@ -52,6 +52,7 @@ namespace KindergartenAppService.Controllers
                                                                    i.GeneratedDate.Month == DateTime.Now.Month);
                 if (invoiceFound != null)
                 {
+                    invoice.Id = invoiceFound.Id;
                     invoice.Status = invoiceFound.Status;
                     invoice.Price = invoiceFound.Price;
                     invoice.GeneratedDate = invoiceFound.GeneratedDate;
@@ -66,9 +67,9 @@ namespace KindergartenAppService.Controllers
             List<Invoice> modifiedInvoices = new List<Invoice>();
             foreach (var invoiceG in invoicesGenerated)
             {
-                var invoiceFound =  await _context.Invoices
-                                        .Include(i=>i.InvoiceDetails)
-                                        .SingleOrDefaultAsync(i => i.KidId == invoiceG.KidId && 
+                var invoiceFound = await _context.Invoices
+                                        .Include(i => i.InvoiceDetails)
+                                        .SingleOrDefaultAsync(i => i.KidId == invoiceG.KidId &&
                                                                    i.GeneratedDate.Month == DateTime.Now.Month);
                 //if the invoice is already generated
                 //modify it
@@ -79,7 +80,7 @@ namespace KindergartenAppService.Controllers
                         var detailFound = invoiceFound.InvoiceDetails
                             .SingleOrDefault(d => d.ItemId == detail.ItemId);
                         //modify
-                        if (detailFound != null )
+                        if (detailFound != null)
                         {
                             if (detailFound.Amount != detail.Amount)
                             {
@@ -247,10 +248,10 @@ namespace KindergartenAppService.Controllers
             List<Invoice> invoices = new List<Invoice>();
             List<InvoiceDetail> details = new List<InvoiceDetail>();
             var enrollActivities = _context.EnrollActivity
-                .Include(e=>e.Enrollment.Kid.TutorPrincipal)
-                .Include(e=>e.Activity)
-                .Include(e=>e.Service)
-                .Where(e=>e.EnrollmentId != null &&
+                .Include(e => e.Enrollment.Kid.TutorPrincipal)
+                .Include(e => e.Activity)
+                .Include(e => e.Service)
+                .Where(e => e.EnrollmentId != null &&
                           e.ServiceId != null);
             var enrollActByKid = enrollActivities.GroupBy(e => e.EnrollmentId);
             if (enrollActivities != null)
@@ -262,8 +263,15 @@ namespace KindergartenAppService.Controllers
                     {
                         Status = InvoiceStatus.Preview,
                         GeneratedDate = DateTime.Now,
+                        DueDate = new DateTime(
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        DateTime.DaysInMonth(
+                            DateTime.Now.Year,
+                            DateTime.Now.Month
+                            )),
                         KidId = kidGroup.First().Enrollment.KidId,
-                        Kid= kidGroup.First().Enrollment.Kid,
+                        Kid = kidGroup.First().Enrollment.Kid,
                         Id = Guid.NewGuid()
                     };
                     foreach (var activity in kidGroup)
@@ -283,14 +291,138 @@ namespace KindergartenAppService.Controllers
                     invoice.Price = acumulativeAmount;
                     invoices.Add(invoice);
                 }
-                
+
             }
 
             return invoices;
         }
+        public List<Invoice> GenerateInvoices2()
+        {
+            List<Invoice> invoicesMonthly = new List<Invoice>();
+            List<Invoice> invoicesBiweekly = new List<Invoice>();
+
+            List<InvoiceDetail> details = new List<InvoiceDetail>();
+
+            var enrollActivities = _context.EnrollActivity
+                .Include(e => e.Enrollment.Kid.TutorPrincipal)
+                .Include(e => e.Activity)
+                .Include(e => e.Service)
+                .Where(e => e.EnrollmentId != null &&
+                          e.ServiceId != null);
+
+            var enrollActByKid = enrollActivities.GroupBy(e => e.EnrollmentId);
+
+            if (enrollActivities != null)
+            {
+                foreach (var kidGroup in enrollActByKid)
+                {
+                    decimal acumulativeMonthlyAmount = 0;
+                    decimal acumulativeBiweeklyAmount = 0;
+                    bool hasMonthly = false;
+                    bool hasBiweekly = false;
+
+                    var invoiceMonth = new Invoice
+                    {
+                        Status = InvoiceStatus.Preview,
+                        DueDate = new DateTime(
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        DateTime.DaysInMonth(
+                            DateTime.Now.Year,
+                            DateTime.Now.Month
+                            )
+                        ),
+                        GeneratedDate = DateTime.Now,
+                        KidId = kidGroup.First().Enrollment.KidId,
+                        Kid = kidGroup.First().Enrollment.Kid,
+                        Id = Guid.NewGuid()
+                    };
+                    var invoiceBiweek = new Invoice
+                    {
+                        DueDate = new DateTime(
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        15
+                        ),
+                        Status = InvoiceStatus.Preview,
+                        GeneratedDate = DateTime.Now,
+                        KidId = kidGroup.First().Enrollment.KidId,
+                        Kid = kidGroup.First().Enrollment.Kid,
+                        Id = Guid.NewGuid()
+                    };
+
+                    foreach (var activity in kidGroup)
+                    {
+                        if (activity.Service.ServicePeriod == ServicePeriod.Monthly)
+                        {
+                            hasMonthly = true;
+                            acumulativeMonthlyAmount += activity.Service.Price;
+
+                            var detail = new InvoiceDetail
+                            {
+                                Amount = activity.Service.Price,
+                                ItemId = activity.ServiceId.Value,
+                                Quantity = 1,
+                                Id = Guid.NewGuid(),
+                                InvoiceId = invoiceMonth.Id
+                            };
+                        }
+                        else if (activity.Service.ServicePeriod == ServicePeriod.Biweekly)
+                        {
+                            hasBiweekly = true;
+                            acumulativeBiweeklyAmount += activity.Service.Price;
+
+                            var detail = new InvoiceDetail
+                            {
+                                Amount = activity.Service.Price,
+                                ItemId = activity.ServiceId.Value,
+                                Quantity = 1,
+                                Id = Guid.NewGuid(),
+                                InvoiceId = invoiceBiweek.Id
+                            };
+                        }
+                        //details.Add(detail);
+                        //invoice.InvoiceDetails.Add(detail);
+                        invoiceMonth.Price = acumulativeMonthlyAmount;
+                        invoiceBiweek.Price = acumulativeBiweeklyAmount;
+
+                        if (hasMonthly)
+                        {
+                            invoicesMonthly.Add(invoiceMonth);
+
+                        }
+                        if (hasBiweekly)
+                        {
+                            invoicesBiweekly.Add(invoiceBiweek);
+                        }
+                    }
+
+
+                }
+
+            }
+
+            return invoicesMonthly;
+        }
+        public async Task<IActionResult> Cancelar(Invoice invoice)
+        {
+            var invoiceFound = await _context.Invoices
+                .Include(i=>i.InvoiceDetails)
+                .SingleOrDefaultAsync(i=>i.Id == invoice.Id);
+            if (invoiceFound != null)
+            {
+
+                _context.InvoiceDetail.RemoveRange(invoiceFound.InvoiceDetails);
+                
+                _context.Invoices.Remove(invoiceFound);
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
         public async Task<IActionResult> Generate(Guid? id)
         {
-            Console.WriteLine("####Id from Edit: " + id.ToString());
 
             Invoice invoice = null;
             List<InvoiceDetail> details = new List<InvoiceDetail>();
@@ -322,6 +454,14 @@ namespace KindergartenAppService.Controllers
                 {
                     Status = InvoiceStatus.Generated,
                     GeneratedDate = DateTime.Now,
+                    DueDate = new DateTime(
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        DateTime.DaysInMonth(
+                            DateTime.Now.Year,
+                            DateTime.Now.Month
+                            )
+                        ),
                     KidId = id.Value,
                     Id = Guid.NewGuid(),
                     InvoiceDetails = details
@@ -330,7 +470,7 @@ namespace KindergartenAppService.Controllers
 
                 _context.Invoices.Add(invoice);
 
-                
+
                 _context.SaveChanges();
             }
 
@@ -380,12 +520,17 @@ namespace KindergartenAppService.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Preview(Invoice invoice){
+        public async Task<IActionResult> Preview(Invoice invoice)
+        {
             var _invoice = await _context.Invoices
-                .Include(i=>i.Kid)
-                .FirstOrDefaultAsync(i=>i.Id == invoice.Id);
-            var invoiceTest = _context.Invoices.Find(new Guid("987EBBE9-DFFF-4CBD-A659-2CB21CAC68C3"));
-            return View(invoiceTest);
+                .Include(i => i.Kid.TutorPrincipal)
+                .Include("InvoiceDetails.Item")
+                .FirstOrDefaultAsync(i => i.Id == invoice.Id);
+            var invoiceTest = await _context.Invoices
+                .Include(i => i.Kid.TutorPrincipal)
+                .Include("InvoiceDetails.Item")
+                .SingleOrDefaultAsync(i => i.Id == new Guid("2083BC06-40EE-4445-A87C-F57D095E0693"));
+            return View(_invoice);
         }
 
         //public async Task<IActionResult> Generate(Invoice invoice)

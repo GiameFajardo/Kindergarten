@@ -9,9 +9,6 @@ namespace KindergartenAppService.Models
 {
     public class Service : Item
     {
-        [Required]
-        [Display(Name = "Descripción", Prompt = "Servicio de cuidade")]
-        public string Description { get; set; }
         [Display(Name = "Actividad", Prompt = "Seleccione una actividad")]
         public Guid ActivityId { get; set; }
         [Display(Name = "Actividad", Prompt = "Seleccione una actividad")]

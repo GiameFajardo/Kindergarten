@@ -1,5 +1,5 @@
 ﻿@model  Invoice
-<style>
+<style type="text/css">
 #invoice{
     padding: 30px;
 }
@@ -148,7 +148,24 @@
     border-top: 1px solid #aaa;
     padding: 8px 0
 }
+@@media print {
+    .invoice {
+        font-size: 11px!important;
+        overflow: hidden!important
+    }
 
+    .invoice footer {
+        position: absolute;
+        bottom: 10px;
+        page-break-after: always
+    }
+
+    .invoice>div:last-child {
+        page-break-before: always
+    }
+    .hidden-print{
+        display:none;
+    }
 
 </style>
 
@@ -167,18 +184,18 @@
             <header>
                 <div class="row">
                     <div class="col">
-                        <a target="_blank" href="https://lobianijs.com">
-                            <img src="http://lobianijs.com/lobiadmin/version/1.0/ajax/img/logo/lobiadmin-logo-text-64.png" data-holder-rendered="true" />
+                        <a target="_blank" href="https://www.instagram.com/kidsplayhouserd/?hl=en">
+                            <img src="/assets/images/kphlogo.jpg" data-holder-rendered="true" />
                             </a>
                     </div>
                     <div class="col company-details">
                         <h2 class="name">
-                            <a target="_blank" href="https://lobianijs.com">
+                            <a target="_blank" href="https://www.instagram.com/kidsplayhouserd/?hl=en">
                             Kids Play House
                             </a>
                         </h2>
                         <div>
-                            @Html.DisplayFor(modelItem => Model.Id)
+                            
                             Gurabo
                         </div>
                         <div>809-736-9220</div>
@@ -189,35 +206,41 @@
             <main>
                 <div class="row contacts">
                     <div class="col invoice-to">
-                        <div class="text-gray-light">INVOICE TO:</div>
+                        <div class="text-gray-light">FACTURA A:</div>
                         <h2 class="to">
                             @Html.DisplayFor(modelItem => Model.Kid.FullName)
                         </h2>
                         <div class="address">
                             @Html.DisplayFor(modelItem => Model.Kid.Address)
                         </div>
-                        <div class="email"><a href="mailto:john@example.com">
+                        <div class="email"><a href="mailto:kidsplayhouserd1@gmail.com">
                             @Html.DisplayFor(modelItem => Model.Kid.TutorPrincipal.Mail)
                         </a></div>
                     </div>
                     <div class="col invoice-details">
-                        <h1 class="invoice-id">INVOICE 3-2-1</h1>
-                        <div class="date">Date of Invoice: 01/10/2018</div>
-                        <div class="date">Due Date: 30/10/2018</div>
+                        <h1 class="invoice-id">
+                            @Html.DisplayFor(modelItem => Model.Id)
+                        </h1>
+                        <div class="date">
+                            Fecha de facturación: @Model.GeneratedDate.ToString("dd-MM-yyyy")
+                        </div>
+                        <div class="date">
+                            Fecha de vencimiento: @Model.DueDate.ToString("dd-MM-yyyy")
+                        </div>
                     </div>
                 </div>
                 <table border="0" cellspacing="0" cellpadding="0">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th class="text-left">DESCRIPTION</th>
-                            <th class="text-right">HOUR PRICE</th>
-                            <th class="text-right">HOURS</th>
+                            <th class="text-left">DESCRIPCIÓN</th>
+                            <th class="text-right">PRECIO</th>
+                            <th class="text-right">CANTIDAD</th>
                             <th class="text-right">TOTAL</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                       <!-- <tr>
                             <td class="no">04</td>
                             <td class="text-left"><h3>
                                 <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
@@ -232,14 +255,32 @@
                             <td class="unit">$0.00</td>
                             <td class="qty">100</td>
                             <td class="total">$0.00</td>
-                        </tr>
+                        </tr> -->
+                            @{int count = 0;}
+                            @{decimal subTotal = 0;}
+                        @foreach (var item in Model.InvoiceDetails) {
                         <tr>
-                            <td class="no">01</td>
-                            <td class="text-left"><h3>Website Design</h3>Creating a recognizable design solution based on the company's existing visual identity</td>
-                            <td class="unit">$40.00</td>
-                            <td class="qty">30</td>
-                            <td class="total">$1,200.00</td>
+                            @{count++;}
+                            @{subTotal += item.Amount;}
+                            <td class="no">@count</td>
+                            <td class="text-left">
+                                <h3>@Html.DisplayFor(modelItem => item.Item.Reference)</h3>
+                                @Html.DisplayFor(modelItem => item.Item.Description)
+                            </td>
+                            <td class="unit">
+                                @string.Format("{0:C}", item.Amount)
+                            </td>
+                            <td class="qty">
+                                @Html.DisplayFor(modelItem => item.Quantity)
+                            </td>
+                            <td class="total">
+                                @string.Format("{0:C}", item.Amount)
+                                
+                            </td>
+
                         </tr>
+                        }
+<!--
                         <tr>
                             <td class="no">02</td>
                             <td class="text-left"><h3>Website Development</h3>Developing a Content Management System-based Website</td>
@@ -254,26 +295,31 @@
                             <td class="qty">20</td>
                             <td class="total">$800.00</td>
                         </tr>
+-->
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="2"></td>
                             <td colspan="2">SUBTOTAL</td>
-                            <td>$5,200.00</td>
+                            <td>
+                                @string.Format("{0:C}",@subTotal)
+                            </td>
                         </tr>
+<!--
                         <tr>
                             <td colspan="2"></td>
                             <td colspan="2">TAX 25%</td>
                             <td>$1,300.00</td>
                         </tr>
+-->
                         <tr>
                             <td colspan="2"></td>
-                            <td colspan="2">GRAND TOTAL</td>
-                            <td>$6,500.00</td>
+                            <td colspan="2">TOTAL</td>
+                            <td>@string.Format("{0:C}",@subTotal)</td>
                         </tr>
                     </tfoot>
                 </table>
-                <div class="thanks">Thank you!</div>
+                <div class="thanks">Gracias!</div>
                 <div class="notices">
                     <div>NOTICE:</div>
                     <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
@@ -287,3 +333,16 @@
         <div></div>
     </div>
 </div>
+<script src="~/lib/jquery/dist/jquery.js">
+</script>
+<script>
+
+ $('#printInvoice').click(function(){
+            Popup($('.invoice')[0].outerHTML);
+            function Popup(data) 
+            {
+                window.print();
+                return true;
+            }
+        });
+</script>

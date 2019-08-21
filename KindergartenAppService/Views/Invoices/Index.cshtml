@@ -14,6 +14,9 @@
                 @Html.DisplayNameFor(model => model.GeneratedDate)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Kid)
             </th>
             <th>
@@ -32,31 +35,39 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.GeneratedDate)
+                @item.GeneratedDate.ToString("dd-MM-yyyy")
+            </td>
+
+            <td>
+                @item.DueDate.ToString("dd-MM-yyyy")
             </td>
             <td>
+                <a class="link" disable asp-controller="Kids" asp-action="Details" asp-route-id="@item.KidId">
                 @Html.DisplayFor(modelItem => item.Kid.FullName)
+                </a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Kid.TutorPrincipal.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @string.Format("{0:C}", item.Price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
                 <!--<a asp-action="Edit" asp-route-id="@item.Id">Editar</a> -->
-                <a  class="btn btn-outline-info" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a> 
+                <a  class="btn btn-info" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a> 
                 @{if(item.Status == InvoiceStatus.Preview )
                 {
                     
-                    <a class="btn btn-outline-success" disable asp-action="Generate" asp-route-id="@item.KidId">Generar</a>
+                    <a class="btn btn-success" disable asp-action="Generate" asp-route-id="@item.KidId">Generar</a>
+                    <button type="button" class="btn btn-outline-danger" disabled>Cancelar</button>
+
                 }else
                 {
                     <button type="button" class="btn btn-outline-success" disabled>Generar</button>
-                    
+                    <a class="btn btn-danger" disable asp-action="Cancelar" asp-route-id="@item.Id">Cancelar</a>
                 }}
             </td>
         </tr>
