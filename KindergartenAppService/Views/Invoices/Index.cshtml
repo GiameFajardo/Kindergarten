@@ -57,18 +57,20 @@
             </td>
             <td>
                 <!--<a asp-action="Edit" asp-route-id="@item.Id">Editar</a> -->
-                <a  class="btn btn-info" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a> 
-                @{if(item.Status == InvoiceStatus.Preview )
-                {
-                    
-                    <a class="btn btn-success" disable asp-action="Generate" asp-route-id="@item.KidId">Generar</a>
-                    <button type="button" class="btn btn-outline-danger" disabled>Cancelar</button>
+                @{if (item.Status == InvoiceStatus.Preview)
+                    {
 
-                }else
-                {
-                    <button type="button" class="btn btn-outline-success" disabled>Generar</button>
-                    <a class="btn btn-danger" disable asp-action="Cancelar" asp-route-id="@item.Id">Cancelar</a>
-                }}
+                        <button type="button" class="btn btn-outline-info" disabled>Vista previa</button>
+                        <a class="btn btn-success" disable asp-action="Generate" asp-route-id="@item.KidId">Generar</a>
+                        <button type="button" class="btn btn-outline-danger" disabled>Cancelar</button>
+
+                    }
+                    else
+                    {
+                        <a class="btn btn-info" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a>
+                        <button type="button" class="btn btn-outline-success" disabled>Generar</button>
+                        <a class="btn btn-danger" disable asp-action="Cancelar" asp-route-id="@item.Id">Cancelar</a>
+                    }}
             </td>
         </tr>
 }

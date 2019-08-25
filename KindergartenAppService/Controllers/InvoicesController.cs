@@ -522,14 +522,16 @@ namespace KindergartenAppService.Controllers
         }
         public async Task<IActionResult> Preview(Invoice invoice)
         {
+            Invoice invoiceToPreview = null;
             var _invoice = await _context.Invoices
                 .Include(i => i.Kid.TutorPrincipal)
                 .Include("InvoiceDetails.Item")
                 .FirstOrDefaultAsync(i => i.Id == invoice.Id);
-            var invoiceTest = await _context.Invoices
-                .Include(i => i.Kid.TutorPrincipal)
-                .Include("InvoiceDetails.Item")
-                .SingleOrDefaultAsync(i => i.Id == new Guid("2083BC06-40EE-4445-A87C-F57D095E0693"));
+            //var invoiceTest = await _context.Invoices
+            //    .Include(i => i.Kid.TutorPrincipal)
+            //    .Include("InvoiceDetails.Item")
+            //    .SingleOrDefaultAsync(i => i.Id == new Guid("2083BC06-40EE-4445-A87C-F57D095E0693"));
+
             return View(_invoice);
         }
 
