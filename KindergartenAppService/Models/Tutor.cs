@@ -14,12 +14,12 @@ namespace KindergartenAppService.Models
         public string Identification { get; set; }
 
         [Required]
-        [MinLength(10,ErrorMessage ="Este campo no permite menos de 10 caracteres.")]
+        [MinLength(2,ErrorMessage ="Este campo no permite menos de 10 caracteres.")]
         [Display(Prompt ="Gregorio de Jesus", Name ="Nombres")]
         public string FirstName { get; set; }
 
         [Required]
-        [MinLength(10, ErrorMessage = "Este campo no permite menos de 10 caracteres.")]
+        [MinLength(2, ErrorMessage = "Este campo no permite menos de 10 caracteres.")]
         [Display(Prompt = "Rojas Acosta", Name = "Apellidos")]
         public string LastName { get; set; }
 
