@@ -9,9 +9,10 @@ namespace KindergartenAppService.Models
         [Required]
         [Display(Name = "Descripción", Prompt ="Baile folcolorico")]
         public string Description { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Seleccionar una plantilla es requerido.")]
         [Display(Name = "Plantilla", Prompt = "Selecciones una plantilla")]
         public Guid ActivityTemplateId { get; set; }
+        [Required(ErrorMessage = "Seleccionar una plantilla es requerido.")]
         [Display(Name = "Plantilla", Prompt = "Selecciones una plantilla")]
         public ActivityTemplate ActivityTemplate { get; set; }
 

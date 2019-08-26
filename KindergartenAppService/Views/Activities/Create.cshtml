@@ -19,7 +19,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="ActivityTemplateId" class="control-label"></label>
-                <select asp-for="ActivityTemplateId" class ="form-control" asp-items="ViewBag.ActivityTemplateId"></select>
+                <select asp-for="ActivityTemplateId" class="form-control" asp-items="ViewBag.ActivityTemplateId">
+                    <option value="">Seleccionar Plantilla</option>
+
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />

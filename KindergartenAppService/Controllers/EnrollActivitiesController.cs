@@ -132,7 +132,7 @@ namespace KindergartenAppService.Controllers
                 }
             }
             ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description", enrollActivity.ActivityId);
-            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments, "Id", "Id", enrollActivity.EnrollmentId);
+            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(i=>i.Kid), "Id", "Kid.FullName", enrollActivity.EnrollmentId);
             return View(enrollActivity);
         }
 

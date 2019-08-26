@@ -19,7 +19,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="ActivityId" class="control-label"></label>
-                <select asp-for="ActivityId" class ="form-control" asp-items="ViewBag.ActivityId"></select>
+                <select asp-for="ActivityId" class="form-control" asp-items="ViewBag.ActivityId">
+                    <option value="">Seleccionar Actividad</option>
+
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="ServicePeriod" class="control-label"></label>
