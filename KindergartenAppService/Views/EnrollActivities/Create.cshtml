@@ -40,6 +40,8 @@
                 </script>
                 @*@Html.DropDownListFor(m => m.ActivityId, ViewBag.ActivityId as SelectList, "Seleccionar Actividad", new { @class = "form-control", @onchange = "AddService()", id = "ActivityId2" })*@
                 @Html.DropDownListFor(m => m.ActivityId, ViewBag.ActivityId as SelectList, "Seleccionar Actividad", new { @class = "form-control", @onchange = "AddService()", id = "ActivityId2" })
+                <span asp-validation-for="ActivityId" class="text-danger"></span>
+
                 <script src="~/lib/jquery/dist/jquery.js">
                 </script>
             </div>
@@ -49,6 +51,8 @@
                     <option value="">Seleccionar Servicio</option>
 
                 </select>
+                <span asp-validation-for="ServiceId" class="text-danger"></span>
+
             </div>
             <div class="form-group">
                 <label asp-for="EnrollmentId" class="control-label"></label>

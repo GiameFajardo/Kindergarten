@@ -53,7 +53,7 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,Mail,MovilNumber,PhoneNumber,Address,Id")] Tutor tutor)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,Mail,MovilNumber,PhoneNumber,WorkPlace,JobNumber,Address,Id")] Tutor tutor)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,LastName,Mail,MovilNumber,PhoneNumber,Address,Id")] Tutor tutor)
+        public async Task<IActionResult> Edit(Guid id, [Bind("FirstName,LastName,Mail,MovilNumber,PhoneNumber,WorkPlace,JobNumber,Address,Id")] Tutor tutor)
         {
             if (id != tutor.Id)
             {

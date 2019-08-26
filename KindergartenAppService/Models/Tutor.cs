@@ -37,6 +37,13 @@ namespace KindergartenAppService.Models
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
+        [Display(Prompt = "Google", Name = "Lugar de trabajo")]
+        public string WorkPlace { get; set; }
+        [Phone]
+        [Display(Prompt = "829-435-2341", Name = "Teléfono trabajo")]
+        [DataType(DataType.PhoneNumber)]
+        public string JobNumber { get; set; }
+
         [MinLength(10,ErrorMessage ="Este campo no admite menos de 10 caracteres.")]
         [Display(Prompt = "Avenida siempre viva", Name = "Dirección")]
         public string Address { get; set; }
