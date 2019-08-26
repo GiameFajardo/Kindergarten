@@ -55,8 +55,8 @@ namespace KindergartenAppService.Controllers
         public IActionResult Create()
         {
             ViewData["KindergarterId"] = new SelectList(_context.Kindergarters, "Id", "Description");
-            ViewData["TutorId"] = new SelectList(_context.Tutors, "Id", "FullName",null);
-            ViewData["PediatricianId"] = new SelectList(_context.Pediatrician, "Id", "Name");
+            ViewData["TutorId"] = new SelectList(_context.Tutors.OrderBy(t=>t.FullName), "Id", "FullName",null);
+            ViewData["PediatricianId"] = new SelectList(_context.Pediatrician.OrderBy(p=>p.Name), "Id", "Name");
             var a = _context.Pediatrician;
             return View();
         }
