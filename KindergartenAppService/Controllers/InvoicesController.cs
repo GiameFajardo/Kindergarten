@@ -2,10 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.WindowsAzure.Storage.Auth;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.IO;
+using GrapeCity.Documents.Pdf;
+using GrapeCity.Documents.Text;
+using Microsoft.WindowsAzure.Storage;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 
 namespace KindergartenAppService.Controllers
 {
@@ -534,7 +543,76 @@ namespace KindergartenAppService.Controllers
 
             return View(_invoice);
         }
+        public async Task GeneratePDF(Invoice invoice)
+        {
+            string filePath = "C:\\Users\\gfajardo\\Downloads\\diploma-diseno-email.pdf";
+            var credentials = new StorageCredentials("kindergarterinvoices", "av6Jd3a0s4QHPz0G0YXuPJYcpUdLntO9vxsRHL0EfQDGUsKF5YR/y4iU1bGQkUxjnnbVWz4G9ffyrROhKh+ncQ==");
+            var client = new CloudBlobClient(new Uri("https://kindergarterinvoices.blob.core.windows.net/"), credentials);
 
+            // Retrieve a reference to a container. (You need to create one using the mangement portal, or call container.CreateIfNotExists())
+            var container = client.GetContainerReference("kphinvoices");
+            // Retrieve reference to a blob named "myfile.pdf".
+            var blockBlob = container.GetBlockBlobReference("diploma-diseno-email.pdf");
+
+            // Create or overwrite the "myblob" blob with contents from a local file.
+            using (var fileStream = System.IO.File.OpenRead(filePath))
+            {
+                await blockBlob.UploadFromStreamAsync(fileStream);
+            }
+
+        }
+        public IActionResult CreatePDF()
+        {
+            // Create the 'Hello, World!' PDF:
+            var doc = new GcPdfDocument();
+            var page = doc.NewPage();
+            var g = page.Graphics;
+            g.DrawString("Hello, World!", new TextFormat() { Font = StandardFonts.Times }, new PointF(72, 72));
+
+            // Save it to a memory stream:
+            MemoryStream ms = new MemoryStream();
+            doc.Save(ms);
+            //ms.Seek(0, SeekOrigin.Begin);
+
+            ///
+
+            var credentials = new StorageCredentials("kindergarterinvoices", "av6Jd3a0s4QHPz0G0YXuPJYcpUdLntO9vxsRHL0EfQDGUsKF5YR/y4iU1bGQkUxjnnbVWz4G9ffyrROhKh+ncQ==");
+            var client = new CloudBlobClient(new Uri("https://kindergarterinvoices.blob.core.windows.net/"), credentials);
+
+            // Retrieve a reference to a container. (You need to create one using the mangement portal, or call container.CreateIfNotExists())
+            var container = client.GetContainerReference("kphinvoices");
+            // Retrieve reference to a blob named "myfile.pdf".
+            var blockBlob = container.GetBlockBlobReference("diploma-diseno-email.pdf");
+            blockBlob.Properties.ContentType = "application/pdf";
+
+
+                 blockBlob.UploadFromStreamAsync(ms);
+            
+            /////
+            // Send it back to the web page:
+            Response.Headers["Content-Disposition"] = "inline; filename=\"HelloWorld.pdf\"";
+            return new FileStreamResult(ms, "application/pdf");
+        }
+        public void CreatePDF2()
+        {
+            var account = new CloudStorageAccount(new StorageCredentials("kindergarterinvoices", "av6Jd3a0s4QHPz0G0YXuPJYcpUdLntO9vxsRHL0EfQDGUsKF5YR/y4iU1bGQkUxjnnbVWz4G9ffyrROhKh+ncQ=="), true);
+            var blobClient = account.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference("kphinvoices");
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (var doc = new iTextSharp.text.Document())
+                {
+                    PdfWriter writer = PdfWriter.GetInstance(doc, ms);
+                    doc.Open();
+                    doc.Add(new Paragraph("Hello World"));
+                }
+                var byteArray = ms.ToArray();
+                var blobName = "hello-world.pdf";
+                var blob = container.GetBlockBlobReference(blobName);
+                blob.Properties.ContentType = "application/pdf";
+                blob.UploadFromByteArrayAsync(byteArray, 0, byteArray.Length);
+            }
+        }
         //public async Task<IActionResult> Generate(Invoice invoice)
         //{
         //    invoice.Status = InvoiceStatus.Generated;
