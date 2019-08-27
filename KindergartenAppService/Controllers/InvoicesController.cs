@@ -534,6 +534,7 @@ namespace KindergartenAppService.Controllers
             Invoice invoiceToPreview = null;
             var _invoice = await _context.Invoices
                 .Include(i => i.Kid.TutorPrincipal)
+                .Include(i => i.Kid.Kindergarter)
                 .Include("InvoiceDetails.Item")
                 .FirstOrDefaultAsync(i => i.Id == invoice.Id);
             //var invoiceTest = await _context.Invoices

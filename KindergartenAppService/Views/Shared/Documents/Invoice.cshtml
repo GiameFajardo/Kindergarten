@@ -176,9 +176,9 @@
         <div class="text-right">
             <button id="printInvoice" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
             <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
-            <a class="btn btn-info" asp-controller="Invoices" asp-action="GeneratePDF">PDF</a>
-            <a class="btn btn-info" asp-controller="Invoices" asp-action="CreatePDF">PDF2</a>
-            <a class="btn btn-info" asp-controller="Invoices" asp-action="CreatePDF2">PDF22</a>
+            @*<a class="btn btn-info" asp-controller="Invoices" asp-action="GeneratePDF">PDF</a>
+        <a class="btn btn-info" asp-controller="Invoices" asp-action="CreatePDF">PDF2</a>
+        <a class="btn btn-info" asp-controller="Invoices" asp-action="CreatePDF2">PDF22</a>*@
 
         </div>
         <hr>
@@ -195,15 +195,22 @@
                     <div class="col company-details">
                         <h2 class="name">
                             <a target="_blank" href="https://www.instagram.com/kidsplayhouserd/?hl=en">
-                            Kids Play House
+                                
+                                @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Description)
                             </a>
                         </h2>
                         <div>
+                            @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Address)
                             
-                            Gurabo
                         </div>
-                        <div>809-736-9220</div>
-                        <div>kidsplayhouserd1@gmail.com</div>
+                        <div>
+                            @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Phone)
+                            
+                        </div>
+                        <div>
+                            @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Mail)
+                            
+                        </div>
                     </div>
                 </div>
             </header>
@@ -326,7 +333,10 @@
                 <div class="thanks">Gracias!</div>
                 <div class="notices">
                     <div>NOTICE:</div>
-                    <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                    <div class="notice">
+                        @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.InvoiceMessage)
+                        @*A finance charge of 1.5% will be made on unpaid balances after 30 days.*@
+                    </div>
                 </div>
             </main>
             <footer>

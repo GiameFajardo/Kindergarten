@@ -8,15 +8,15 @@ namespace KindergartenAppService.Models
 {
     public class Kindergarter: UniqueEntity
     {
-        [Display(Prompt = "Descripción", Name = "My little hero")]
+        [Display(Prompt = "My little hero", Name = "Descripción")]
         public string Description { get; set; }
-        [Display(Prompt = "Dirección", Name = "C/")]
+        [Display(Prompt = "C/", Name = "Dirección")]
         public string Address { get; set; }
-        [Display(Prompt = "Correo", Name = "info@mylittlehero.com")]
+        [Display(Prompt = "info@mylittlehero.com", Name = "Correo")]
         public string Mail { get; set; }
-        [Display(Prompt = "Teléfono", Name = "809-858-1515")]
+        [Display(Prompt = "809-858-1515", Name = "Teléfono")]
         public string Phone { get; set; }
-        [Display(Prompt = "Mensaje en pie de factura", Name = "Gracias por preferirnos")]
+        [Display(Prompt = "Gracias por preferirnos", Name = "Mensaje de pie de factura")]
         public string InvoiceMessage { get; set; }
 
         public virtual ICollection<Kid> Kids { get; set; }
