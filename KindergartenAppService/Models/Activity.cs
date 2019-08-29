@@ -12,7 +12,7 @@ namespace KindergartenAppService.Models
         [Required(ErrorMessage = "Seleccionar una plantilla es requerido.")]
         [Display(Name = "Plantilla", Prompt = "Selecciones una plantilla")]
         public Guid ActivityTemplateId { get; set; }
-        [Required(ErrorMessage = "Seleccionar una plantilla es requerido.")]
+        //[Required(ErrorMessage = "Seleccionar una plantilla es requerido.")]
         [Display(Name = "Plantilla", Prompt = "Selecciones una plantilla")]
         public ActivityTemplate ActivityTemplate { get; set; }
 

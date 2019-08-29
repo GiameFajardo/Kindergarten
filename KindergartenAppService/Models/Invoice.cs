@@ -10,6 +10,18 @@ namespace KindergartenAppService.Models
 {
     public class Invoice:UniqueEntity
     {
+        [Display(Name = "Secuencia", Prompt = "")]
+        public long Sequence { get; set; }
+        [NotMapped]
+        private string _sequenceString;
+        [NotMapped]
+        public string SequenceString
+        {
+            get { return Sequence.ToString().PadLeft(10,'0'); }
+            private set { _sequenceString = value; }
+        }
+        [Display(Name = "Documento", Prompt = "")]
+        public string Document { get; set; }
         [Display(Name = "Fecha de creación", Prompt = "")]
         public DateTime GeneratedDate { get; set; }
         [Display(Name = "Fecha de vencimiento", Prompt = "")]

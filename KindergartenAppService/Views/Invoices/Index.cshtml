@@ -11,6 +11,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Document)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.GeneratedDate)
             </th>
             <th>
@@ -35,6 +38,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Document)
+            </td>
+            <td>
                 @item.GeneratedDate.ToString("dd-MM-yyyy")
             </td>
 
@@ -43,11 +49,13 @@
             </td>
             <td>
                 <a class="link" disable asp-controller="Kids" asp-action="Details" asp-route-id="@item.KidId">
-                @Html.DisplayFor(modelItem => item.Kid.FullName)
+                    @Html.DisplayFor(modelItem => item.Kid.FullName)
                 </a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Kid.TutorPrincipal.FullName)
+                <a class="link" disable asp-controller="Tutors" asp-action="Details" asp-route-id="@item.Kid.TutorPrincipalId">
+                    @Html.DisplayFor(modelItem => item.Kid.TutorPrincipal.FullName)
+                </a>
             </td>
             <td>
                 @string.Format("{0:C}", item.Price)

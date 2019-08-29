@@ -154,6 +154,7 @@ namespace KindergartenAppService.Models
         public DbSet<KindergartenAppService.Models.Service> Service { get; set; }
         public DbSet<KindergartenAppService.Models.ActivityTemplate> ActivityTemplate { get; set; }
         public DbSet<KindergartenAppService.Models.EnrollActivity> EnrollActivity { get; set; }
+        public DbSet<Sequence> Sequences { get; set; }
 
         #region Seeding Methods
         private List<Enrollment> GenerateEnrollments(List<Kid> kids)

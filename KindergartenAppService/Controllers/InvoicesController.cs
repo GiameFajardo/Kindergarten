@@ -1,20 +1,20 @@
-﻿using KindergartenAppService.Models;
+﻿using GrapeCity.Documents.Pdf;
+using GrapeCity.Documents.Text;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using KindergartenAppService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
-using GrapeCity.Documents.Pdf;
-using GrapeCity.Documents.Text;
-using Microsoft.WindowsAzure.Storage;
-using iTextSharp.text.pdf;
-using iTextSharp.text;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KindergartenAppService.Controllers
 {
@@ -48,7 +48,7 @@ namespace KindergartenAppService.Controllers
                 .Where(i => i.GeneratedDate.Month == DateTime.Now.Month).ToList();
             var invoicesUpdated = await UpdateInvoices(invoicesGenerated);
             //var invoicesModified = await ModifieInvoices(invoicesGenerated);
-            return View(invoicesUpdated);
+            return View(invoicesUpdated.OrderBy(i => i.Sequence).ToList());
         }
 
         private async Task<List<Invoice>> UpdateInvoices(List<Invoice> invoicesGenerated)
@@ -65,6 +65,8 @@ namespace KindergartenAppService.Controllers
                     invoice.Status = invoiceFound.Status;
                     invoice.Price = invoiceFound.Price;
                     invoice.GeneratedDate = invoiceFound.GeneratedDate;
+                    invoice.Sequence = invoiceFound.Sequence;
+                    invoice.Document = invoiceFound.Document;
                 }
             }
 
@@ -416,13 +418,13 @@ namespace KindergartenAppService.Controllers
         public async Task<IActionResult> Cancelar(Invoice invoice)
         {
             var invoiceFound = await _context.Invoices
-                .Include(i=>i.InvoiceDetails)
-                .SingleOrDefaultAsync(i=>i.Id == invoice.Id);
+                .Include(i => i.InvoiceDetails)
+                .SingleOrDefaultAsync(i => i.Id == invoice.Id);
             if (invoiceFound != null)
             {
 
                 _context.InvoiceDetail.RemoveRange(invoiceFound.InvoiceDetails);
-                
+
                 _context.Invoices.Remove(invoiceFound);
 
                 await _context.SaveChangesAsync();
@@ -432,6 +434,7 @@ namespace KindergartenAppService.Controllers
         }
         public async Task<IActionResult> Generate(Guid? id)
         {
+            var prefix = _context.Sequences.SingleOrDefault(s => s.DocumentType == DocumentType.Invoice).Prefix;
 
             Invoice invoice = null;
             List<InvoiceDetail> details = new List<InvoiceDetail>();
@@ -446,6 +449,7 @@ namespace KindergartenAppService.Controllers
             {
                 var kid = await _context.Kid.FindAsync(id);
                 decimal acumulativeAmount = 0;
+                var sequence = _context.Sequences.SingleOrDefault(s => s.DocumentType == DocumentType.Invoice);
                 foreach (var activity in enrollActivities)
                 {
                     acumulativeAmount += activity.Service.Price;
@@ -459,8 +463,12 @@ namespace KindergartenAppService.Controllers
                     };
                     details.Add(detail);
                 }
+
+                long nextSequence = sequence.StaringSequence > sequence.CurrentSequence ? sequence.StaringSequence : sequence.CurrentSequence + 1;
+
                 invoice = new Invoice
                 {
+                    Sequence = nextSequence,
                     Status = InvoiceStatus.Generated,
                     GeneratedDate = DateTime.Now,
                     DueDate = new DateTime(
@@ -475,8 +483,9 @@ namespace KindergartenAppService.Controllers
                     Id = Guid.NewGuid(),
                     InvoiceDetails = details
                 };
+                invoice.Document = prefix + invoice.SequenceString;
                 invoice.Price = acumulativeAmount;
-
+                sequence.CurrentSequence = nextSequence;
                 _context.Invoices.Add(invoice);
 
 
@@ -544,6 +553,22 @@ namespace KindergartenAppService.Controllers
 
             return View(_invoice);
         }
+        public async Task<IActionResult> Payment()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Payment([Bind("Amount")] Payment payment)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            return View();
+        }
         public async Task GeneratePDF(Invoice invoice)
         {
             string filePath = "C:\\Users\\gfajardo\\Downloads\\diploma-diseno-email.pdf";
@@ -587,8 +612,8 @@ namespace KindergartenAppService.Controllers
             blockBlob.Properties.ContentType = "application/pdf";
 
 
-                 blockBlob.UploadFromStreamAsync(ms);
-            
+            blockBlob.UploadFromStreamAsync(ms);
+
             /////
             // Send it back to the web page:
             Response.Headers["Content-Disposition"] = "inline; filename=\"HelloWorld.pdf\"";

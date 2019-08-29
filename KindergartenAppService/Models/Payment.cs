@@ -8,5 +8,6 @@ namespace KindergartenAppService.Models
         public Invoice Invoice { get; set; }
         public Guid ReceiptId { get; set; }
         public Receipt Receipt { get; set; }
+        public decimal Amount { get; set; }
     }
 }

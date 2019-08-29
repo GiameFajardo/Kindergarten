@@ -4,14 +4,16 @@ using KindergartenAppService.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace KindergartenAppService.Migrations
 {
     [DbContext(typeof(KindergarterContext))]
-    partial class KindergartenContextModelSnapshot : ModelSnapshot
+    [Migration("20190829020401_Creating_Sequence")]
+    partial class Creating_Sequence
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,8 +145,6 @@ namespace KindergartenAppService.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Document");
-
                     b.Property<DateTime>("DueDate");
 
                     b.Property<DateTime>("GeneratedDate");
@@ -152,8 +152,6 @@ namespace KindergartenAppService.Migrations
                     b.Property<Guid>("KidId");
 
                     b.Property<decimal>("Price");
-
-                    b.Property<long>("Sequence");
 
                     b.Property<int>("Status");
 
@@ -311,8 +309,6 @@ namespace KindergartenAppService.Migrations
 
                     b.Property<Guid>("ReceiptId");
 
-                    b.Property<decimal>("Amount");
-
                     b.HasKey("InvoiceId", "ReceiptId");
 
                     b.HasIndex("ReceiptId");
@@ -357,12 +353,6 @@ namespace KindergartenAppService.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Document");
-
-                    b.Property<DateTime>("GeneratedDate");
-
-                    b.Property<long>("Sequence");
 
                     b.HasKey("Id");
 
