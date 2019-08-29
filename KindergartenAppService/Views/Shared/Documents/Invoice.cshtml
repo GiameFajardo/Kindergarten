@@ -189,27 +189,31 @@
                 <div class="row">
                     <div class="col">
                         <a target="_blank" href="https://www.instagram.com/kidsplayhouserd/?hl=en">
-                            <img src="/assets/images/kphlogo.jpg" data-holder-rendered="true" />
+                            <img width="250" src="/assets/images/logokphsm.jpg" data-holder-rendered="true" />
                             </a>
                     </div>
                     <div class="col company-details">
                         <h2 class="name">
                             <a target="_blank" href="https://www.instagram.com/kidsplayhouserd/?hl=en">
-                                
+
                                 @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Description)
                             </a>
                         </h2>
                         <div>
                             @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Address)
-                            
+
                         </div>
                         <div>
                             @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Phone)
-                            
+
                         </div>
                         <div>
                             @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Mail)
-                            
+
+                        </div>
+                        <div>
+                            @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.Instagram)
+
                         </div>
                     </div>
                 </div>
@@ -222,18 +226,21 @@
                             @Html.DisplayFor(modelItem => Model.Kid.FullName)
                         </h2>
                         <div class="address">
-                            @Html.DisplayFor(modelItem => Model.Kid.Address)
+                            Tutor: @Html.DisplayFor(modelItem => Model.Kid.TutorPrincipal.FullName)
                         </div>
-                        <div class="email"><a href="mailto:kidsplayhouserd1@gmail.com">
-                            @Html.DisplayFor(modelItem => Model.Kid.TutorPrincipal.Mail)
-                        </a></div>
+                        <div class="email">
+                            <a href="mailto:kidsplayhouserd1@gmail.com">
+                                @Html.DisplayFor(modelItem => Model.Kid.TutorPrincipal.Mail)
+                            </a>
+                        </div>
                     </div>
                     <div class="col invoice-details">
                         <h1 class="invoice-id">
                             @Html.DisplayFor(modelItem => Model.Id)
                         </h1>
                         <div class="date">
-                            Fecha de facturación: @Model.GeneratedDate.ToString("dd-MM-yyyy")
+                            @*Fecha de facturación: @Model.GeneratedDate.ToString("dd-MM-yyyy")*@
+                            Factura del mes de <strong>@Model.Month</strong>
                         </div>
                         <div class="date">
                             Fecha de vencimiento: @Model.DueDate.ToString("dd-MM-yyyy")
@@ -251,88 +258,92 @@
                         </tr>
                     </thead>
                     <tbody>
-                       <!-- <tr>
-                            <td class="no">04</td>
-                            <td class="text-left"><h3>
-                                <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
-                                Youtube channel
-                                </a>
-                                </h3>
-                               <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
-                                   Useful videos
-                               </a> 
-                               to improve your Javascript skills. Subscribe and stay tuned :)
-                            </td>
-                            <td class="unit">$0.00</td>
-                            <td class="qty">100</td>
-                            <td class="total">$0.00</td>
-                        </tr> -->
-                            @{int count = 0;}
-                            @{decimal subTotal = 0;}
-                        @foreach (var item in Model.InvoiceDetails) {
-                        <tr>
-                            @{count++;}
-                            @{subTotal += item.Amount;}
-                            <td class="no">@count</td>
-                            <td class="text-left">
-                                <h3>@Html.DisplayFor(modelItem => item.Item.Reference)</h3>
-                                @Html.DisplayFor(modelItem => item.Item.Description)
-                            </td>
-                            <td class="unit">
-                                @string.Format("{0:C}", item.Amount)
-                            </td>
-                            <td class="qty">
-                                @Html.DisplayFor(modelItem => item.Quantity)
-                            </td>
-                            <td class="total">
-                                @string.Format("{0:C}", item.Amount)
-                                
-                            </td>
+                        <!-- <tr>
+                <td class="no">04</td>
+                <td class="text-left"><h3>
+                    <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
+                    Youtube channel
+                    </a>
+                    </h3>
+                   <a target="_blank" href="https://www.youtube.com/channel/UC_UMEcP_kF0z4E6KbxCpV1w">
+                       Useful videos
+                   </a>
+                   to improve your Javascript skills. Subscribe and stay tuned :)
+                </td>
+                <td class="unit">$0.00</td>
+                <td class="qty">100</td>
+                <td class="total">$0.00</td>
+            </tr> -->
+                        @{int count = 0;}
+                        @{decimal subTotal = 0;}
+                        @foreach (var item in Model.InvoiceDetails)
+                        {
+                            <tr>
+                                @{count++;}
+                                @{subTotal += item.Amount;}
+                                <td class="no">@count</td>
+                                <td class="text-left">
+                                    <h3>@Html.DisplayFor(modelItem => item.Item.Reference)</h3>
+                                    @Html.DisplayFor(modelItem => item.Item.Description)
+                                </td>
+                                <td class="unit">
+                                    @string.Format("{0:C}", item.Amount)
+                                </td>
+                                <td class="qty">
+                                    @Html.DisplayFor(modelItem => item.Quantity)
+                                </td>
+                                <td class="total">
+                                    @string.Format("{0:C}", item.Amount)
 
-                        </tr>
+                                </td>
+
+                            </tr>
                         }
-<!--
-                        <tr>
-                            <td class="no">02</td>
-                            <td class="text-left"><h3>Website Development</h3>Developing a Content Management System-based Website</td>
-                            <td class="unit">$40.00</td>
-                            <td class="qty">80</td>
-                            <td class="total">$3,200.00</td>
-                        </tr>
-                        <tr>
-                            <td class="no">03</td>
-                            <td class="text-left"><h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)</td>
-                            <td class="unit">$40.00</td>
-                            <td class="qty">20</td>
-                            <td class="total">$800.00</td>
-                        </tr>
--->
+                        <!--
+                                    <tr>
+                                        <td class="no">02</td>
+                                        <td class="text-left"><h3>Website Development</h3>Developing a Content Management System-based Website</td>
+                                        <td class="unit">$40.00</td>
+                                        <td class="qty">80</td>
+                                        <td class="total">$3,200.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="no">03</td>
+                                        <td class="text-left"><h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)</td>
+                                        <td class="unit">$40.00</td>
+                                        <td class="qty">20</td>
+                                        <td class="total">$800.00</td>
+                                    </tr>
+            -->
                     </tbody>
                     <tfoot>
                         <tr>
                             <td colspan="2"></td>
                             <td colspan="2">SUBTOTAL</td>
                             <td>
-                                @string.Format("{0:C}",@subTotal)
+                                @string.Format("{0:C}", @subTotal)
                             </td>
                         </tr>
-<!--
-                        <tr>
-                            <td colspan="2"></td>
-                            <td colspan="2">TAX 25%</td>
-                            <td>$1,300.00</td>
-                        </tr>
--->
+                        <!--
+                                    <tr>
+                                        <td colspan="2"></td>
+                                        <td colspan="2">TAX 25%</td>
+                                        <td>$1,300.00</td>
+                                    </tr>
+            -->
                         <tr>
                             <td colspan="2"></td>
                             <td colspan="2">TOTAL</td>
-                            <td>@string.Format("{0:C}",@subTotal)</td>
+                            <td>@string.Format("{0:C}", @subTotal)</td>
                         </tr>
                     </tfoot>
                 </table>
-                <div class="thanks">Gracias!</div>
+                <div class="thanks"></div>
+                <br />
+                <br />
+                <br />
                 <div class="notices">
-                    <div>NOTICE:</div>
+                    @*<div>NOTICE:</div>*@
                     <div class="notice">
                         @Html.DisplayFor(modelItem => Model.Kid.Kindergarter.InvoiceMessage)
                         @*A finance charge of 1.5% will be made on unpaid balances after 30 days.*@

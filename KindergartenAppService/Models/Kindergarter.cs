@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,11 +15,17 @@ namespace KindergartenAppService.Models
         public string Address { get; set; }
         [Display(Prompt = "info@mylittlehero.com", Name = "Correo")]
         public string Mail { get; set; }
+
+        [Display(Prompt = "@mylittlehero", Name = "Instagram")]
+        public string Instagram { get; set; }
+        [Display(Prompt = "@mylittlehero", Name = "Facebok")]
+        public string Facebook { get; set; }
         [Display(Prompt = "809-858-1515", Name = "Teléfono")]
         public string Phone { get; set; }
         [Display(Prompt = "Gracias por preferirnos", Name = "Mensaje de pie de factura")]
         public string InvoiceMessage { get; set; }
-
+        //public IFormFile Logo { get; set; }
+        //public string LogoPath { get; set; }
         public virtual ICollection<Kid> Kids { get; set; }
         public virtual ICollection<ActivityTemplate> ActivityTemplates { get; set; }
         public virtual ICollection<AppUser> Users { get; set; }

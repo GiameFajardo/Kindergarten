@@ -53,10 +53,19 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description,Address,Mail,Phone,InvoiceMessage,Id")] Kindergarter kindergarter)
+        public async Task<IActionResult> Create([Bind("Description,Address,Mail,Instagram,Facebook,Phone,InvoiceMessage,Id")] Kindergarter kindergarter)
         {
             if (ModelState.IsValid)
             {
+                //string uniqueFileName = null;
+                //if (kindergarter.Logo != null)
+                //{
+                //    string uploadPath = Path.Combine(_hostingEnviroment.WebRootPath, "images");
+                //    uniqueFileName = "logo_" + kindergarter.Id.ToString() + "_" + kindergarter.Logo.FileName;
+                //    string filePath = Path.Combine(uploadPath, uniqueFileName);
+                //    kindergarter.Logo.CopyTo(new FileStream(filePath, FileMode.Create));
+                //    kindergarter.LogoPath = uniqueFileName;
+                //}
                 kindergarter.Id = Guid.NewGuid();
                 _context.Add(kindergarter);
                 await _context.SaveChangesAsync();
@@ -86,7 +95,7 @@ namespace KindergartenAppService.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Description,Address,Mail,Phone,InvoiceMessage,Id")] Kindergarter kindergarter)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Description,Address,Mail,Instagram,Facebook,Phone,InvoiceMessage,Id")] Kindergarter kindergarter)
         {
             if (id != kindergarter.Id)
             {

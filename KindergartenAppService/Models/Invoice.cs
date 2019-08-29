@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,5 +24,33 @@ namespace KindergartenAppService.Models
         public decimal Price { get; set; }
         [Display(Name = "Estado", Prompt = "")]
         public InvoiceStatus Status { get; set; }
+        [NotMapped]
+        private string _month;
+        [NotMapped]
+        public string Month
+        {
+            get
+            {
+                int month = GeneratedDate.Month;
+                switch (month)
+                {
+                    case 1: return "Enero";
+                    case 2: return "Febrero";
+                    case 3: return "Marzo";
+                    case 4: return "Abril";
+                    case 5: return "Mayo";
+                    case 6: return "Junio";
+                    case 7: return "Julio";
+                    case 8: return "Agosto";
+                    case 9: return "Septiembre";
+                    case 10: return "Octubre";
+                    case 11: return "Noviembre";
+                    case 12: return "Diciembre";
+                    default: return "";
+                }
+            }
+            set { _month = value; }
+        }
+
     }
 }

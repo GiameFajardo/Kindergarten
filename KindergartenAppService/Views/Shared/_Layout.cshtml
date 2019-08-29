@@ -82,6 +82,10 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        @*@if (IsSectionDefined("Scripts"))
+        {
+            @RenderSection("Scripts", required: true)
+        }*@
     </div>
 
     <footer class="border-top footer text-muted">
