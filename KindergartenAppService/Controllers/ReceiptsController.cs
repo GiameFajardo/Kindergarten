@@ -140,6 +140,21 @@ namespace KindergartenAppService.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var receipt = await _context.Receipt.FindAsync(id);
+            var invoice = await _context.Invoices.Include("Payments.Receipt")
+                .SingleOrDefaultAsync(i => i.Document == receipt.AffectedDocument);
+
+            if (invoice.Payments.Count == 1)
+            {
+                if (invoice.Payments.First().ReceiptId == id)
+                {
+                    invoice.Status = InvoiceStatus.Generated;
+                }
+            }else if(invoice.Payments.Count > 1)
+            {
+                invoice.Status = InvoiceStatus.PartialPaid;
+
+            }
+
             _context.Receipt.Remove(receipt);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

@@ -41,7 +41,7 @@
                 @Html.DisplayFor(modelItem => item.Document)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GeneratedDate)
+                @item.GeneratedDate.ToString("dd/MM/yyyy")
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
@@ -54,7 +54,7 @@
 
             </td>
             <td>
-                <a class="btn btn-warning" asp-action="Preview" asp-route-id="@item.Id">Imprimir</a> 
+                <a class="btn btn-warning" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a> 
                 <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
                 <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Cancelar</a>
             </td>

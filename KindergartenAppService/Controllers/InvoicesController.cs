@@ -589,6 +589,7 @@ namespace KindergartenAppService.Controllers
             {
                 foreach (var pay in inv.Payments)
                 {
+
                     totalPaid += pay.Amount;
                 }
             }

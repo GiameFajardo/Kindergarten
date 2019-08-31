@@ -28,6 +28,8 @@ namespace KindergartenAppService.Models
         public decimal Amount { get; set; }
         [Display(Name = "Documento afectado", Prompt = "")]
         public string AffectedDocument { get; set; }
+        [Display(Name = "Estado", Prompt = "")]
+        public ReceiptStatus Status { get; set; }
 
         public ICollection<Payment> Payments { get; set; }
     }
