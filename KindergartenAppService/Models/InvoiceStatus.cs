@@ -12,6 +12,8 @@ namespace KindergartenAppService.Models
         [Display(Name = "Procesada")]
         Processed = 'P',
         [Display(Name = "Pagada")]
-        Paid = 'R'
+        Paid = 'R',
+        [Display(Name = "Pago parcial")]
+        PartialPaid = 'I'
     }
 }

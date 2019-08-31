@@ -16,6 +16,10 @@
     <Compile Remove="Migrations\20190811230915_adding_Service_to_EnrollActivity.Designer.cs" />
     <Compile Remove="Migrations\20190813032005_Adding_Invoice_navidation_to_Detail.cs" />
     <Compile Remove="Migrations\20190813032005_Adding_Invoice_navidation_to_Detail.Designer.cs" />
+    <Compile Remove="Migrations\20190829212204_Creating_Payment_DB.cs" />
+    <Compile Remove="Migrations\20190829212204_Creating_Payment_DB.Designer.cs" />
+    <Compile Remove="Migrations\20190830023706_modify_Payments_in_Receipt.cs" />
+    <Compile Remove="Migrations\20190830023706_modify_Payments_in_Receipt.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

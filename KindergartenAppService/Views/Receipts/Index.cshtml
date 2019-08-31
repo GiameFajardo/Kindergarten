@@ -1,0 +1,64 @@
+﻿@model IEnumerable<KindergartenAppService.Models.Receipt>
+
+@{
+    ViewData["Title"] = "Recibos de ingreso";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Recibos</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sequence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Document)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeneratedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AffectedDocument)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sequence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Document)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GeneratedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                <a class="btn-link " asp-action="PreviewInvoice"  asp-route-id="@item.Id">
+
+                    @Html.DisplayFor(modelItem => item.AffectedDocument)
+                </a>
+
+            </td>
+            <td>
+                <a class="btn btn-warning" asp-action="Preview" asp-route-id="@item.Id">Imprimir</a> 
+                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Cancelar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

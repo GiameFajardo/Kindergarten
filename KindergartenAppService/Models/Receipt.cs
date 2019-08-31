@@ -24,6 +24,11 @@ namespace KindergartenAppService.Models
         [Display(Name = "Fecha de creación", Prompt = "")]
         public DateTime GeneratedDate { get; set; }
 
+        [Display(Name = "Monto", Prompt = "")]
+        public decimal Amount { get; set; }
+        [Display(Name = "Documento afectado", Prompt = "")]
+        public string AffectedDocument { get; set; }
+
         public ICollection<Payment> Payments { get; set; }
     }
 }

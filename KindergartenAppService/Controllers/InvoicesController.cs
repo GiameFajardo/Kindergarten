@@ -419,7 +419,14 @@ namespace KindergartenAppService.Controllers
         {
             var invoiceFound = await _context.Invoices
                 .Include(i => i.InvoiceDetails)
+                .Include(i=>i.Payments)
                 .SingleOrDefaultAsync(i => i.Id == invoice.Id);
+            if (invoiceFound.Payments.Count > 0)
+            {
+                TempData["CantDelete"] ="Factura presenta pagos.";
+                return RedirectToAction(nameof(Index));
+            }
+
             if (invoiceFound != null)
             {
 
@@ -553,17 +560,118 @@ namespace KindergartenAppService.Controllers
 
             return View(_invoice);
         }
-        public async Task<IActionResult> Payment()
+
+        public async Task<IActionResult> ReceiptPreview(Receipt receipt)
         {
-            return View();
+            var _receipt = await _context.Receipt
+                //.Include(i => i.Payments.Select(p=>p.Invoice.Kid.Kindergarter))
+                .Include("Payments.Invoice.Kid.Kindergarter")
+                .Include("Payments.Invoice.InvoiceDetails.Item")
+                //.Include("InvoiceDetails.Item")
+                .FirstOrDefaultAsync(i => i.Id == receipt.Id);
+            //var invoiceTest = await _context.Invoices
+            //    .Include(i => i.Kid.TutorPrincipal)
+            //    .Include("InvoiceDetails.Item")
+            //    .SingleOrDefaultAsync(i => i.Id == new Guid("2083BC06-40EE-4445-A87C-F57D095E0693"));
+
+            return View(_receipt);
+        }
+        public async Task<IActionResult> Payment(Invoice invoice)
+        {
+            var payment = new Payment { InvoiceId = invoice.Id };
+                var inv = await _context.Invoices
+                .Include(i=>i.Payments).Include(i=>i.Kid.TutorPrincipal)
+                .SingleOrDefaultAsync(i=> i.Id == invoice.Id);
+
+            decimal totalPaid = 0;
+            decimal remaining = 0;
+            if (inv.Payments != null && inv.Payments.Count > 0)
+            {
+                foreach (var pay in inv.Payments)
+                {
+                    totalPaid += pay.Amount;
+                }
+            }
+            remaining = inv.Price - totalPaid;
+
+            ViewData["doc"] = inv.Document;
+            ViewData["remaining"] = remaining;
+            ViewData["invoice"] = inv;
+            return View(payment);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Payment([Bind("Amount")] Payment payment)
+        public async Task<IActionResult> Payment([Bind("Amount,InvoiceId")] Payment payment)
         {
+
             if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var prefix = _context.Sequences.SingleOrDefault(s => s.DocumentType == DocumentType.Recipe).Prefix;
+                var sequence = _context.Sequences.SingleOrDefault(s => s.DocumentType == DocumentType.Recipe);
+                long nextSequence = sequence.StaringSequence > sequence.CurrentSequence ? sequence.StaringSequence : sequence.CurrentSequence + 1;
+
+                var invoiceFound = _context.Invoices.Include(i => i.Payments).SingleOrDefault(i => i.Id == payment.InvoiceId);
+                decimal totalPaid = 0;
+                decimal remaining = 0;
+                if (invoiceFound.Payments != null && invoiceFound.Payments.Count > 0)
+                {
+                    foreach (var pay in invoiceFound.Payments)
+                    {
+                        totalPaid += pay.Amount;
+                    }
+                }
+                remaining = invoiceFound.Price - totalPaid;
+                if (payment.Amount > remaining)
+                {
+                    ViewData["Rango"] = "Se espera un monto menor a " + remaining.ToString();
+                    return View();
+                }
+                Receipt receipt = new Receipt
+                {
+                    Id = Guid.NewGuid(),
+                    GeneratedDate = DateTime.Now,
+                    Sequence = nextSequence,
+                    Amount = payment.Amount,
+                    AffectedDocument = invoiceFound.Document
+
+                };
+                receipt.Document = prefix + receipt.SequenceString;
+
+
+                //Payment paymentToInsert = new Payment
+                //{
+                //    Amount = payment.Amount,
+                //    ReceiptId = receipt.Id
+                //};
+
+                //payment.ReceiptId = receipt.Id;
+
+
+                //var invoiceFound = _context.Invoices.SingleOrDefault(i => i.Id == payment.InvoiceId);
+                //_context.Attach<Invoice>(invoiceFound);
+                //paymentToInsert.InvoiceId = invoiceFound.Id;
+                //paymentToInsert.ReceiptId = receipt.Id;
+
+                //receipt.Payments.Add(paymentToInsert);
+
+                sequence.CurrentSequence = nextSequence;
+
+                remaining -= receipt.Amount;
+                if (remaining > 0)
+                {
+                    invoiceFound.Status = InvoiceStatus.PartialPaid;
+                }
+                else
+                {
+                    invoiceFound.Status = InvoiceStatus.Paid;
+                }
+
+                _context.Receipt.Add(receipt);
+                payment.ReceiptId = receipt.Id;
+                _context.Payment.Add(payment);
+                _context.SaveChanges();
+                TempData["remainding"] = remaining.ToString();
+                return RedirectToAction(nameof(ReceiptPreview), receipt);
 
             }
 
