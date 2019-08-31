@@ -611,7 +611,11 @@ namespace KindergartenAppService.Controllers
                 var sequence = _context.Sequences.SingleOrDefault(s => s.DocumentType == DocumentType.Recipe);
                 long nextSequence = sequence.StaringSequence > sequence.CurrentSequence ? sequence.StaringSequence : sequence.CurrentSequence + 1;
 
-                var invoiceFound = _context.Invoices.Include(i => i.Payments).SingleOrDefault(i => i.Id == payment.InvoiceId);
+                var invoiceFound = _context.Invoices
+                    .Include(i => i.Payments)
+                    .Include(i=>i.Kid.TutorPrincipal)
+                    //.Include("Payments.Invoice.Kid.TutorPrincipal")
+                    .SingleOrDefault(i => i.Id == payment.InvoiceId);
                 decimal totalPaid = 0;
                 decimal remaining = 0;
                 if (invoiceFound.Payments != null && invoiceFound.Payments.Count > 0)
@@ -624,6 +628,10 @@ namespace KindergartenAppService.Controllers
                 remaining = invoiceFound.Price - totalPaid;
                 if (payment.Amount > remaining)
                 {
+
+                    ViewData["invoice"] = invoiceFound;
+                    ViewData["doc"] = invoiceFound.Document;
+                    ViewData["remaining"] = remaining;
                     ViewData["Rango"] = "Se espera un monto menor a " + remaining.ToString();
                     return View();
                 }
