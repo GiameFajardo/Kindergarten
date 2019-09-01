@@ -44,25 +44,33 @@ namespace KindergartenAppService.Models
             get
             {
                 int month = GeneratedDate.Month;
-                switch (month)
-                {
-                    case 1: return "Enero";
-                    case 2: return "Febrero";
-                    case 3: return "Marzo";
-                    case 4: return "Abril";
-                    case 5: return "Mayo";
-                    case 6: return "Junio";
-                    case 7: return "Julio";
-                    case 8: return "Agosto";
-                    case 9: return "Septiembre";
-                    case 10: return "Octubre";
-                    case 11: return "Noviembre";
-                    case 12: return "Diciembre";
-                    default: return "";
-                }
+                return Enum.GetName(typeof(MonthSpanish), month);
             }
             set { _month = value; }
         }
-
+        [NotMapped]
+        public MonthSpanish MonthSpanish {
+            get
+            {
+                int month = GeneratedDate.Month;
+                switch (month)
+                {
+                    case 1: return MonthSpanish.Enero;
+                    case 2: return MonthSpanish.Febrero;
+                    case 3: return MonthSpanish.Marzo;
+                    case 4: return MonthSpanish.Abril;
+                    case 5: return MonthSpanish.Mayo;
+                    case 6: return MonthSpanish.Junio;
+                    case 7: return MonthSpanish.Julio;
+                    case 8: return MonthSpanish.Agosto;
+                    case 9: return MonthSpanish.Septiembre;
+                    case 10: return MonthSpanish.Octubre;
+                    case 11: return MonthSpanish.Noviembre;
+                    case 12: return MonthSpanish.Diciembre;
+                    default: return MonthSpanish.Enero;
+                }
+            }
+            set { }
+        }
     }
 }

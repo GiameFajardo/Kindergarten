@@ -28,37 +28,52 @@ namespace KindergartenAppService.Controllers
         }
 
         // GET: Invoices
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    int month = 1;
+        //    if (ViewData["Month"] != null)
+        //    {
+        //        month = (int)ViewData["Month"];
+        //    }
+        //    else
+        //    {
+        //        month = DateTime.Now.Month;
+        //    }
+        //    var invoicesGenerated = GenerateInvoices();
+
+        //    var invoices = _context.Invoices.Include(i => i.Kid)
+        //        .Where(i => i.GeneratedDate.Month == month).ToList();
+
+        //    var invoicesUpdated = await UpdateInvoices(invoicesGenerated);
+
+        //    return View(invoicesUpdated.OrderBy(i => i.Sequence).ToList());
+        //}
+        public async Task<IActionResult> Index(int? month)
         {
-            //var kindergartenContext = _context.Invoices.Include(i => i.Kid);
-            var invoicesGenerated = GenerateInvoices();
-
-            foreach (var invoice in invoicesGenerated)
+            
+            if (month == null || month <= 0)
             {
-                //foreach (var detail in invoice.InvoiceDetails)
-                //{
-                //    _context.InvoiceDetails.Add(detail);
-                //}
-                //_context.Invoices.Add(invoice);
-
+                month = DateTime.Now.Month;
+               
             }
-            await _context.SaveChangesAsync();
+            
+            var invoicesGenerated = GenerateInvoices(month.Value);
 
             var invoices = _context.Invoices.Include(i => i.Kid)
-                .Where(i => i.GeneratedDate.Month == DateTime.Now.Month).ToList();
-            var invoicesUpdated = await UpdateInvoices(invoicesGenerated);
-            //var invoicesModified = await ModifieInvoices(invoicesGenerated);
+                .Where(i => i.GeneratedDate.Month == month).ToList();
+
+            var invoicesUpdated = await UpdateInvoices(invoicesGenerated, month.Value);
+
             return View(invoicesUpdated.OrderBy(i => i.Sequence).ToList());
         }
-
-        private async Task<List<Invoice>> UpdateInvoices(List<Invoice> invoicesGenerated)
+        private async Task<List<Invoice>> UpdateInvoices(List<Invoice> invoicesGenerated, int month)
         {
             foreach (var invoice in invoicesGenerated)
             {
                 var invoiceFound = await _context.Invoices
                                         .Include(i => i.InvoiceDetails)
                                         .SingleOrDefaultAsync(i => i.KidId == invoice.KidId &&
-                                                                   i.GeneratedDate.Month == DateTime.Now.Month);
+                                                                   i.GeneratedDate.Month == month);
                 if (invoiceFound != null)
                 {
                     invoice.Id = invoiceFound.Id;
@@ -254,7 +269,7 @@ namespace KindergartenAppService.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public List<Invoice> GenerateInvoices()
+        public List<Invoice> GenerateInvoices(int month)
         {
             List<Invoice> invoices = new List<Invoice>();
             List<InvoiceDetail> details = new List<InvoiceDetail>();
@@ -276,10 +291,10 @@ namespace KindergartenAppService.Controllers
                         GeneratedDate = DateTime.Now,
                         DueDate = new DateTime(
                         DateTime.Now.Year,
-                        DateTime.Now.Month,
+                        month,
                         DateTime.DaysInMonth(
                             DateTime.Now.Year,
-                            DateTime.Now.Month
+                            month
                             )),
                         KidId = kidGroup.First().Enrollment.KidId,
                         Kid = kidGroup.First().Enrollment.Kid,

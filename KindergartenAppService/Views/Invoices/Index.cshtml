@@ -12,7 +12,29 @@
 
 <h1>Facturas del mes</h1>
 
+<script>
+                     function SwitchMonth()
+                     {
+                         var e = document.getElementById("MonthSpanish");
+                         var strUser = e.options[e.selectedIndex].value;
+                        
+                         window.location.href = '@Url.Action("Index", "Invoices")?month='+strUser;
 
+                        
+
+                     }
+</script>
+@*@Html.DropDownListFor(m => m.ActivityId, ViewBag.ActivityId as SelectList, "Seleccionar Actividad", new { @class = "form-control", @onchange = "AddService()", id = "ActivityId2" })*@
+@Html.DropDownList("MonthSpanish", Html.GetEnumSelectList<MonthSpanish>(), "Seleccionar mes", new { @class = "form-control", @onchange = "SwitchMonth()"})
+
+
+@*@Html.DropDownList(
+                               "MonthSpanish", Html.GetEnumSelectList<MonthSpanish>(),
+                               "Selecciona un mes",
+                               new { @class = "form-control" })*@
+@*<span asp-validation-for="MonthSpanish" class="text-danger"></span>*@
+<script src="~/lib/jquery/dist/jquery.js">
+</script>
 <table class="table">
     <thead>
         <tr>
@@ -41,61 +63,62 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Document)
-            </td>
-            <td>
-                @item.GeneratedDate.ToString("dd-MM-yyyy")
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Document)
+                </td>
+                <td>
+                    @item.GeneratedDate.ToString("dd-MM-yyyy")
+                </td>
 
-            <td>
-                @item.DueDate.ToString("dd-MM-yyyy")
-            </td>
-            <td>
-                <a class="link" disable asp-controller="Kids" asp-action="Details" asp-route-id="@item.KidId">
-                    @Html.DisplayFor(modelItem => item.Kid.FullName)
-                </a>
-            </td>
-            <td>
-                <a class="link" disable asp-controller="Tutors" asp-action="Details" asp-route-id="@item.Kid.TutorPrincipalId">
-                    @Html.DisplayFor(modelItem => item.Kid.TutorPrincipal.FullName)
-                </a>
-            </td>
-            <td>
-                @string.Format("{0:C}", item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <!--<a asp-action="Edit" asp-route-id="@item.Id">Editar</a> -->
-                @{if (item.Status == InvoiceStatus.Preview)
-                    {
-
-                        <button type="button" class="btn btn-outline-info" disabled>Vista previa</button>
-                        <a class="btn btn-success" disable asp-action="Generate" asp-route-id="@item.KidId">Generar</a>
-                        <button type="button" class="btn btn-outline-danger" disabled>Cancelar</button>
-                        <button type="button" class="btn btn-outline-primary" disabled>Pagar</button>
-
-                    }
-                    else
-                    {
-                        <a class="btn btn-info" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a>
-                        <button type="button" class="btn btn-outline-success" disabled>Generar</button>
-                        <a class="btn btn-danger" disable asp-action="Cancelar" asp-route-id="@item.Id">Cancelar</a>
-                        @if (item.Status == InvoiceStatus.Paid)
+                <td>
+                    @item.DueDate.ToString("dd-MM-yyyy")
+                </td>
+                <td>
+                    <a class="link" disable asp-controller="Kids" asp-action="Details" asp-route-id="@item.KidId">
+                        @Html.DisplayFor(modelItem => item.Kid.FullName)
+                    </a>
+                </td>
+                <td>
+                    <a class="link" disable asp-controller="Tutors" asp-action="Details" asp-route-id="@item.Kid.TutorPrincipalId">
+                        @Html.DisplayFor(modelItem => item.Kid.TutorPrincipal.FullName)
+                    </a>
+                </td>
+                <td>
+                    @string.Format("{0:C}", item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <!--<a asp-action="Edit" asp-route-id="@item.Id">Editar</a> -->
+                    @{if (item.Status == InvoiceStatus.Preview)
                         {
+
+                            <button type="button" class="btn btn-outline-info" disabled>Vista previa</button>
+                            <a class="btn btn-success" disable asp-action="Generate" asp-route-id="@item.KidId">Generar</a>
+                            <button type="button" class="btn btn-outline-danger" disabled>Cancelar</button>
                             <button type="button" class="btn btn-outline-primary" disabled>Pagar</button>
+
                         }
                         else
                         {
-                            <a class="btn btn-primary" disable asp-action="Payment" asp-route-id="@item.Id">Pagar</a>
-                        }
-                    }}
-            </td>
-        </tr>
-}
+                            <a class="btn btn-info" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a>
+                            <button type="button" class="btn btn-outline-success" disabled>Generar</button>
+                            <a class="btn btn-danger" disable asp-action="Cancelar" asp-route-id="@item.Id">Cancelar</a>
+                            @if (item.Status == InvoiceStatus.Paid)
+                            {
+                                <button type="button" class="btn btn-outline-primary" disabled>Pagar</button>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary" disable asp-action="Payment" asp-route-id="@item.Id">Pagar</a>
+                            }
+                        }}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

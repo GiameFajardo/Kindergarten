@@ -59,7 +59,10 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Services" asp-action="Index">Servicios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Invoices" asp-action="Index">Facturas del mes</a>
+                            @{ 
+                                int month = DateTime.Now.Month;
+                            }
+                            <a class="nav-link text-light" asp-area="" asp-controller="Invoices" asp-action="Index" asp-route-id="@month">Facturas del mes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Receipts" asp-action="Index">Recibos</a>
