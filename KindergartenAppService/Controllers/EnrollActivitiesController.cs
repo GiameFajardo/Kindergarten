@@ -261,14 +261,6 @@ namespace KindergartenAppService.Controllers
         [HttpPost]
         public async Task<IActionResult> KidPerServiceReport(EnrollActivity ea)
         {
-            //Activity activity = await _context.Activity.FindAsync(ea.ActivityId);
-            //var result = ( from kid in _context.Kid
-            //             join enrollment in _context.Enrollments on kid.Id equals enrollment.KidId
-            //             join enrollActivity in _context.EnrollActivity on enrollment.Id equals enrollActivity.EnrollmentId
-            //             join activit in _context.Activity on enrollActivity.ActivityId equals activit.Id
-            //             where activit.Description.Contains("logica")
-            //             select kid).ToList();
-            //var enrolls = _context.EnrollActivity.ToList();
             if (ea.ActivityId != Guid.Empty)
             {
 
