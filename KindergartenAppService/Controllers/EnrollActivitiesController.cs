@@ -261,6 +261,7 @@ namespace KindergartenAppService.Controllers
         [HttpPost]
         public async Task<IActionResult> KidPerServiceReport(EnrollActivity ea)
         {
+
             if (ea.ActivityId != Guid.Empty)
             {
 
