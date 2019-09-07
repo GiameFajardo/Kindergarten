@@ -1,0 +1,16 @@
+﻿@model List<Kid>
+@{
+    ViewData["Title"] = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Report</h1>
+
+
+
+
+<partial name="Documents/KidsPerService" />
+
+<div>
+    <a asp-action="Index">Retornar al listado</a>
+</div>

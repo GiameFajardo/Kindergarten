@@ -1,0 +1,115 @@
+﻿@model List<Kid>
+<style>
+    .bg-white{
+        background: white;
+    }
+</style>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container bg-white">
+    <div class="row">
+        <div class="col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="">
+                            <img src="~/assets/images/logokphsm.jpg" alt="allytees-500-trans.png" width="120">
+                        </div>
+                    
+                        <h1>Recibo</h1>
+                        <strong> @*@Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Description*@</strong>
+                        <br>
+                        @*@Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Address*@
+                        <br>
+
+                        @*@*<abbr title="Teléfono"></abbr@ @Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Phone*@
+                    
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                    <p>
+                        <em>@*Fecha: @Model.GeneratedDate.ToString("dd-MM-yyyy")*@</em>
+                    </p>
+                    <p>
+                       @* <em>Recibo: @Html.DisplayFor(modelItem => Model.Document)</em>*@
+                    </p>
+                    <p>
+                        <em>@*Factura: @Html.DisplayFor(modelItem => Model.AffectedDocument)*@</em>
+                    </p>
+                    </br>
+                    <h4>
+                        @*@Html.DisplayFor(modelItem => Model.Payments.FirstOrDefault().Invoice.Kid.FullName)*@
+                    </h4>
+                    <h5>
+                        @*@Html.DisplayFor(modelItem => Model.Payments.FirstOrDefault().Invoice.Kid.TutorPrincipal.FullName)*@
+                    </h5>
+                </div>
+            </div>
+            <div class="row">
+                </span>
+                <h3>Concepto</h3>
+                @*DETAILS*@
+
+                <table class="table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>@item.FullName</td>
+                                <td>@item.TutorPrincipalId</td>
+                                <td>@item.BirthDate</td>
+                            </tr>
+                        }
+                        @*<tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>twitter</td>
+                        </tr>*@
+                    </tbody>
+                </table>
+
+                @*DETAILS*@
+
+
+
+
+
+                <div>
+
+                    <p style="text-align:right;justify-content:right;" class="text-right">
+                        @*(Pago completo)*@
+                    </p>
+                </div>
+                <div>
+                    <h1 style="text-align:right;">
+                        @*Thank you for your order.*@
+                    </h1>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>

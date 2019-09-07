@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -250,6 +251,38 @@ namespace KindergartenAppService.Controllers
             TempData["Enroll"] = enrollment.Id;
             TempData["Activity"] = activityId;
             return RedirectToAction("Create", "EnrollActivities",enrollActivity);
+        }
+        public async Task<IActionResult> KidPerServiceReport()
+        {
+
+            ViewData["Activities"] = new SelectList(_context.Activity, "Id", "Description");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> KidPerServiceReport(EnrollActivity ea)
+        {
+            Activity activity = await _context.Activity.FindAsync(ea.ActivityId);
+            var result = ( from kid in _context.Kid
+                         join enrollment in _context.Enrollments on kid.Id equals enrollment.KidId
+                         join enrollActivity in _context.EnrollActivity on enrollment.Id equals enrollActivity.EnrollmentId
+                         join activit in _context.Activity on enrollActivity.ActivityId equals activit.Id
+                         where activit.Description.Contains("logica")
+                         select kid).ToList();
+            var enrolls = _context.EnrollActivity.ToList();
+            ViewData["Activities"] = new SelectList(_context.Activity, "Id", "Description");
+            return RedirectToAction("Report", ea);
+        }
+        public async Task<IActionResult> Report(EnrollActivity ea)
+        { 
+            var result = (from kid in _context.Kid
+                          join enrollment in _context.Enrollments on kid.Id equals enrollment.KidId
+                          join enrollActivity in _context.EnrollActivity on enrollment.Id equals enrollActivity.EnrollmentId
+                          join activit in _context.Activity on enrollActivity.ActivityId equals activit.Id
+                          where activit.Description.Contains("logica")
+                          select kid).ToList();
+        
+            //var enrolls = new List<EnrollActivity>() { new EnrollActivity { Id = Guid.NewGuid() } };
+            return View(result);
         }
     }
 }
