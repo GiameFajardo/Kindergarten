@@ -261,25 +261,39 @@ namespace KindergartenAppService.Controllers
         [HttpPost]
         public async Task<IActionResult> KidPerServiceReport(EnrollActivity ea)
         {
-            Activity activity = await _context.Activity.FindAsync(ea.ActivityId);
-            var result = ( from kid in _context.Kid
-                         join enrollment in _context.Enrollments on kid.Id equals enrollment.KidId
-                         join enrollActivity in _context.EnrollActivity on enrollment.Id equals enrollActivity.EnrollmentId
-                         join activit in _context.Activity on enrollActivity.ActivityId equals activit.Id
-                         where activit.Description.Contains("logica")
-                         select kid).ToList();
-            var enrolls = _context.EnrollActivity.ToList();
+            //Activity activity = await _context.Activity.FindAsync(ea.ActivityId);
+            //var result = ( from kid in _context.Kid
+            //             join enrollment in _context.Enrollments on kid.Id equals enrollment.KidId
+            //             join enrollActivity in _context.EnrollActivity on enrollment.Id equals enrollActivity.EnrollmentId
+            //             join activit in _context.Activity on enrollActivity.ActivityId equals activit.Id
+            //             where activit.Description.Contains("logica")
+            //             select kid).ToList();
+            //var enrolls = _context.EnrollActivity.ToList();
+            if (ea.ActivityId != Guid.Empty)
+            {
+
+                ViewData["Activities"] = new SelectList(_context.Activity, "Id", "Description");
+                return RedirectToAction("Report", ea);
+            }
+
             ViewData["Activities"] = new SelectList(_context.Activity, "Id", "Description");
-            return RedirectToAction("Report", ea);
+            return View(ea);
         }
         public async Task<IActionResult> Report(EnrollActivity ea)
-        { 
+        {
+
+            Activity activity = await _context.Activity.FindAsync(ea.ActivityId);
+            TempData["Activity"] = activity.Description;
+
             var result = (from kid in _context.Kid
-                          join enrollment in _context.Enrollments on kid.Id equals enrollment.KidId
-                          join enrollActivity in _context.EnrollActivity on enrollment.Id equals enrollActivity.EnrollmentId
-                          join activit in _context.Activity on enrollActivity.ActivityId equals activit.Id
-                          where activit.Description.Contains("logica")
-                          select kid).ToList();
+                              join enrollment in _context.Enrollments 
+                                on kid.Id equals enrollment.KidId
+                              join enrollActivity in _context.EnrollActivity.Include(e=>e.Enrollment.Kid.TutorPrincipal).Include(e=>e.Service) 
+                                on enrollment.Id equals enrollActivity.EnrollmentId
+                              join activit in _context.Activity 
+                                on enrollActivity.ActivityId equals activit.Id
+                          where activit.Id == ea.ActivityId
+                          select enrollActivity).ToList();
         
             //var enrolls = new List<EnrollActivity>() { new EnrollActivity { Id = Guid.NewGuid() } };
             return View(result);
