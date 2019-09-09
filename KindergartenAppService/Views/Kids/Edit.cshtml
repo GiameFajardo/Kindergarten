@@ -90,6 +90,15 @@
                             <span asp-validation-for="Sex" class="text-danger"></span>
                         </div>
                         <div class="form-group">
+                            <label asp-for="Grade" class="control-label"></label>
+                            @*<select asp-for="Sex" class="form-control"></select>*@
+                            @Html.DropDownList(
+                                "Grade", Html.GetEnumSelectList<Grade>(),
+                                "Selecciona un Grado",
+                                new { @class = "form-control" })
+                            <span asp-validation-for="Grade" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
                             <label asp-for="Address" class="control-label"></label>
                             <input asp-for="Address" class="form-control" />
                             <span asp-validation-for="Address" class="text-danger"></span>

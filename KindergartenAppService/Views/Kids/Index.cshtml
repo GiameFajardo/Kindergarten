@@ -21,6 +21,9 @@
             <th class="d-none d-lg-table-cell">
                 @Html.DisplayNameFor(model => model.TutorPrincipal)
             </th>
+            <th class="d-none d-lg-table-cell">
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
             <th>
                 Inscrito
             </th>
@@ -40,6 +43,9 @@
                 @Html.DisplayFor(modelItem => item.TutorPrincipal.FullName)
             </td>
 
+            <td class="d-none d-lg-table-cell">
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
             @if (item.Enrollment != null)
             {
                 <td>Si</td>
