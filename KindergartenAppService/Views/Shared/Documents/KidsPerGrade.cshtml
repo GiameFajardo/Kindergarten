@@ -1,0 +1,125 @@
+﻿@model List<Kid>
+<style>
+    .bg-white{
+        background: white;
+    }
+</style>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container bg-white">
+    <div class="row">
+        <div class="col-12">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="">
+                            <img src="~/assets/images/logokphsm.jpg" alt="allytees-500-trans.png" width="120">
+                        </div>
+
+                        <h1>Listado de niños en @TempData["Grade"]</h1>
+                        <strong> @*@Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Description*@</strong>
+                        <br>
+                        @*@Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Address*@
+                        <br>
+
+                        @*@*<abbr title="Teléfono"></abbr@ @Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Phone*@
+
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                        <p>
+                            <em>Fecha: @DateTime.Now.ToString("dd-MM-yyyy")</em>
+                        </p>
+                        <p>
+                            @* <em>Recibo: @Html.DisplayFor(modelItem => Model.Document)</em>*@
+                        </p>
+                        <p>
+                            <em>@*Factura: @Html.DisplayFor(modelItem => Model.AffectedDocument)*@</em>
+                        </p>
+                        </br>
+                        <h4>
+                            @*@Html.DisplayFor(modelItem => Model.Payments.FirstOrDefault().Invoice.Kid.FullName)*@
+                        </h4>
+                        <h5>
+                            @*@Html.DisplayFor(modelItem => Model.Payments.FirstOrDefault().Invoice.Kid.TutorPrincipal.FullName)*@
+                        </h5>
+                    </div>
+                </div>
+                <div>
+                    <h1 style="text-align:right;">
+                        @*Thank you for your order.*@
+                    </h1>
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-responsive-sm table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Niño</th>
+                    <th scope="col">Tutor Principal</th>
+                    <th scope="col">Grado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int kidCount = 0;
+                }
+                @foreach (var item in Model)
+                {
+                    {
+                        kidCount++;
+                    }
+                    <tr>
+                        <th scope="row">@kidCount</th>
+                        <td>@item.FullName</td>
+                        @if (item.TutorPrincipal != null)
+                        {
+                            <td>@item.TutorPrincipal.FullName</td>
+
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>@item.Grade</td>
+                    </tr>
+                }
+                <tr>
+                    <td class="text-right">
+                        <p>
+                            <strong>Cantidad: </strong>
+                        </p>
+                    </td>
+                    <td>
+                        <p>
+                            <strong>@kidCount </strong>
+                        </p>
+                    </td>
+                    <td>   </td>
+                    @*<td class="text-right">
+                        <p>
+                            <strong>Total: </strong>
+                        </p>
+                    </td>
+                    <td class="text-left">
+                        <p>
+                            <strong>@string.Format("{0:C}", totalAmount)</strong>
+                        </p>
+                    </td>*@
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

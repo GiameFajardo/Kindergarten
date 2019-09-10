@@ -8,6 +8,8 @@ namespace KindergartenAppService.Models
 {
     public enum Grade
     {
+        [Display(Name = "No aplica")]
+        None = 'N',
         [Display(Name = "Infantes")]
         Baby = 'B',
         [Display(Name = "Párvulo")]

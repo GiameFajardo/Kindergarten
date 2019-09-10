@@ -1,0 +1,35 @@
+﻿@model KindergartenAppService.Models.Kid
+@{
+    ViewData["Title"] = "KidPerGradeReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>KidPerGradeReport</h1>
+
+<div class="form-group">
+    <form asp-action="KidPerGradeReport">
+
+        <div class="form-group">
+            <label asp-for="Grade" class="control-label"></label>
+            @*<select asp-for="Sex" class="form-control"></select>*@
+            @Html.DropDownList(
+                "Grade", Html.GetEnumSelectList<Grade>(),
+                "Selecciona un Grado",
+                new { @class = "form-control" })
+            <span asp-validation-for="Grade" class="text-danger"></span>
+        </div>
+
+        @*<label asp-for="Grade" class="control-label"></label>
+        <select asp-for="Grade" class="form-control" asp-items="ViewBag.Grades">
+            <option value="">Seleccionar Grado</option>
+
+        </select>
+        <span asp-validation-for="Grade" class="text-danger"></span>*@
+
+
+        <div class="form-group">
+            @*<a class="btn btn-primary" asp-controller="EnrollActivities" asp-action="KidPerServiceReport" asp-route="@Model">Generarte</a>*@
+            <input type="submit" value="Generar" class="btn btn-primary" />
+        </div>
+    </form>
+</div>

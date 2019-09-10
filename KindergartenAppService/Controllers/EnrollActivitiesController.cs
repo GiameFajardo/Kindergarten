@@ -291,5 +291,47 @@ namespace KindergartenAppService.Controllers
             //var enrolls = new List<EnrollActivity>() { new EnrollActivity { Id = Guid.NewGuid() } };
             return View(result);
         }
+        public async Task<IActionResult> KidPerGradeReport()
+        {
+
+            //ViewData["Activities"] = new SelectList(_context.Activity, "Id", "Description");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> KidPerGradeReport(Kid kid)
+        {
+
+            if (kid.Grade != null)
+            {
+                var kids = _context.Kid.Where(k => k.Grade == kid.Grade).ToList();
+                //ViewData["Activities"] = new SelectList(_context.Activity, "Id", "Description");
+                return RedirectToAction("Report2", kid);
+            }
+
+            //ViewData["Activities"] = new SelectList(_context.Activity, "Id", "Description");
+            return View(kid);
+        }
+        public async Task<IActionResult> Report2(Kid kid)
+        {
+
+            //Activity activity = await _context.Activity.FindAsync(ea.ActivityId);
+            TempData["Grade"] = kid.Grade.ToString();
+            var kids = _context.Kid
+                .Where(k => k.Grade == kid.Grade)
+                .Include(k => k.TutorPrincipal)
+                .ToList();
+            var result = (from k in _context.Kid.Include(k=>k.TutorPrincipal)
+                          //join enrollment in _context.Enrollments
+                          //  on k.Id equals enrollment.KidId
+                          //join enrollActivity in _context.EnrollActivity.Include(e => e.Enrollment.Kid.TutorPrincipal).Include(e => e.Service)
+                          //  on enrollment.Id equals enrollActivity.EnrollmentId
+                          //join activit in _context.Activity
+                          //  on enrollActivity.ActivityId equals activit.Id
+                          where k.Grade == kid.Grade
+                          select kid).ToList();
+
+            //var enrolls = new List<EnrollActivity>() { new EnrollActivity { Id = Guid.NewGuid() } };
+            return View(kids);
+        }
     }
 }
