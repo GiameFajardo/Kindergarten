@@ -16,6 +16,7 @@
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
+ 
 </head>
 <body>
     <header>
@@ -32,8 +33,8 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         @*<li class="nav-item">
-            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>*@
+                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Kindergarters" asp-action="Index">Kids Play House</a>
                         </li>
@@ -41,11 +42,11 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Kids" asp-action="Index">Niños</a>
                         </li>
                         @*<li class="nav-item">
-            <a class="nav-link text-light" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-light" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-        </li>*@
+                                <a class="nav-link text-light" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+                            </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Pediatricians" asp-action="Index">Pediatras</a>
                         </li>
@@ -59,7 +60,7 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Services" asp-action="Index">Servicios</a>
                         </li>
                         <li class="nav-item">
-                            @{ 
+                            @{
                                 int month = DateTime.Now.Month;
                             }
                             <a class="nav-link text-light" asp-area="" asp-controller="Invoices" asp-action="Index" asp-route-id="@month">Facturas del mes</a>
@@ -69,13 +70,15 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Listados
+                                <abbr data-toggle="tooltip" title="Nuevos listados">
+                                    Listados
+                                </abbr>
                             </a>
-                            <div class="dropdown-menu bg-dark aria-labelledby="navbarDropdownMenuLink">
+                            <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="nav-link text-light" asp-area="" asp-controller="EnrollActivities" asp-action="KidPerServiceReport">Niños por actividades</a>
                                 <a class="nav-link text-light" asp-area="" asp-controller="EnrollActivities" asp-action="KidPerGradeReport">Niños por grado</a>
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Cumpleaños</a>
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Pagos pendientes</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Kids" asp-action="BirthDayReport">Cumpleaños</a>
+                                @*<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Pagos pendientes</a>*@
 
                             </div>
                         </li>
@@ -90,9 +93,9 @@
             @RenderBody()
         </main>
         @*@if (IsSectionDefined("Scripts"))
-        {
-            @RenderSection("Scripts", required: true)
-        }*@
+            {
+                @RenderSection("Scripts", required: true)
+            }*@
     </div>
 
     <footer class="border-top footer text-muted">
@@ -122,5 +125,15 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"').tooltip({ placement: 'bottom', trigger: 'manual' }).tooltip('show')
+        })
+        $(function () {
+            $('[data-toggle="tooltip"').on('click',function(){$(this).tooltip('hide');});
+
+        })
+        //$('p a').tooltip({placement: 'bottom',trigger: 'manual'}).tooltip('show');
+    </script>
 </body>
 </html>

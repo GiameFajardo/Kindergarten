@@ -194,5 +194,10 @@ namespace KindergartenAppService.Controllers
             TempData["CameFromKid"] = "true";
             return RedirectToAction("Create", "Pediatrician");
         }
+        public async Task<IActionResult> BirthDayReport()
+        {
+            var kids = _context.Kid.ToList();
+            return View(kids);
+        }
     }
 }

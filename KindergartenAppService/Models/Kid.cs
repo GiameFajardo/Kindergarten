@@ -27,6 +27,32 @@ namespace KindergartenAppService.Models
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
 
+        [NotMapped]
+        public MonthSpanish BirthMonthSpanish
+        {
+            get
+            {
+                int month = BirthDate.Month;
+                switch (month)
+                {
+                    case 1: return MonthSpanish.Enero;
+                    case 2: return MonthSpanish.Febrero;
+                    case 3: return MonthSpanish.Marzo;
+                    case 4: return MonthSpanish.Abril;
+                    case 5: return MonthSpanish.Mayo;
+                    case 6: return MonthSpanish.Junio;
+                    case 7: return MonthSpanish.Julio;
+                    case 8: return MonthSpanish.Agosto;
+                    case 9: return MonthSpanish.Septiembre;
+                    case 10: return MonthSpanish.Octubre;
+                    case 11: return MonthSpanish.Noviembre;
+                    case 12: return MonthSpanish.Diciembre;
+                    default: return MonthSpanish.Enero;
+                }
+            }
+            set { }
+        }
+
         [Display(Name = "Género")]
         public Sex Sex { get; set; }
 
