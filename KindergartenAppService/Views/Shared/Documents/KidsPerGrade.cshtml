@@ -69,7 +69,8 @@
                     <th scope="col">#</th>
                     <th scope="col">Niño</th>
                     <th scope="col">Tutor Principal</th>
-                    <th scope="col">Grado</th>
+                    <th scope="col">Fecha de nacimiento</th>
+                    <th scope="col">Edad</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,7 +94,8 @@
                         {
                             <td></td>
                         }
-                        <td>@item.Grade</td>
+                        <td>@item.BirthDate.ToString("dd/MM/yyyy")</td>
+                        <td>@item.Age</td>
                     </tr>
                 }
                 <tr>

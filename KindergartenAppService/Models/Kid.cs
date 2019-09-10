@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KindergartenAppService.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -63,6 +64,40 @@ namespace KindergartenAppService.Models
             }
             set { _fullname = value; }
         }
+        [NotMapped]
+        private string _age;
+        [NotMapped]
+        public string Age
+        {
+            get
+            {
+                int years = 0;
+                int months = 0;
+                string yearsText = "";
+                string monthText = "";
+                if (BirthDate != null)
+                {
+                    years = DateUtilities.YearsBetweenDates(BirthDate, DateTime.Now);
+                    months = DateUtilities.MonthsBetweenDates(BirthDate, DateTime.Now);
+                }
+                if (years>0)
+                {
+                    yearsText = years.ToString() + " años";
+                   
+                }
+                if (months > 0)
+                {
+                    monthText = months.ToString() + " meses";
+                    if (years > 0)
+                    {
+                        yearsText += " - ";
+                    }
+                }
+                return yearsText + monthText;
+            }
+            private set { _age = value; }
+        }
+
         [Display(Prompt = "", Name = "Pediatra")]
         public virtual Guid? PediatricianId { get; set; }
         [Display(Prompt = "", Name = "Pediatra")]
