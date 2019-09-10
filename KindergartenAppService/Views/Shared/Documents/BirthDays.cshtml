@@ -78,7 +78,7 @@
                 @{
                     int kidCount = 0;
                     int monthKodCount = 0;
-                    var monthlyGroup = Model
+                    var monthlyGroup = Model.OrderBy(k=>k.BirthDate.Day)
                         .GroupBy(k => k.BirthMonthSpanish)
                         .OrderBy(k => k.Key);
                 }
@@ -86,6 +86,7 @@
 
                 @foreach (var group in monthlyGroup)
                 {
+
                     <tr class="table-secondary">
                         <td class="table-secondary" colspan="5">
                             @group.Key
