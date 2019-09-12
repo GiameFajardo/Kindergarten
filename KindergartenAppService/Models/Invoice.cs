@@ -49,6 +49,18 @@ namespace KindergartenAppService.Models
             set { _month = value; }
         }
         [NotMapped]
+        private string _dueMonth;
+        [NotMapped]
+        public string DueMonth
+        {
+            get
+            {
+                int month = DueDate.Month;
+                return Enum.GetName(typeof(MonthSpanish), month);
+            }
+            set { _dueMonth = value; }
+        }
+        [NotMapped]
         public MonthSpanish MonthSpanish {
             get
             {

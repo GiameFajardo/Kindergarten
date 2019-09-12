@@ -517,7 +517,7 @@ namespace KindergartenAppService.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { month = month });
         }
         public async Task<IActionResult> GenerateInvoice(Guid? kidId)
         {

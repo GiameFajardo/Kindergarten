@@ -70,7 +70,7 @@
                                 <tr>
                                     @{ totalLinea = detalles.Amount * detalles.Quantity;}
                                     @{subTotal += detalles.Amount;}
-                                    <td class="col-md-9"><em>@detalles.Item.Description (@item.Invoice.Month)</em></td>
+                                    <td class="col-md-9"><em>@detalles.Item.Description (@item.Invoice.DueMonth)</em></td>
                                     <td class="col-md-1" style="text-align: center"> @detalles.Quantity </td>
                                     <td class="col-md-1 text-center">@detalles.Amount</td>
                                     <td class="col-md-1 text-center">@totalLinea </td>
