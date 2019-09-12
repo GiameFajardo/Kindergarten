@@ -98,7 +98,7 @@
                         {
 
                             <button type="button" class="btn btn-outline-info" disabled>Vista previa</button>
-                            <a class="btn btn-success" disable asp-action="Generate" asp-route-id="@item.KidId">Generar</a>
+                            <a class="btn btn-success" disable asp-action="Generate" asp-route-id="@item.KidId" asp-route-month="@item.DueDate.Month">Generar</a>
                             <button type="button" class="btn btn-outline-danger" disabled>Cancelar</button>
                             <button type="button" class="btn btn-outline-primary" disabled>Pagar</button>
 

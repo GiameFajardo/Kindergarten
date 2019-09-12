@@ -73,13 +73,14 @@ namespace KindergartenAppService.Controllers
                 var invoiceFound = await _context.Invoices
                                         .Include(i => i.InvoiceDetails)
                                         .SingleOrDefaultAsync(i => i.KidId == invoice.KidId &&
-                                                                   i.GeneratedDate.Month == month);
+                                                                   i.DueDate.Month == month);
                 if (invoiceFound != null)
                 {
                     invoice.Id = invoiceFound.Id;
                     invoice.Status = invoiceFound.Status;
                     invoice.Price = invoiceFound.Price;
                     invoice.GeneratedDate = invoiceFound.GeneratedDate;
+                    invoice.DueDate = invoiceFound.DueDate;
                     invoice.Sequence = invoiceFound.Sequence;
                     invoice.Document = invoiceFound.Document;
                 }
@@ -454,7 +455,8 @@ namespace KindergartenAppService.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> Generate(Guid? id)
+        [HttpGet("{id}/{month}")]
+        public async Task<IActionResult> Generate(Guid? id, int month)
         {
             var prefix = _context.Sequences.SingleOrDefault(s => s.DocumentType == DocumentType.Invoice).Prefix;
 
@@ -495,7 +497,8 @@ namespace KindergartenAppService.Controllers
                     GeneratedDate = DateTime.Now,
                     DueDate = new DateTime(
                         DateTime.Now.Year,
-                        DateTime.Now.Month,
+                        month,
+                        //DateTime.Now.Month,
                         DateTime.DaysInMonth(
                             DateTime.Now.Year,
                             DateTime.Now.Month
