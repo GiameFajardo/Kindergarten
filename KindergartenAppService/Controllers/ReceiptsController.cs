@@ -167,13 +167,13 @@ namespace KindergartenAppService.Controllers
                 .SingleOrDefaultAsync(r => r.Id == receipt.Id);
             return View(receiptToPreview);
         }
-        public async Task<IActionResult> PreviewInvoice(Receipt receipt)
+        public async Task<IActionResult> PreviewInvoice(string invoiceDocument)
         {
             var invoiceToPreview = await _context.Invoices
                 .Include(i => i.Kid.TutorPrincipal)
                 .Include(i => i.Kid.Kindergarter)
                 .Include("InvoiceDetails.Item")
-                .SingleOrDefaultAsync(i=>i.Document == receipt.AffectedDocument);
+                .SingleOrDefaultAsync(i=>i.Document == invoiceDocument);
             if (invoiceToPreview != null)
             {
                 return RedirectToAction("Preview", "Invoices", invoiceToPreview);

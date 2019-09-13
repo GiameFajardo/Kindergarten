@@ -47,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                <a class="btn-link " asp-action="PreviewInvoice"  asp-route-id="@item.Id">
+                <a class="btn-link " asp-action="PreviewInvoice"  asp-route-invoiceDocument="@item.AffectedDocument">
 
                     @Html.DisplayFor(modelItem => item.AffectedDocument)
                 </a>
