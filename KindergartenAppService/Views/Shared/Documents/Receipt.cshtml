@@ -3,7 +3,13 @@
     .bg-white {
         background: white;
     }
-
+    
+    td, th{
+        font-size:18px;
+    }
+     p{
+        font-size:18px;
+    }
 </style>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
@@ -39,7 +45,7 @@
                     @*<abbr title="Teléfono"></abbr>*@ @Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Phone
 
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                <div class="receipt-info col-xs-6 col-sm-6 col-md-6 text-right">
                     <p>
                         <em>Fecha: @Model.GeneratedDate.ToString("dd-MM-yyyy")</em>
                     </p>
@@ -50,12 +56,12 @@
                         <em>Factura: @Html.DisplayFor(modelItem => Model.AffectedDocument)</em>
                     </p>
                     </br>
-                    <h4>
+                    <h3>
                         @Html.DisplayFor(modelItem => Model.Payments.FirstOrDefault().Invoice.Kid.FullName)
-                    </h4>
-                    <h5>
+                    </h3>
+                    <h4>
                         @Html.DisplayFor(modelItem => Model.Payments.FirstOrDefault().Invoice.Kid.TutorPrincipal.FullName)
-                    </h5>
+                    </h4>
                 </div>
             </div>
             <div class="row">

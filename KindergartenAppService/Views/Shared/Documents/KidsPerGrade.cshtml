@@ -2,6 +2,10 @@
 <style>
     .bg-white{
         background: white;
+
+    }
+    td, th{
+        font-size:18px;
     }
 </style>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -20,7 +24,8 @@
                             <img src="~/assets/images/logokphsm.jpg" alt="allytees-500-trans.png" width="120">
                         </div>
 
-                        <h1>Listado de niños en @TempData["Grade"]</h1>
+                        @*<h1>Listado de niños en @TempData["Grade"]</h1>*@
+                        <h1>Listado de niños en @Html.DisplayNameFor(model=> model.First().Grade)</h1>
                         <strong> @*@Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Description*@</strong>
                         <br>
                         @*@Model.Payments.FirstOrDefault().Invoice.Kid.Kindergarter.Address*@
