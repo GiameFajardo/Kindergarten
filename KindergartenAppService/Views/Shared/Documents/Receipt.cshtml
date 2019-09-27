@@ -30,8 +30,8 @@
 <div class="container-fluid bg-white">
     <div class="toolbar hidden-print">
         <div class="text-right">
-            <button id="printRecibe" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
-            <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
+            @*<button id="printRecibe" class="btn btn-info"><i class="fa fa-print"></i> Print</button>
+            <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>*@
             @*<a class="btn btn-info" asp-controller="Invoices" asp-action="GeneratePDF">PDF</a>
                 <a class="btn btn-info" asp-controller="Invoices" asp-action="CreatePDF">PDF2</a>
                 <a class="btn btn-info" asp-controller="Invoices" asp-action="CreatePDF2">PDF22</a>*@
@@ -179,13 +179,5 @@
     </script>
     <script>
 
-        $('#printRecibe').click(function () {
-            Popup($('.recibe')[0].outerHTML);
-            function Popup(data) {
-                $('a').hide();
-                window.print();
-                $(this).addClass("blue");
-                return true;
-            }
-        });
+
     </script>
