@@ -17,22 +17,26 @@
                      {
                          var e = document.getElementById("MonthSpanish");
                          var strUser = e.options[e.selectedIndex].value;
-                        
+
                          window.location.href = '@Url.Action("Index", "Invoices")?month='+strUser;
 
                      }
 </script>
+
 @*@Html.DropDownListFor(m => m.ActivityId, ViewBag.ActivityId as SelectList, "Seleccionar Actividad", new { @class = "form-control", @onchange = "AddService()", id = "ActivityId2" })*@
-@Html.DropDownList("MonthSpanish", Html.GetEnumSelectList<MonthSpanish>(), "Seleccionar mes", new { @class = "form-control", @onchange = "SwitchMonth()"})
+@Html.DropDownList("MonthSpanish", Html.GetEnumSelectList<MonthSpanish>(), "Seleccionar mes", new { @class = "form-control", @onchange = "SwitchMonth()" })
 
 
 @*@Html.DropDownList(
-                               "MonthSpanish", Html.GetEnumSelectList<MonthSpanish>(),
-                               "Selecciona un mes",
-                               new { @class = "form-control" })*@
+    "MonthSpanish", Html.GetEnumSelectList<MonthSpanish>(),
+    "Selecciona un mes",
+    new { @class = "form-control" })*@
 @*<span asp-validation-for="MonthSpanish" class="text-danger"></span>*@
 <script src="~/lib/jquery/dist/jquery.js">
 </script>
+
+<a class="btn btn-info btn-block btn-lg mt-3" asp-controller="invoices" asp-action="GenerateAll" asp-route-month="@Model.FirstOrDefault().DueDate.Month">Generar facturas</a>
+
 <table class="table">
     <thead>
         <tr>

@@ -21,42 +21,22 @@ namespace KindergartenAppService.Controllers
     public class InvoicesController : Controller
     {
         private readonly KindergarterContext _context;
-
+        //private List<Invoice> InvoicesShown;
         public InvoicesController(KindergarterContext context)
         {
             _context = context;
+            //InvoicesShown = new List<Invoice>();
         }
 
-        // GET: Invoices
-        //public async Task<IActionResult> Index()
-        //{
-        //    int month = 1;
-        //    if (ViewData["Month"] != null)
-        //    {
-        //        month = (int)ViewData["Month"];
-        //    }
-        //    else
-        //    {
-        //        month = DateTime.Now.Month;
-        //    }
-        //    var invoicesGenerated = GenerateInvoices();
-
-        //    var invoices = _context.Invoices.Include(i => i.Kid)
-        //        .Where(i => i.GeneratedDate.Month == month).ToList();
-
-        //    var invoicesUpdated = await UpdateInvoices(invoicesGenerated);
-
-        //    return View(invoicesUpdated.OrderBy(i => i.Sequence).ToList());
-        //}
         public async Task<IActionResult> Index(int? month)
         {
-            
+
             if (month == null || month <= 0)
             {
                 month = DateTime.Now.Month;
-               
+
             }
-            
+
             var invoicesGenerated = GenerateInvoices(month.Value);
 
             var invoices = _context.Invoices.Include(i => i.Kid)
@@ -435,11 +415,11 @@ namespace KindergartenAppService.Controllers
         {
             var invoiceFound = await _context.Invoices
                 .Include(i => i.InvoiceDetails)
-                .Include(i=>i.Payments)
+                .Include(i => i.Payments)
                 .SingleOrDefaultAsync(i => i.Id == invoice.Id);
             if (invoiceFound.Payments.Count > 0)
             {
-                TempData["CantDelete"] ="Factura presenta pagos.";
+                TempData["CantDelete"] = "Factura presenta pagos.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -517,6 +497,98 @@ namespace KindergartenAppService.Controllers
                 _context.SaveChanges();
             }
 
+            return RedirectToAction(nameof(Index), new { month = month });
+        }
+        private async Task GenerateInvoice(Guid? id, int month)
+        {
+            var prefix = _context.Sequences.SingleOrDefault(s => s.DocumentType == DocumentType.Invoice).Prefix;
+
+            Invoice invoice = null;
+            List<InvoiceDetail> details = new List<InvoiceDetail>();
+            var enrollActivities = await _context.EnrollActivity
+                .Include(e => e.Enrollment.Kid.TutorPrincipal)
+                .Include(e => e.Activity)
+                .Include(e => e.Service)
+                .Where(e => e.EnrollmentId != null &&
+                          e.ServiceId != null && e.Enrollment.KidId == id).ToListAsync();
+
+            if (enrollActivities != null)
+            {
+                var kid = await _context.Kid.FindAsync(id);
+                decimal acumulativeAmount = 0;
+                var sequence = _context.Sequences.SingleOrDefault(s => s.DocumentType == DocumentType.Invoice);
+                foreach (var activity in enrollActivities)
+                {
+                    acumulativeAmount += activity.Service.Price;
+                    var detail = new InvoiceDetail
+                    {
+                        Amount = activity.Service.Price,
+                        ItemId = activity.ServiceId.Value,
+                        Quantity = 1,
+                        Id = Guid.NewGuid(),
+                        //InvoiceId = invoice.Id
+                    };
+                    details.Add(detail);
+                }
+
+                long nextSequence = sequence.StaringSequence > sequence.CurrentSequence ? sequence.StaringSequence : sequence.CurrentSequence + 1;
+
+                invoice = new Invoice
+                {
+                    Sequence = nextSequence,
+                    Status = InvoiceStatus.Generated,
+                    GeneratedDate = DateTime.Now,
+                    DueDate = new DateTime(
+                        DateTime.Now.Year,
+                        month,
+                        //DateTime.Now.Month,
+                        DateTime.DaysInMonth(
+                            DateTime.Now.Year,
+                            DateTime.Now.Month
+                            )
+                        ),
+                    KidId = id.Value,
+                    Id = Guid.NewGuid(),
+                    InvoiceDetails = details
+                };
+                invoice.Document = prefix + invoice.SequenceString;
+                invoice.Price = acumulativeAmount;
+                sequence.CurrentSequence = nextSequence;
+                _context.Invoices.Add(invoice);
+
+
+                _context.SaveChanges();
+            }
+
+            //return RedirectToAction(nameof(Index), new { month = month });
+        }
+        public async Task<IActionResult> GenerateAll(int month)
+        {
+
+            if (month == null || month <= 0)
+            {
+                month = DateTime.Now.Month;
+
+            }
+
+            var invoicesGenerated = GenerateInvoices(month);
+
+            var invoices = _context.Invoices.Include(i => i.Kid)
+                .Where(i => i.GeneratedDate.Month == month).ToList();
+
+            var InvoicesShown = await UpdateInvoices(invoicesGenerated, month);
+
+            if (InvoicesShown != null && InvoicesShown.Count > 0)
+            {
+                foreach (Invoice invoice in InvoicesShown)
+                {
+                    if (invoice.Status == InvoiceStatus.Preview)
+                    {
+
+                        await GenerateInvoice(invoice.KidId, month);
+                    }
+                }
+            }
             return RedirectToAction(nameof(Index), new { month = month });
         }
         public async Task<IActionResult> GenerateInvoice(Guid? kidId)
@@ -597,9 +669,9 @@ namespace KindergartenAppService.Controllers
         public async Task<IActionResult> Payment(Invoice invoice)
         {
             var payment = new Payment { InvoiceId = invoice.Id };
-                var inv = await _context.Invoices
-                .Include(i=>i.Payments).Include(i=>i.Kid.TutorPrincipal)
-                .SingleOrDefaultAsync(i=> i.Id == invoice.Id);
+            var inv = await _context.Invoices
+            .Include(i => i.Payments).Include(i => i.Kid.TutorPrincipal)
+            .SingleOrDefaultAsync(i => i.Id == invoice.Id);
 
             decimal totalPaid = 0;
             decimal remaining = 0;
@@ -631,7 +703,7 @@ namespace KindergartenAppService.Controllers
 
                 var invoiceFound = _context.Invoices
                     .Include(i => i.Payments)
-                    .Include(i=>i.Kid.TutorPrincipal)
+                    .Include(i => i.Kid.TutorPrincipal)
                     //.Include("Payments.Invoice.Kid.TutorPrincipal")
                     .SingleOrDefault(i => i.Id == payment.InvoiceId);
                 decimal totalPaid = 0;
