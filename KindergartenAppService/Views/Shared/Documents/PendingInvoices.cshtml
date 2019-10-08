@@ -1,0 +1,73 @@
+﻿@model List<Invoice>
+@{
+    ViewData["Title"] = "PendingInvoice";
+}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            
+            <table class="table table-responsive-sm table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Niño</th>
+                        <th scope="col">Tutor Principal</th>
+                        <th scope="col">Documento</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        decimal totalAmount = 0;
+                        int kidCount = 0;
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        kidCount++;
+                    <tr>
+                        <th>@kidCount</th>
+                        <td>@item.Kid.FullName</td>
+                        <td>
+                            @if (item.Kid.TutorPrincipal != null)
+                            {
+
+                                @item.Kid.TutorPrincipal.FullName
+                            }
+                        </td>
+                        <td>@item.Document</td>
+                        <td>@item.Status</td>
+                        <td>@item.Price</td>
+                    </tr>
+                        totalAmount += item.Price;
+                    }
+
+                    <tr>
+                        <td class="text-right">
+                            <p>
+                                <strong>Cantidad: </strong>
+                            </p>
+                        </td>
+                        <td>
+                            <p>
+                                <strong>@kidCount </strong>
+                            </p>
+                        </td>
+                        <td>   </td>
+                        <td class="text-right">
+                            <p>
+                                <strong>Total: </strong>
+                            </p>
+                        </td>
+                        <td class="text-left">
+                            <p>
+                                <strong>@string.Format("{0:C}", totalAmount)</strong>
+                            </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

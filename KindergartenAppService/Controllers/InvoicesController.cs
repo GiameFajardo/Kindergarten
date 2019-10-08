@@ -2,6 +2,7 @@
 using GrapeCity.Documents.Text;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using KindergartenAppService.DTO;
 using KindergartenAppService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -689,6 +690,34 @@ namespace KindergartenAppService.Controllers
             ViewData["remaining"] = remaining;
             ViewData["invoice"] = inv;
             return View(payment);
+        }
+        public async Task<IActionResult> PendingInvoices(int month)
+        {
+            List<InvoiceBalanceDTO> invoicesToReport = new List<InvoiceBalanceDTO>();
+            var invoicesOfMonth = _context.Invoices.Include(i=>i.Kid.TutorPrincipal)
+                .Where(i => i.DueDate.Month == month && i.Status != InvoiceStatus.Paid).ToList();
+            foreach (var item in invoicesOfMonth)
+            {
+                if (item.Status == InvoiceStatus.PartialPaid)
+                {
+                    decimal sum = 0;
+                    var receipts = _context.Receipt
+                        .Where(r => r.AffectedDocument == item.Document);
+                    if (receipts != null && receipts.Count() > 0)
+                    {
+                        sum = receipts.Sum(r => r.Amount);
+                    }
+                    var inv = new InvoiceBalanceDTO(item);
+                    item.Price -= sum;
+                    inv.Pending = item.Price - sum;
+                    invoicesToReport.Add(inv);
+                }
+            }
+            return View(invoicesOfMonth);
+        }
+        public async Task<IActionResult> PendingInvoicesReport()
+        {
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
