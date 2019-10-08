@@ -482,7 +482,7 @@ namespace KindergartenAppService.Controllers
                         //DateTime.Now.Month,
                         DateTime.DaysInMonth(
                             DateTime.Now.Year,
-                            DateTime.Now.Month
+                            month
                             )
                         ),
                     KidId = id.Value,
