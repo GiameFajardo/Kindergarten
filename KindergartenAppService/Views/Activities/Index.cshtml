@@ -6,10 +6,37 @@
 
 <h1>Actividades</h1>
 
-<p>
-    <a class="btn btn-primary" asp-action="Create">Crear nueva</a>
-</p>
-<table class="table">
+
+
+<script src="~/lib/jquery/dist/jquery.js">
+</script>
+<script>
+
+    $(document).ready(function () {
+        $("#filter").on("keyup", function () {
+            console.log("key up");
+            var value = $(this).val().toLowerCase();
+            $("#activitytable .tr-detail").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<div class=" container-fluid">
+    <div class="row">
+        <div class="col">
+
+            <p>
+                <a class="btn btn-primary" asp-action="Create">Crear nueva</a>
+
+            </p>
+        </div>
+        <div class="col">
+            <input id="filter" class="float-right form-control mb-4" type="text" placeholder="" />
+        </div>
+    </div>
+</div>
+<table id="activitytable" class="table">
     <thead>
         <tr>
             <th>
@@ -22,20 +49,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityTemplate.Description)
-            </td>
-            <td>
-                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a> 
-                <a class="btn btn-info"asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="tr-detail">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityTemplate.Description)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
