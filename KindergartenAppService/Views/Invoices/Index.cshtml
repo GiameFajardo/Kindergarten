@@ -22,7 +22,20 @@
 
                      }
 </script>
+<script src="~/lib/jquery/dist/jquery.js">
+</script>
+<script>
 
+    $(document).ready(function () {
+        $("#filter").on("keyup", function () {
+            console.log("key up");
+            var value = $(this).val().toLowerCase();
+            $("#invoicetable .tr-detail").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 @*@Html.DropDownListFor(m => m.ActivityId, ViewBag.ActivityId as SelectList, "Seleccionar Actividad", new { @class = "form-control", @onchange = "AddService()", id = "ActivityId2" })*@
 @Html.DropDownList("MonthSpanish", Html.GetEnumSelectList<MonthSpanish>(), "Seleccionar mes", new { @class = "form-control", @onchange = "SwitchMonth()" })
 
@@ -35,9 +48,21 @@
 <script src="~/lib/jquery/dist/jquery.js">
 </script>
 
-<a class="btn btn-info btn-block btn-lg mt-3" asp-controller="invoices" asp-action="GenerateAll" asp-route-month="@Model.FirstOrDefault().DueDate.Month">Generar facturas</a>
+<div class=" container-fluid">
+    <div class="row">
+        <div class="col">
 
-<table class="table">
+            <p>
+                <a class="btn btn-success btn-block btn-lg mt-3" asp-controller="invoices" asp-action="GenerateAll" asp-route-month="@Model.FirstOrDefault().DueDate.Month">Generar facturas</a>
+
+            </p>
+        </div>
+        <div class="col">
+            <input id="filter" class="float-right form-control mt-4" type="text" placeholder="" />
+        </div>
+    </div>
+</div>
+<table id="invoicetable" class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -67,7 +92,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="tr-detail">
                 <td>
                     @Html.DisplayFor(modelItem => item.Document)
                 </td>
