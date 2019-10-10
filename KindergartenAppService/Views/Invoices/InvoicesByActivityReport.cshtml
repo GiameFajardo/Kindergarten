@@ -1,0 +1,33 @@
+﻿
+    @{
+        ViewData["Title"] = "PendingInvoicesReport";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h1>Facturas por Servicio</h1>
+
+    <script>
+                     function SwitchMonth()
+                     {
+                         var e = document.getElementById("MonthSpanish");
+                         var strUser = e.options[e.selectedIndex].value;
+
+                         window.location.href = '@Url.Action("InvoicesByActivity", "Invoices")?month='+strUser;
+
+                     }
+    </script>
+
+    <div class="form-group">
+        <form asp-action="KidPerServiceReport">
+            <label  class="control-label"> Mes</label>
+            @Html.DropDownList("MonthSpanish", Html.GetEnumSelectList<MonthSpanish>(), "Seleccionar mes", new { @class = "form-control", @onchange = "SwitchMonth()" })
+
+            @*<span asp-validkation-for="@Model.First().MonthSpanish" class="text-danger"></span>*@
+
+
+            <div class="form-group">
+                @*<a class="btn btn-primary" asp-controller="EnrollActivities" asp-action="KidPerServiceReport" asp-route="@Model">Generarte</a>*@
+                @*<input type="submit" value="Generar" class="btn btn-primary" />*@
+            </div>
+        </form>
+    </div>

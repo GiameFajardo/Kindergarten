@@ -6,8 +6,8 @@
     <div class="row">
         <div class="col">
             
-            <table class="table table-responsive-sm table-striped">
-                <thead>
+            <table class="table table-responsive-sm table-striped ">
+                <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Niño</th>
@@ -26,20 +26,38 @@
                     @foreach (var item in Model)
                     {
                         kidCount++;
-                    <tr>
-                        <th>@kidCount</th>
-                        <td>@item.Kid.FullName</td>
-                        <td>
-                            @if (item.Kid.TutorPrincipal != null)
-                            {
+                        <tr class="table-secondary">
+                            <th class="table-secondary">@kidCount</th>
+                            <td class="table-secondary">@item.Kid.FullName</td>
+                            <td class="table-secondary">
+                                @if (item.Kid.TutorPrincipal != null)
+                                {
 
-                                @item.Kid.TutorPrincipal.FullName
-                            }
-                        </td>
-                        <td>@item.Document</td>
-                        <td>@item.Status</td>
-                        <td>@item.Price</td>
-                    </tr>
+                                    @item.Kid.TutorPrincipal.FullName
+                                }
+                            </td>
+                            <td class="table-secondary">@item.Document</td>
+                            <td class="table-secondary">@item.Status</td>
+                            <td class="table-secondary"> <b>@string.Format("{0:C}", item.Price)</b></td>
+                        </tr>
+                               @foreach(var detail in item.InvoiceDetails){
+                <tr class="table-sm">
+                    <td  colspan="3">
+
+
+                    </td>
+                    <td colspan="2" class=text-right>
+                        @detail.Item.Description
+
+
+                    </td>
+                    <td>
+                        @string.Format("{0:C}", detail.Item.Price)
+
+
+                    </td>
+                </tr>
+                               }
                         totalAmount += item.Price;
                     }
 
@@ -54,6 +72,7 @@
                                 <strong>@kidCount </strong>
                             </p>
                         </td>
+                        <td>   </td>
                         <td>   </td>
                         <td class="text-right">
                             <p>

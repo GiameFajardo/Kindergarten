@@ -260,7 +260,7 @@ namespace KindergartenAppService.Controllers
                 .Include(e => e.Activity)
                 .Include(e => e.Service)
                 .Where(e => e.EnrollmentId != null &&
-                          e.ServiceId != null);
+                          e.ServiceId != null && e.Enrollment.EnrollDay.Month == month);
             var enrollActByKid = enrollActivities.GroupBy(e => e.EnrollmentId);
             if (enrollActivities != null)
             {
@@ -694,7 +694,9 @@ namespace KindergartenAppService.Controllers
         public async Task<IActionResult> PendingInvoices(int month)
         {
             List<InvoiceBalanceDTO> invoicesToReport = new List<InvoiceBalanceDTO>();
-            var invoicesOfMonth = _context.Invoices.Include(i=>i.Kid.TutorPrincipal)
+            var invoicesOfMonth = _context.Invoices
+                .Include(i=>i.Kid.TutorPrincipal)
+                .Include("InvoiceDetails.Item")
                 .Where(i => i.DueDate.Month == month && i.Status != InvoiceStatus.Paid).ToList();
             foreach (var item in invoicesOfMonth)
             {
@@ -713,9 +715,74 @@ namespace KindergartenAppService.Controllers
                     invoicesToReport.Add(inv);
                 }
             }
+            ViewData["h1"] = "Facturas pendientes";
             return View(invoicesOfMonth);
         }
+        public async Task<IActionResult> MonthlyInvoices(int month)
+        {
+            List<InvoiceBalanceDTO> invoicesToReport = new List<InvoiceBalanceDTO>();
+            var invoicesOfMonth = _context.Invoices
+                .Include(i => i.Kid.TutorPrincipal)
+                .Include("InvoiceDetails.Item")
+                .Where(i => i.DueDate.Month == month).ToList();
+            foreach (var item in invoicesOfMonth)
+            {
+                if (item.Status == InvoiceStatus.PartialPaid)
+                {
+                    decimal sum = 0;
+                    var receipts = _context.Receipt
+                        .Where(r => r.AffectedDocument == item.Document);
+                    if (receipts != null && receipts.Count() > 0)
+                    {
+                        sum = receipts.Sum(r => r.Amount);
+                    }
+                    var inv = new InvoiceBalanceDTO(item);
+                    item.Price -= sum;
+                    inv.Pending = item.Price - sum;
+                    invoicesToReport.Add(inv);
+                }
+            }
+            ViewData["h1"] = "Facturas del mes";
+
+            return View("PendingInvoices",invoicesOfMonth);
+        }
+        public async Task<IActionResult> InvoicesByActivity(int month)
+        {
+            List<InvoiceBalanceDTO> invoicesToReport = new List<InvoiceBalanceDTO>();
+            var invoicesOfMonth = _context.Invoices
+                .Include(i => i.Kid.TutorPrincipal)
+                .Include("InvoiceDetails.Item")
+                .Where(i => i.DueDate.Month == month).ToList();
+            foreach (var item in invoicesOfMonth)
+            {
+                if (item.Status == InvoiceStatus.PartialPaid)
+                {
+                    decimal sum = 0;
+                    var receipts = _context.Receipt
+                        .Where(r => r.AffectedDocument == item.Document);
+                    if (receipts != null && receipts.Count() > 0)
+                    {
+                        sum = receipts.Sum(r => r.Amount);
+                    }
+                    var inv = new InvoiceBalanceDTO(item);
+                    item.Price -= sum;
+                    inv.Pending = item.Price - sum;
+                    invoicesToReport.Add(inv);
+                }
+            }
+            ViewData["h1"] = "Facturas por servicio";
+
+            return View("InvoicesByActivity", invoicesOfMonth);
+        }
         public async Task<IActionResult> PendingInvoicesReport()
+        {
+            return View();
+        }
+        public async Task<IActionResult> MonthlyInvoicesReport()
+        {
+            return View();
+        }
+        public async Task<IActionResult> InvoicesByActivityReport()
         {
             return View();
         }

@@ -1,0 +1,110 @@
+﻿@model List<Invoice>
+@{
+    ViewData["Title"] = "PendingInvoice";
+}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            
+            <table class="table table-responsive-sm table-striped ">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Niño</th>
+                        <th scope="col">Tutor Principal</th>
+                        <th scope="col">Documento</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Monto</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        decimal totalAmount = 0;
+                        decimal groupAmount = 0;
+                        int kidCount = 0;
+                        int groupCount = 0;
+                        List<InvoiceDetail> detailsToReport = new List<InvoiceDetail>();
+                        var details = Model.Select(i => i.InvoiceDetails);
+                        foreach (var item in details)
+                        {
+                            detailsToReport.AddRange(item);
+                        }
+                        var groups = detailsToReport.GroupBy(d => d.Item);
+                    }
+
+                    @foreach (var detailGruop in groups)
+                    {
+                        kidCount++;
+                        groupCount = 0;
+                        groupAmount = 0;
+                    <tr class="table-secondary">
+                        <th class="table-secondary">@kidCount</th>
+                        <td class="table-secondary" colspan="4"><b>@detailGruop.First().Item.Description</b></td>
+                        <td class="table-secondary"></td>
+                    </tr>
+                                @foreach (var detail in detailGruop)
+                                {
+                                    groupCount++;
+                        <tr class="table-sm">
+                            <th></th>
+                            <td colspan="1">@detail.Invoice.Kid.FullName</td>
+                            <td colspan="1"> 
+                                @if (detail.Invoice.Kid.TutorPrincipal != null)
+                                {
+                                    @detail.Invoice.Kid.TutorPrincipal.FullName
+
+                                }
+                            </td>
+                            <td colspan="1">@detail.Invoice.Document</td>
+                            <td colspan="1">@detail.Invoice.Status</td>
+                            <td colspan="1">@string.Format("{0:C}", detail.Amount)</td>
+                            @{groupAmount += @detail.Amount;}
+                        </tr>
+                                                }
+                <tr class="table-active table-sm">
+                    <td colspan="1" class="text-right"><b>Cantidad: </b></td>
+                    <td colspan="1">
+                        <b>@groupCount</b>
+                    </td>
+                    <td colspan="2"></td>
+
+                    <td colspan="1" class="text-right"><b>Total: </b></td>
+                    <td colspan="1">
+                        <b>@string.Format("{0:C}", groupAmount)</b>
+                    </td>
+                   
+                </tr>
+                          
+
+                                            //totalAmount += item.Price;
+}
+
+<tr>
+                                    <td class="text-right">
+                                        <p>
+                                            <strong>Cantidad: </strong>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            <strong>@kidCount </strong>
+                                        </p>
+                                    </td>
+                                    <td>   </td>
+                                    <td>   </td>
+                                    <td class="text-right">
+                                        <p>
+                                            <strong>Total: </strong>
+                                        </p>
+                                    </td>
+                                    <td class="text-left">
+                                        <p>
+                                            <strong>@string.Format("{0:C}", totalAmount)</strong>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+            </table>
+        </div>
+    </div>
+</div>
