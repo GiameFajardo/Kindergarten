@@ -6,10 +6,34 @@
 
 <h1>Servicios</h1>
 
-<p>
-    <a class="btn btn-primary" asp-action="Create">Crear nuevo</a>
-</p>
-<table class="table table-hover">
+<script src="~/lib/jquery/dist/jquery.js">
+</script>
+<script>
+
+    $(document).ready(function () {
+        $("#filter").on("keyup", function () {
+            console.log("key up");
+            var value = $(this).val().toLowerCase();
+            $("#servicetable .tr-detail").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<div class=" container-fluid">
+    <div class="row">
+        <div class="col">
+
+            <p>
+                <a class="btn btn-primary" asp-action="Create">Crear nuevo</a>
+            </p>
+        </div>
+        <div class="col">
+            <input id="filter" class="float-right form-control mb-4" type="text" placeholder="" />
+        </div>
+    </div>
+</div>
+<table id="servicetable" class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -31,29 +55,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Activity.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ServicePeriod)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reference)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a> 
-                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="tr-detail">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Activity.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ServicePeriod)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reference)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Borrar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
