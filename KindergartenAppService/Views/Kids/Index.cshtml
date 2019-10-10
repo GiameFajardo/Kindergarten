@@ -5,11 +5,35 @@
 }
 
 <h1>Niños</h1>
+<script src="~/lib/jquery/dist/jquery.js">
+</script>
+<script>
 
-<p>
-    <a class="btn btn-success" asp-action="Create">Crear nuevo Niño</a>
-</p>
-<table class="table table-hover">
+    $(document).ready(function () {
+        $("#filter").on("keyup", function () {
+            console.log("key up");
+            var value = $(this).val().toLowerCase();
+            $("#kidtable .tr-detail").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<div class=" container-fluid">
+    <div class="row">
+        <div class="col">
+
+            <p>
+                <a class="btn btn-success" asp-action="Create">Crear nuevo Niño</a>
+            </p>
+        </div>
+        <div class="col">
+            <input id="filter" class="float-right mb-4 form-control" type="text" placeholder="" />
+        </div>
+    </div>
+</div>
+
+<table id="kidtable" class="table table-hover">
     <thead>
         <tr>
             <th>
@@ -32,7 +56,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class="tr-detail">
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
             </td>
@@ -61,5 +85,6 @@
             </td>
         </tr>
 }
+
     </tbody>
 </table>
