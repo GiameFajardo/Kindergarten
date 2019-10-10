@@ -8,14 +8,39 @@
 <h1>Recibos</h1>
 
 @*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
-<table class="table">
+        <a asp-action="Create">Create New</a>
+    </p>*@
+
+<script src="~/lib/jquery/dist/jquery.js">
+</script>
+<script>
+
+    $(document).ready(function () {
+        $("#filter").on("keyup", function () {
+            console.log("key up");
+            var value = $(this).val().toLowerCase();
+            $("#receipttable .tr-detail").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+<div class=" container-fluid">
+    <div class="row">
+        <div class="col">
+
+            <p>
+
+            </p>
+        </div>
+        <div class="col">
+            <input id="filter" class="float-right form-control mb-4" type="text" placeholder="" />
+        </div>
+    </div>
+</div>
+<table id="receipttable" class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Sequence)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Document)
             </th>
@@ -32,33 +57,32 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sequence)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Document)
-            </td>
-            <td>
-                @item.GeneratedDate.ToString("dd/MM/yyyy")
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                <a class="btn-link " asp-action="PreviewInvoice"  asp-route-invoiceDocument="@item.AffectedDocument">
+        @foreach (var item in Model)
+        {
+            <tr class="tr-detail">
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.Document)
+                </td>
+                <td>
+                    @item.GeneratedDate.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    <a class="btn-link " asp-action="PreviewInvoice" asp-route-invoiceDocument="@item.AffectedDocument">
 
-                    @Html.DisplayFor(modelItem => item.AffectedDocument)
-                </a>
+                        @Html.DisplayFor(modelItem => item.AffectedDocument)
+                    </a>
 
-            </td>
-            <td>
-                <a class="btn btn-warning" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a> 
-                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalles</a> 
-                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Cancelar</a>
-            </td>
-        </tr>
-}
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Preview" asp-route-id="@item.Id">Vista previa</a>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Detalles</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Cancelar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
