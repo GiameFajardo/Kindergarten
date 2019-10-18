@@ -45,6 +45,7 @@ namespace KindergartenAppService
         {
             if (env.IsDevelopment())
             {
+
                 app.UseDeveloperExceptionPage();
             }
             else
