@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace KindergartenAppService.Models
 {
-    public class KindergarterContext : DbContext
+    public class KindergarterContext : IdentityDbContext
     {
         public KindergarterContext(DbContextOptions<KindergarterContext> options) : base(options)
         {
@@ -13,6 +14,7 @@ namespace KindergartenAppService.Models
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             #region Relationships
 
             base.OnModelCreating(modelBuilder);
