@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KindergartenAppService.Models;
+﻿using KindergartenAppService.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace KindergartenAppService.Controllers
 {
@@ -21,6 +18,11 @@ namespace KindergartenAppService.Controllers
         }
         [HttpGet]
         public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult LogIn()
         {
             return View();
         }
@@ -43,6 +45,33 @@ namespace KindergartenAppService.Controllers
                 }
             }
             return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+                var result = await userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    await signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> LogOut(RegisterViewModel model)
+        {
+            await signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
