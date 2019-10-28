@@ -36,8 +36,8 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         @*<li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>*@
+            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Kindergarters" asp-action="Index">Kids Play House</a>
                         </li>
@@ -45,11 +45,11 @@
                             <a class="nav-link text-light" asp-area="" asp-controller="Kids" asp-action="Index">Niños</a>
                         </li>
                         @*<li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
-                            </li>*@
+            <a class="nav-link text-light" asp-area="" asp-controller="Items" asp-action="Index">Items</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" asp-area="" asp-controller="Products" asp-action="Index">Products</a>
+        </li>*@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Pediatricians" asp-action="Index">Pediatras</a>
                         </li>
@@ -85,6 +85,17 @@
                                 <a class="nav-link text-light" asp-area="" asp-controller="Invoices" asp-action="MonthlyInvoicesReport">Facturas del mes</a>
                                 <a class="nav-link text-light" asp-area="" asp-controller="Invoices" asp-action="InvoicesByActivityReport">Facturas por servicio</a>
                                 @*<a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Pagos pendientes</a>*@
+
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               
+                                    Usuarios
+                                
+                            </a>
+                            <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Registrar</a>
 
                             </div>
                         </li>
