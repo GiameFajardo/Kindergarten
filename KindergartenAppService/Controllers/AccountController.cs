@@ -26,6 +26,19 @@ namespace KindergartenAppService.Controllers
         {
             return View();
         }
+        [HttpPost][HttpGet]
+        public async Task<IActionResult> IsEmailInUse(string email)
+        {
+            var user = await userManager.FindByNameAsync(email);
+            if (user == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"El Correo {email} ya está en uso.");
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace KindergartenAppService.Models
         [Required]
         [EmailAddress]
         [Display(Name = "Correo")]
+        [Remote(action:"IsEmailInUse", controller:"Account")]
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
