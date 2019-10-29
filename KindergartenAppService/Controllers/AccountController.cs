@@ -47,7 +47,7 @@ namespace KindergartenAppService.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LogInViewModel model)
+        public async Task<IActionResult> Login(LogInViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -55,8 +55,14 @@ namespace KindergartenAppService.Controllers
                 
                 if (result.Succeeded)
                 {
-
-                    return RedirectToAction("Index", "Home");
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 ModelState.AddModelError("", "Intento de inicio de secio invalido.");
 

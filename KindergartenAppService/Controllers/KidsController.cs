@@ -1,4 +1,5 @@
 ﻿using KindergartenAppService.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace KindergartenAppService.Controllers
 {
+
+    [Authorize]
     public class KidsController : Controller
     {
         private readonly KindergarterContext _context;
@@ -18,6 +21,7 @@ namespace KindergartenAppService.Controllers
         }
 
         // GET: Kids
+        //[AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var kindergarterContext = _context.Kid.Include(k => k.Kindergarter).Include(k => k.TutorPrincipal).Include(k=>k.Enrollment);
