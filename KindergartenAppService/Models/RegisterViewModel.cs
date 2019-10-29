@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using KindergartenAppService.Utilities.Validations;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,6 +14,8 @@ namespace KindergartenAppService.Models
         [EmailAddress]
         [Display(Name = "Correo")]
         [Remote(action:"IsEmailInUse", controller:"Account")]
+        //[ValidEmailDomainAttribute(allowDomain:"giamefajardo.com",
+        //                           ErrorMessage ="El correo debe pertenecer al dominio giamefajardo.com")]                                    
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
