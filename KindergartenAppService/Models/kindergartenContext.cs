@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace KindergartenAppService.Models
 {
-    public class KindergarterContext : IdentityDbContext
+    public class KindergarterContext : IdentityDbContext<ApplicationUser>
     {
         public KindergarterContext(DbContextOptions<KindergarterContext> options) : base(options)
         {

@@ -39,7 +39,7 @@ namespace KindergartenAppService
             //services.AddDbContext<kindergartenContext>(option => option.UseInMemoryDatabase(databaseName:"Kidergaeter-control"));
             services.AddDbContext<KindergarterContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DeployConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options=>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options=>
             {
                 //options.Password.RequiredLength = 10;
                 //options.Password.RequiredUniqueChars = 3;
