@@ -260,7 +260,7 @@ namespace KindergartenAppService.Controllers
                 .Include(e => e.Activity)
                 .Include(e => e.Service)
                 .Where(e => e.EnrollmentId != null &&
-                          e.ServiceId != null && e.Enrollment.EnrollDay.Month == month);
+                          e.ServiceId != null && e.Enrollment.EnrollDay.Month <= month);
             var enrollActByKid = enrollActivities.GroupBy(e => e.EnrollmentId);
             if (enrollActivities != null)
             {
