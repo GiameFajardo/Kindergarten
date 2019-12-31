@@ -86,6 +86,7 @@ namespace KindergartenAppService.Models
                 .HasForeignKey(d => d.InvoiceId)
                 .OnDelete(DeleteBehavior.Restrict);
             #endregion
+            /*
             #region Seeding
             //Kindergarter
             var kindergarter = new Kindergarter
@@ -119,8 +120,9 @@ namespace KindergartenAppService.Models
             //modelBuilder.Entity<Enrollment>().HasData(enrollments);
             //modelBuilder.Entity<EnrollActivity>().HasData(enrollActivities);
             #endregion
+            */
         }
-
+        
 
         private List<EnrollActivity> GenerateEnrollActivities(List<Enrollment> enrollments, List<Activity> activities)
         {
@@ -159,6 +161,9 @@ namespace KindergartenAppService.Models
         public DbSet<Sequence> Sequences { get; set; }
         public DbSet<Payment> Payment { get; set; }
         public DbSet<Receipt> Receipt { get; set; }
+        public DbSet<Provider> Providers { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
 
         #region Seeding Methods
         private List<Enrollment> GenerateEnrollments(List<Kid> kids)

@@ -33,6 +33,7 @@ namespace KindergartenAppService.Models
         public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         [Display(Name = "Monto", Prompt = "3,000.00")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
         [Display(Name = "Estado", Prompt = "")]
         public InvoiceStatus Status { get; set; }
