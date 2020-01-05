@@ -30,5 +30,6 @@ namespace KindergartenAppService.Models
         public Provider Provider { get; set; }
         [Display(Name = "Monto", Prompt = "3,000.00")]
         public decimal Amount { get; set; }
+        
     }
 }

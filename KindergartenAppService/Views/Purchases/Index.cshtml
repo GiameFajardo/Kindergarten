@@ -1,0 +1,112 @@
+﻿@model IEnumerable<KindergartenAppService.Models.Purchase>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<script type="text/javascript">
+        $(function () {
+            $('#btnShowModal').click(function () {
+                //var id = $(this).data('assigned-id');
+                var route = '@Url.Action("NewPurchase", "Purchases")';//?id=' + id;
+                console.log('Ruta: ' + route);
+                $('#partial').load('/Purchases/NewPurchase');
+            });
+
+        });
+</script>
+<p>
+    <a asp-action="Create">Create New</a>
+    @*<button id="btnShowModal" data-assigned-id="1" data-toggle="modal" data-target="#exampleModalLong">Create New</button>*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sequence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Document)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeneratedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provider)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sequence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Document)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GeneratedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DueDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Provider.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            @Html.ActionLink("Click me", "NewPurchase", "Purchases", null, new { @class = "img-btn-addcontent modal-link", title = "Add Content" })
+
+
+        }
+        <!-- Modal -->
+        <div class="modal fade" id="loginModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="partial"></div>                   
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <a asp-action="NewPurchase">Create</a>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnShowModal").click(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    });
+</script>
