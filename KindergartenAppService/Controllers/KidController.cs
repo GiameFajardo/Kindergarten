@@ -24,7 +24,18 @@ namespace KindergartenAppService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Kid>>> GetKid()
         {
+            try
+            {
+
             return await _context.Kid.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+
+                
+            }
+            return await _context.Kid.ToListAsync();
+
         }
 
         // GET: api/Kid/5
