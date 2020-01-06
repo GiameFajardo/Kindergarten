@@ -57,6 +57,17 @@ namespace KindergartenAppService
                 
                 ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddCors(options =>
+               options.AddPolicy("AllowAll", builder =>
+               builder
+                      //.WithOrigins("http://localhost:4200")
+                      //       .WithOrigins("http://localhost:4100")
+                      .AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader()
+                      //.AllowCredentials()
+                      )
+               );
 
         }
 
