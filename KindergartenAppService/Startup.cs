@@ -98,6 +98,7 @@ namespace KindergartenAppService
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseCors("AllowAll");
         }
     }
 }
