@@ -85,6 +85,8 @@ namespace KindergartenAppService.Models
                 .WithMany(i => i.InvoiceDetails)
                 .HasForeignKey(d => d.InvoiceId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+                
             #endregion
             /*
             #region Seeding

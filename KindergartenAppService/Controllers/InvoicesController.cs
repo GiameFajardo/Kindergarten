@@ -255,33 +255,75 @@ namespace KindergartenAppService.Controllers
         {
             List<Invoice> invoices = new List<Invoice>();
             List<InvoiceDetail> details = new List<InvoiceDetail>();
-            var enrollActivities = _context.EnrollActivity
+            var enrollActivities = new List<EnrollActivity>();
+            if (month >= 7)
+            {
+                enrollActivities = _context.EnrollActivity
                 .Include(e => e.Enrollment.Kid.TutorPrincipal)
                 .Include(e => e.Activity)
                 .Include(e => e.Service)
                 .Where(e => e.EnrollmentId != null &&
-                          e.ServiceId != null && e.Enrollment.EnrollDay.Month == month);
+                          e.ServiceId != null
+                          && e.Enrollment.EnrollDay.Month <= month
+                          ).ToList();
+            }
+            else
+            {
+                enrollActivities = _context.EnrollActivity
+                    .Include(e => e.Enrollment.Kid.TutorPrincipal)
+                    .Include(e => e.Activity)
+                    .Include(e => e.Service)
+                    .Where(e => e.EnrollmentId != null &&
+                              e.ServiceId != null 
+                              //&& e.Enrollment.EnrollDay.Month <= month
+                              ).ToList();
+
+            }
             var enrollActByKid = enrollActivities.GroupBy(e => e.EnrollmentId);
             if (enrollActivities != null)
             {
                 foreach (var kidGroup in enrollActByKid)
                 {
+                    Invoice invoice = new Invoice();
                     decimal acumulativeAmount = 0;
-                    var invoice = new Invoice
+                    if (month >= 7)
                     {
-                        Status = InvoiceStatus.Preview,
-                        GeneratedDate = DateTime.Now,
-                        DueDate = new DateTime(
-                        DateTime.Now.Year,
-                        month,
-                        DateTime.DaysInMonth(
+                        invoice = new Invoice
+                        {
+                            Status = InvoiceStatus.Preview,
+                            GeneratedDate = DateTime.Now,
+                            DueDate = new DateTime(
+                            2019,
+                            month,
+                            DateTime.DaysInMonth(
+                                2019,
+                                month
+                                )),
+                            KidId = kidGroup.First().Enrollment.KidId,
+                            Kid = kidGroup.First().Enrollment.Kid,
+                            Id = Guid.NewGuid()
+                        };
+                    }
+                    else
+                    {
+
+
+                        invoice = new Invoice
+                        {
+                            Status = InvoiceStatus.Preview,
+                            GeneratedDate = DateTime.Now,
+                            DueDate = new DateTime(
                             DateTime.Now.Year,
-                            month
-                            )),
-                        KidId = kidGroup.First().Enrollment.KidId,
-                        Kid = kidGroup.First().Enrollment.Kid,
-                        Id = Guid.NewGuid()
-                    };
+                            month,
+                            DateTime.DaysInMonth(
+                                DateTime.Now.Year,
+                                month
+                                )),
+                            KidId = kidGroup.First().Enrollment.KidId,
+                            Kid = kidGroup.First().Enrollment.Kid,
+                            Id = Guid.NewGuid()
+                        };
+                    }
                     foreach (var activity in kidGroup)
                     {
                         acumulativeAmount += activity.Service.Price;

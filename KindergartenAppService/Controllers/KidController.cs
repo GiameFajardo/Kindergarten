@@ -27,7 +27,15 @@ namespace KindergartenAppService.Controllers
             try
             {
 
-            return await _context.Kid.ToListAsync();
+            var kids = await _context.Kid
+                    //.Include(k => k.Enrollment)
+                    .Include(k => k.TutorPrincipal)
+                    .Include(k => k.TutorSecundary)
+                    .Include(k => k.TutorAutorized)
+                    .Include(k => k.Pediatrician.Name)
+                    //.Include(k => k.Kindergarter)
+                    .ToListAsync();
+                return kids;
             }
             catch (Exception ex)
             {
@@ -86,8 +94,16 @@ namespace KindergartenAppService.Controllers
         [HttpPost]
         public async Task<ActionResult<Kid>> PostKid(Kid kid)
         {
+            try
+            {
             _context.Kid.Add(kid);
             await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message + ex.InnerException.Message);
+            }
 
             return CreatedAtAction("GetKid", new { id = kid.Id }, kid);
         }
