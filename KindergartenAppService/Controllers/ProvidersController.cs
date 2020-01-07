@@ -9,22 +9,22 @@ using KindergartenAppService.Models;
 
 namespace KindergartenAppService.Controllers
 {
-    public class ProductsController : Controller
+    public class ProvidersController : Controller
     {
         private readonly KindergarterContext _context;
 
-        public ProductsController(KindergarterContext context)
+        public ProvidersController(KindergarterContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: Providers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            return View(await _context.Providers.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Providers/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -32,40 +32,40 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var provider = await _context.Providers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (provider == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(provider);
         }
 
-        // GET: Products/Create
+        // GET: Providers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Providers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Reference,Id,Description,Price")] Product product)
+        public async Task<IActionResult> Create([Bind("Name,Address,PhoneNumber,Id")] Provider provider)
         {
             if (ModelState.IsValid)
             {
-                product.Id = Guid.NewGuid();
-                _context.Add(product);
+                provider.Id = Guid.NewGuid();
+                _context.Add(provider);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(provider);
         }
 
-        // GET: Products/Edit/5
+        // GET: Providers/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
-            if (product == null)
+            var provider = await _context.Providers.FindAsync(id);
+            if (provider == null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(provider);
         }
 
-        // POST: Products/Edit/5
+        // POST: Providers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Reference,Id,Description,Price")] Product product)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Name,Address,PhoneNumber,Id")] Provider provider)
         {
-            if (id != product.Id)
+            if (id != provider.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace KindergartenAppService.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(provider);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!ProviderExists(provider.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace KindergartenAppService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(provider);
         }
 
-        // GET: Products/Delete/5
+        // GET: Providers/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var provider = await _context.Providers
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (provider == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(provider);
         }
 
-        // POST: Products/Delete/5
+        // POST: Providers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var product = await _context.Product.FindAsync(id);
-            _context.Product.Remove(product);
+            var provider = await _context.Providers.FindAsync(id);
+            _context.Providers.Remove(provider);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(Guid id)
+        private bool ProviderExists(Guid id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Providers.Any(e => e.Id == id);
         }
     }
 }

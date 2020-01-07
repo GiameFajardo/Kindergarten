@@ -20,6 +20,12 @@
     <Compile Remove="Migrations\20190829212204_Creating_Payment_DB.Designer.cs" />
     <Compile Remove="Migrations\20190830023706_modify_Payments_in_Receipt.cs" />
     <Compile Remove="Migrations\20190830023706_modify_Payments_in_Receipt.Designer.cs" />
+    <Compile Remove="Migrations\20191230234233_Purchase_Entities_added.cs" />
+    <Compile Remove="Migrations\20191230234233_Purchase_Entities_added.Designer.cs" />
+    <Compile Remove="Migrations\20191230234518_Purchase_Entities_added.cs" />
+    <Compile Remove="Migrations\20191230234518_Purchase_Entities_added.Designer.cs" />
+    <Compile Remove="Migrations\20191231133521_Add_Product_to_Purchase.cs" />
+    <Compile Remove="Migrations\20191231133521_Add_Product_to_Purchase.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

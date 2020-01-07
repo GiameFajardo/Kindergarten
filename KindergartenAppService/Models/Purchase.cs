@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KindergartenAppService.Models
 {
-    public class Receipt:UniqueEntity
+    public class Purchase: UniqueEntity
     {
         [Display(Name = "Secuencia", Prompt = "")]
         public long Sequence { get; set; }
@@ -23,15 +23,13 @@ namespace KindergartenAppService.Models
         public string Document { get; set; }
         [Display(Name = "Fecha de creación", Prompt = "")]
         public DateTime GeneratedDate { get; set; }
-
-        [Display(Name = "Monto", Prompt = "")]
-        [Column(TypeName = "decimal(18,2)")]
+        [Display(Name = "Fecha de vencimiento", Prompt = "")]
+        public DateTime DueDate { get; set; }
+        public ICollection<PurchaseDetail> PurchaseDetails { get; set; }
+        public Guid ProviderID { get; set; }
+        public Provider Provider { get; set; }
+        [Display(Name = "Monto", Prompt = "3,000.00")]
         public decimal Amount { get; set; }
-        [Display(Name = "Documento afectado", Prompt = "")]
-        public string AffectedDocument { get; set; }
-        [Display(Name = "Estado", Prompt = "")]
-        public ReceiptStatus Status { get; set; }
-
-        public ICollection<Payment> Payments { get; set; }
+        
     }
 }

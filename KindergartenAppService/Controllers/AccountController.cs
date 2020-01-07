@@ -1,6 +1,7 @@
 ﻿using KindergartenAppService.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace KindergartenAppService.Controllers
@@ -64,7 +65,10 @@ namespace KindergartenAppService.Controllers
         {
             if (ModelState.IsValid)
             {
+                try
+                {
                 var result =  await signInManager.PasswordSignInAsync(model.Email,model.Password, model.RememberMe, false);
+
                 
                 if (result.Succeeded)
                 {
@@ -80,6 +84,12 @@ namespace KindergartenAppService.Controllers
                 ModelState.AddModelError("", "Intento de inicio de secio invalido.");
 
 
+                }
+                catch (System.Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    
+                }
             }
             return View(model);
         }

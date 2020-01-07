@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KindergartenAppService.Models
 {
@@ -12,6 +13,7 @@ namespace KindergartenAppService.Models
         public string Description { get; set; }
         [Required]
         [Display(Name ="Precio",Prompt ="3,000.00")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
     }
 }

@@ -9,22 +9,23 @@ using KindergartenAppService.Models;
 
 namespace KindergartenAppService.Controllers
 {
-    public class ProductsController : Controller
+    public class PurchasesController : Controller
     {
         private readonly KindergarterContext _context;
 
-        public ProductsController(KindergarterContext context)
+        public PurchasesController(KindergarterContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: Purchases
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            var kindergarterContext = _context.Purchases.Include(p => p.Provider);
+            return View(await kindergarterContext.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Purchases/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -32,40 +33,51 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var purchase = await _context.Purchases
+                .Include(p => p.Provider)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (purchase == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(purchase);
         }
 
-        // GET: Products/Create
+        // GET: Purchases/Create
         public IActionResult Create()
         {
+            ViewData["ProviderID"] = new SelectList(_context.Providers, "Id", "Id");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Purchases/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Reference,Id,Description,Price")] Product product)
+        public async Task<IActionResult> Create([Bind("Sequence,Document,GeneratedDate,DueDate,ProviderID,Amount,Id")] Purchase purchase)
         {
             if (ModelState.IsValid)
             {
-                product.Id = Guid.NewGuid();
-                _context.Add(product);
+                purchase.Id = Guid.NewGuid();
+                _context.Add(purchase);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            ViewData["ProviderID"] = new SelectList(_context.Providers, "Id", "Id", purchase.ProviderID);
+            return View(purchase);
         }
-
-        // GET: Products/Edit/5
+        public async Task<IActionResult> NewPurchase()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> NewPurchase(Purchase purchase)
+        {
+            return View();
+        }
+        // GET: Purchases/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -73,22 +85,23 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
-            if (product == null)
+            var purchase = await _context.Purchases.FindAsync(id);
+            if (purchase == null)
             {
                 return NotFound();
             }
-            return View(product);
+            ViewData["ProviderID"] = new SelectList(_context.Providers, "Id", "Id", purchase.ProviderID);
+            return View(purchase);
         }
 
-        // POST: Products/Edit/5
+        // POST: Purchases/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Reference,Id,Description,Price")] Product product)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Sequence,Document,GeneratedDate,DueDate,ProviderID,Amount,Id")] Purchase purchase)
         {
-            if (id != product.Id)
+            if (id != purchase.Id)
             {
                 return NotFound();
             }
@@ -97,12 +110,12 @@ namespace KindergartenAppService.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(purchase);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!PurchaseExists(purchase.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +126,11 @@ namespace KindergartenAppService.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            ViewData["ProviderID"] = new SelectList(_context.Providers, "Id", "Id", purchase.ProviderID);
+            return View(purchase);
         }
 
-        // GET: Products/Delete/5
+        // GET: Purchases/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -124,30 +138,31 @@ namespace KindergartenAppService.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var purchase = await _context.Purchases
+                .Include(p => p.Provider)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (purchase == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(purchase);
         }
 
-        // POST: Products/Delete/5
+        // POST: Purchases/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var product = await _context.Product.FindAsync(id);
-            _context.Product.Remove(product);
+            var purchase = await _context.Purchases.FindAsync(id);
+            _context.Purchases.Remove(purchase);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(Guid id)
+        private bool PurchaseExists(Guid id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Purchases.Any(e => e.Id == id);
         }
     }
 }
