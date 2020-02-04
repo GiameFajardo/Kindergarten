@@ -135,6 +135,7 @@
                 <p>@Model.Enrollment.EnrollDay.ToShortDateString()</p>
                 <p>
                     <a class="btn btn-primary" asp-action="EnrollActivity" asp-route-id="@Model.Enrollment.Id">Inscribir en actividad</a>
+                    <a class="btn btn-primary" asp-action="AccountState" asp-route-id="@Model.Enrollment.Id">Estado de cuenta</a>
                 </p>
                 <table class="table table-hover">
                     <thead>

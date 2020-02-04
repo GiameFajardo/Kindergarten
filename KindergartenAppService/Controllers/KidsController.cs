@@ -192,6 +192,76 @@ namespace KindergartenAppService.Controllers
             TempData["CameFromKid"] = "true";
             return RedirectToAction("Create", "EnrollActivities");
         }
+        public async Task<IActionResult> AccountState(Guid? id)
+        {
+            TempData["Enroll"] = id;
+            TempData["CameFromKid"] = "true";
+            return RedirectToAction("GenerateAccountState", "Kids");
+        }
+        public async Task<IActionResult> KidAccountStateReport()
+        {
+            return View();
+        }
+        public IActionResult GenerateAccountState()
+        {
+            if (TempData["Enroll"] != null)
+            {
+                var enroll = _context.Enrollments.Include(e=> e.Kid)
+                    .FirstOrDefault(e=> e.Id == Guid.Parse(TempData["Enroll"].ToString()))
+                    .Kid;
+                Guid activityId = new Guid();
+                var activities = _context.Activity;
+                ViewData["ActivityId"] = new SelectList(activities, "Id", "Description");
+
+
+                ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(e => e.Kid), "Id", "Kid.FullName");
+
+                if (activities.ToList().Count > 0)
+                {
+                    if (TempData["Activity"] != null)
+                    {
+                        var id = TempData["Activity"].ToString();
+                        activityId = new Guid(id);
+                        ViewData["ServiceId"] = new SelectList(_context.Service
+                           .Where(s => s.ActivityId == activityId), "Id", "PriceDescription");
+                    }
+                    else
+                    {
+                        ViewData["ServiceId"] = new SelectList(_context.Service
+                            .Where(s => s.ActivityId == activities.First().Id), "Id", "PriceDescription");
+                    }
+                }
+
+                if (enroll != null)
+                {
+                    EnrollActivity enrollActivity = new EnrollActivity();
+                    if (activityId != null)
+                    {
+
+                        enrollActivity = new EnrollActivity { EnrollmentId = enroll.Id, ActivityId = activityId };
+                    }
+                    else
+                    {
+                        enrollActivity = new EnrollActivity { EnrollmentId = enroll.Id };
+
+                    }
+                    ViewBag.CameFromKid = TempData["CameFromKid"];
+                    return View(enrollActivity);
+                }
+
+                return View();
+            }
+
+            if (TempData["Enroll"] != null)
+            {
+
+            }
+            ViewData["ActivityId"] = new SelectList(_context.Activity, "Id", "Description");
+            ViewData["EnrollmentId"] = new SelectList(_context.Enrollments.Include(e => e.Kid), "Id", "Kid.FullName");
+            ViewBag.CameFromKid = TempData["CameFromKid"];
+            return View();
+        }
+
         public async Task<IActionResult> AssignPediatrician(Guid? id)
         {
             TempData["Kid"] = id;
